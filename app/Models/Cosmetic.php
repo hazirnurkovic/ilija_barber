@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Appointment extends Model
+class Cosmetic extends Model
 {
+
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'customer_name',
-        'start_date',
-        'end_date',
+        'name',
         'price',
-        'status',
+        'units',
+        'sell_date',
     ];
 }

@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('appointments', function (Blueprint $table) {
+        Schema::create('cosmetics', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('user_id');
-            $table->string('customer_name');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
-            $table->integer('status');
-            $table->integer('price');
+            $table->string('name');
+            $table->float('price');
+            $table->integer('units');
+            $table->dateTime('sell_date');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('appointments');
+        Schema::dropIfExists('cosmetics');
     }
 };
