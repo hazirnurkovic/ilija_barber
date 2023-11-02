@@ -25,6 +25,14 @@ export default function Authenticated({ user, header, children }) {
                                     Dashboard
                                 </NavLink>
                             </div>
+
+                            {user.is_admin ? (
+                                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                    Kreiraj barbera
+                                    </NavLink>
+                                </div>
+                            ) : ''}
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -55,9 +63,9 @@ export default function Authenticated({ user, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>Profil</Dropdown.Link>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
+                                            Izloguj se!
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
