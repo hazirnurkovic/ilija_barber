@@ -22,14 +22,14 @@ export default function Authenticated({ user, header, children }) {
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
+                                    Termini
                                 </NavLink>
                             </div>
 
                             {user.is_admin ? (
                                 <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                    <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Kreiraj barbera
+                                    <NavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
+                                        Barberi
                                     </NavLink>
                                 </div>
                             ) : ''}
@@ -101,7 +101,11 @@ export default function Authenticated({ user, header, children }) {
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
+                            Termini
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
+                            Barberi
                         </ResponsiveNavLink>
                     </div>
 
