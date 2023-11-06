@@ -22,9 +22,17 @@ export default function Authenticated({ user, header, children }) {
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
+                                    Termini
                                 </NavLink>
                             </div>
+
+                            {user.is_admin ? (
+                                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                    <NavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
+                                        Barberi
+                                    </NavLink>
+                                </div>
+                            ) : ''}
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -55,9 +63,9 @@ export default function Authenticated({ user, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>Profil</Dropdown.Link>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
+                                            Izloguj se!
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
@@ -93,7 +101,11 @@ export default function Authenticated({ user, header, children }) {
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
+                            Termini
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
+                            Barberi
                         </ResponsiveNavLink>
                     </div>
 
