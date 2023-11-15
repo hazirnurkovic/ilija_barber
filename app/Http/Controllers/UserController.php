@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditUserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -71,17 +72,22 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $create_barber)
     {
-        //
+        return Inertia::render('EditBarber', [
+            'user' => $create_barber
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(EditUserRequest $request, User $create_barber)
     {
-        //
+        $validated = $request->validated();
+        $create_barber->update($validated);
+
+        return redirect('/create_barber')->with('status', 'Podaci barbera su uspješno ažurirani!');
     }
 
     /**

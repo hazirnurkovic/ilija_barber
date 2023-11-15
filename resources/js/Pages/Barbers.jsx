@@ -64,12 +64,12 @@ const Barbers = ({ users, auth }) => {
                                         <div>{user.telephone}</div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium border flex flex-col items-center">
-                                            <button
+                                            <Link
                                                 className="bg-blue-500 mb-2 w-24 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                                                onClick={() => Inertia.get(`/users/${user.id}/edit`)}
+                                                href={route('create_barber.edit', {create_barber: user.id})}
                                             >
                                                 Ažuriraj
-                                            </button>
+                                            </Link>
                                             <button
                                                 className="bg-blue-500 w-24 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                                                 onClick={()=> handleOnDelete(user.id)}
@@ -85,6 +85,7 @@ const Barbers = ({ users, auth }) => {
                 </div>
             </div>
         </div>
+
        </Authenticated>
     );
 };
