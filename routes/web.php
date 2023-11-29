@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +41,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['is_admin'])->group(function () {
     Route::resource('create_barber', UserController::class);
     Route::post('delete_barber', [UserController::class, 'delete_barber']);
+
+    Route::resource('appointments', AppointmentController::class);
+    Route::post('getAllAppointmentsForSpecificDate', [AppointmentController::class, 'getAllAppointmentsForSpecificDate']);
+    Route::post('getAllAppointmentsForSpecificDateForUser', [AppointmentController::class, 'getAllAppointmentsForSpecificDateForUser']);
 });
 
 require __DIR__ . '/auth.php';

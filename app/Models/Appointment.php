@@ -16,5 +16,10 @@ class Appointment extends Model
         'end_date',
         'price',
         'status',
+        'date'
+    ];
+
+    protected $casts = [
+        'date' => 'd.m.Y'
     ];
 }

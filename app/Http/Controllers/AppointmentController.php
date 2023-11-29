@@ -12,7 +12,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        return Appointment::all();
     }
 
     /**
@@ -28,7 +28,8 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $createRequest = $request->all();
+        return Appointment::create($createRequest);
     }
 
     /**
@@ -52,7 +53,8 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
+        $updateRequest = $request->all();
+        return $appointment->update($updateRequest);
     }
 
     /**
@@ -60,6 +62,28 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        return $appointment->delete();
+    }
+
+    /**
+     * Show appointments for the given date
+     */
+
+    public function getAllAppointmentsForSpecificDate($date)
+    {
+        return Appointment::where('date', $date)
+            ->groupBy('user_id')
+            ->get();
+    }
+
+    /**
+     * Show appointments for the given date for logged user
+     */
+    public function getAllAppointmentsForSpecificDateForUser($date)
+    {
+        $user_id = auth()->user()->id;
+        return Appointment::where('date', $date)
+            ->where('user_id', $user_id)
+            ->get();
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->dateTime('end_date');
             $table->integer('status');
             $table->integer('price');
+            $table->date('date');
             $table->timestamps();
         });
     }
