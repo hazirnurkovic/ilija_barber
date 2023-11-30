@@ -1,0 +1,27 @@
+.appointment-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.appointment-table th,
+.appointment-table td {
+    border: 2px solid #333; /* Stronger border color */
+    padding: 8px; /* Adjust the padding to reduce cell height */
+    text-align: left;
+}
+
+.appointment-table th {
+    background-color: #3498db; /* Blue background color for header */
+    color: #fff; /* White text for better contrast */
+    text-align: center; /* Center the text inside th cells */
+}
+
+.status-2 {
+    background-color: #4CAF50; /* Green color for status 2 */
+    color: #fff; /* White text for better contrast */
+}
+
+.status-3 {
+    background-color: #FF5252; /* Red color for status 3 */
+    color: #fff; /* White text for better contrast */
+}

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
@@ -66,21 +68,23 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Show appointments for the given date
+     * Get appointments for the given date
      */
 
-    public function getAllAppointmentsForSpecificDate($date)
+    public function getAllAppointmentsForSpecificDate(Request $request)
     {
-        return Appointment::where('date', $date)
-            ->groupBy('user_id')
-            ->get();
+        $date = $request->date;
+        $users = User::all();
+        $appointments = Appointment::where('date', $date)->get();
+        return response()->json(['users' => $users, 'appointments' => $appointments], 200);
     }
 
     /**
-     * Show appointments for the given date for logged user
+     * Get appointments for the given date for logged user
      */
-    public function getAllAppointmentsForSpecificDateForUser($date)
+    public function getAllAppointmentsForSpecificDateForUser(Request $request)
     {
+        $date = $request->date;
         $user_id = auth()->user()->id;
         return Appointment::where('date', $date)
             ->where('user_id', $user_id)

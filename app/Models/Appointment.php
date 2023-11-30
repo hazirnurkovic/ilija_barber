@@ -18,8 +18,4 @@ class Appointment extends Model
         'status',
         'date'
     ];
-
-    protected $casts = [
-        'date' => 'd.m.Y'
-    ];
 }

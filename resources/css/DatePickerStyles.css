@@ -1,0 +1,25 @@
+/* DatePickerStyles.css */
+.react-datepicker-wrapper {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.react-datepicker__input-container {
+    display: block;
+}
+
+.react-datepicker__input-container input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #0a6bab; /* Light blue border color */
+    background-color: #3498db;
+    font-size: 16px;
+    color: white;
+    cursor: pointer; /* Show pointer cursor on hover */
+}
+
+.react-datepicker__month-container {
+    z-index: 9999; /* Ensure the calendar appears on top of other elements */
+}
