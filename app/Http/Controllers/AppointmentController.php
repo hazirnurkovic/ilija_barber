@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AppointmentRequest;
 use App\Models\Appointment;
 use App\Models\User;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -28,10 +31,14 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AppointmentRequest $request)
     {
-        $createRequest = $request->all();
-        return Appointment::create($createRequest);
+        $data = $request->validated();
+        $data['date'] = Carbon::parse($data['start_date'])->format('Y-m-d');
+        $data['start_date'] = Carbon::parse($data['start_date'])->setTimezone('Europe/Podgorica')->toDateTimeString();
+        $data['end_date'] = Carbon::parse($data['end_date'])->setTimezone('Europe/Podgorica')->toDateTimeString();
+
+        return Appointment::create($data);
     }
 
     /**
@@ -55,8 +62,14 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        $updateRequest = $request->all();
-        return $appointment->update($updateRequest);
+        $data = $request->all();
+        $data['date'] = Carbon::parse($data['start_date'])->format('Y-m-d');
+        $data['start_date'] = Carbon::parse($data['start_date'])->setTimezone('Europe/Podgorica')->toDateTimeString();
+        $data['end_date'] = Carbon::parse($data['end_date'])->setTimezone('Europe/Podgorica')->toDateTimeString();
+        $appointment->update($data);
+        $appointment->save();
+
+        return response()->json(['message' => 'Appointment updated successfully', 'appointment' => $appointment]);
     }
 
     /**
@@ -89,5 +102,28 @@ class AppointmentController extends Controller
         return Appointment::where('date', $date)
             ->where('user_id', $user_id)
             ->get();
+    }
+
+    public function concludeAppointment(Request $request)
+    {
+        if (empty($request->appointment_id)) {
+            return response()->json(['message' => 'Pogrešan termin!'], 404);
+        }
+
+        try {
+
+            $appointment = Appointment::find($request->appointment_id);
+
+            if (empty($appointment)) {
+                return response()->json(['message' => "Termin ne postoji!"], 404);
+            }
+
+            $appointment->update(['status' => 3]);
+            $appointment->save();
+
+            return response()->json(['message' => 'Uspješno zaključen termin!'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => "Greška: " . $e], 403);
+        }
     }
 }

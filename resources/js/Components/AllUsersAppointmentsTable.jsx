@@ -14,6 +14,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [customerName, setCustomerName] = useState('');
     const [price, setPrice] = useState('');
+    const [appointmentId, setAppointmentId] = useState('');
 
     while (startTime <= endTime) {
         timeSlots.push(new Date(startTime));
@@ -21,7 +22,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
     }
 
     
-    const handleCellClick = (userId, timeSlot, date, status2, status3, customer_name, price) => {
+    const handleCellClick = (userId, timeSlot, date, status2, status3, customer_name, price, appointment_id) => {
         const edit = (status2 || status3);
         setSelectedUserId(userId);
         setSelectedTimeSlot(timeSlot);
@@ -33,6 +34,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
         setSelectedDate(date);
         setCustomerName(customer_name);
         setPrice(price);
+        setAppointmentId(appointment_id);
     };
 
     const closeModal = () => {
@@ -78,6 +80,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                                     const isStatus3 = appointment && appointment.status === 3;
                                     const customer_name = appointment ? appointment.customer_name : '';
                                     const price = appointment ? appointment.price : '';
+                                    const appointment_id = appointment ? appointment.id : '';
 
                                     return (
                                         <td
@@ -89,7 +92,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                                             `}
                                             onClick = {() => 
                                                 {
-                                                    handleCellClick(user.id, formattedTime, date, isStatus2, isStatus3, customer_name, price)
+                                                    handleCellClick(user.id, formattedTime, date, isStatus2, isStatus3, customer_name, price, appointment_id)
                                                 }
                                             }
                                         > 
@@ -108,7 +111,11 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
             isEdit={isEdit}
             initialFormData={{
                 customer_name: customerName,
-                price: price
+                price: price,
+                user_id: selectedUserId,
+                timeSlot: selectedTimeSlot,
+                start_date: selectedDate,
+                appointment: appointmentId
             }}
             closeModal={closeModal}
            />
