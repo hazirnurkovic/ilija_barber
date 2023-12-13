@@ -21,8 +21,11 @@ export default function Dashboard({ auth }) {
     const fetchData = async (date) => {
         try {
             const formatted = formatDate(date);
-        
-            const response = await fetch('/getAllAppointmentsForSpecificDate', {
+            let apiEndpoint = '/getAllAppointmentsForSpecificDate';
+            if (auth.user.is_admin !== 1) {    
+                apiEndpoint = '/getAllAppointmentsForSpecificDateForUser';
+            }
+            const response = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -65,17 +68,13 @@ export default function Dashboard({ auth }) {
             <div className="date-picker-container">
                 <DatePicker selected={date}  onChange={handleDateChange}/>
             </div>
-
-            {
-            auth.user.is_admin == 1 ? 
+            
             <AllUsersAppointmentsTable
                 users = {users}
                 appointments = {appointments}
                 date = {formattedDate}
             /> 
-            :
-            "Aaaaaaaaaaa"
-            }
+            
         </AuthenticatedLayout>
     );
 }

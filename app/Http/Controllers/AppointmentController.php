@@ -99,9 +99,12 @@ class AppointmentController extends Controller
     {
         $date = $request->date;
         $user_id = auth()->user()->id;
-        return Appointment::where('date', $date)
+        $user = User::find($user_id);
+        $appointments = Appointment::where('date', $date)
             ->where('user_id', $user_id)
             ->get();
+
+        return response()->json(['users' => $user, 'appointments' => $appointments], 200);
     }
 
     public function concludeAppointment(Request $request)

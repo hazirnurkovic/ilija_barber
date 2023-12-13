@@ -44,6 +44,8 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
         setPrice('');
     };
 
+    users = Array.isArray(users) ? users : [users];
+    
     return (
         <>
             <table className="appointment-table">
