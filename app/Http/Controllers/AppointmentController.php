@@ -38,7 +38,11 @@ class AppointmentController extends Controller
         $data['start_date'] = Carbon::parse($data['start_date'])->setTimezone('Europe/Podgorica')->toDateTimeString();
         $data['end_date'] = Carbon::parse($data['end_date'])->setTimezone('Europe/Podgorica')->toDateTimeString();
 
-        return Appointment::create($data);
+        $appointment = Appointment::create($data);
+        if (!$appointment) {
+            return response()->json(['message' => 'Desila se greška! Molimo Vas pokušajte ponovo!'], 400);
+        }
+        return response()->json(['message' => 'Uspješno ste kreirali termin!'], 200);
     }
 
     /**
@@ -69,7 +73,7 @@ class AppointmentController extends Controller
         $appointment->update($data);
         $appointment->save();
 
-        return response()->json(['message' => 'Appointment updated successfully', 'appointment' => $appointment]);
+        return response()->json(['message' => 'Termin uspješno ažuriran', 'appointment' => $appointment], 200);
     }
 
     /**
@@ -77,7 +81,11 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        return $appointment->delete();
+        $delete = $appointment->delete();
+        if (!$delete) {
+            return response()->json(['message' => 'Došlo je do greške. Molimo Vas pokušajte ponovo!'], 400);
+        }
+        return response()->json(['message' => 'Uspješno obrisan termin.'], 200);
     }
 
     /**

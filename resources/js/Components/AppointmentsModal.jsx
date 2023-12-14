@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import '../../css/AppointmentsModal.css';
+import Swal from "sweetalert2";
 
 const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
     const [formData, setFormData] = useState(initialFormData);
@@ -38,12 +39,19 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                     },
                     body: JSON.stringify(formData),
                 });
-    
+                const result = await response.json();
                 if (!response.ok) {
-                    alert("Greška");
-                    console.error('Failed to update appointment:');
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `Greška: ${result.message}`,
+                      });
                 } else {
-                    alert('Termin uspješno ažuriran');
+                    Swal.fire({
+                        title: "Uspješno!",
+                        text: result.message,
+                        icon: "success"
+                    });
                 }
             }
             else
@@ -56,14 +64,22 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                     },
                     body: JSON.stringify(formData),
                 });
-                
+                const result = await response.json();
                 if(!response.ok) 
                 {
-                    alert(`Greška`)
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `Greška: ${result.message}`,
+                      });
                 }
                 else
                 {
-                    alert('Uspješno kreiran termin.')
+                    Swal.fire({
+                        title: "Uspješno!",
+                        text: result.message,
+                        icon: "success"
+                    });
                 }
             
             }
@@ -71,7 +87,11 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
 
         }catch(error)
         {
-            alert("Greska: ", error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Greška: ${error}`,
+              });
         }
         closeModal();
     };
@@ -91,15 +111,56 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
             });
             const result = await response.json();
             if (!response.ok) {
-                alert(`Greška: ${result.message}`);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Greška: ${result.message}!`,
+                  });
             } else {
-                alert(result.message);
+                Swal.fire({
+                    title: "Uspješno!",
+                    text: result.message,
+                    icon: "success"
+                });
             }
 
             window.location.reload();
 
         } catch (error) {
             console.log(`${error}  ${response.message}`);
+        }
+    }
+
+    const handleDeleteAppointment = async () => {
+        if(confirm('Da li ste sigurni da želite obrisati ovaj termin?'))
+        {
+            try{
+                const response = await fetch(`/appointments/${formData.appointment}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type' : 'application/json',
+                    },
+                });
+                const result = await response.json();
+                if (!response.ok) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: result.message,
+                      });
+                } else {
+                    Swal.fire({
+                        title: "Uspješno!",
+                        text: result.message,
+                        icon: "success"
+                    });
+                }
+
+                window.location.reload();
+
+            } catch (error) {
+                console.log(`${error}  ${response.message}`);
+            }
         }
     }
 
@@ -128,11 +189,14 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                         onChange={(e) => handleInputChange(e, 'price')}
                     />
                 </label>
-                <div>
+                <div className="flex flex-col items-center sm:flex-row sm:justify-between">
+                    <button onClick={handleSave} className="mb-2 sm:mb-0">{isEdit ? "Ažuriraj" : "Kreiraj"}</button>
                     {isEdit && (
-                        <button onClick={handleConcludeAppointment} className="mr-7 bg-teal-500">Zaključi</button>
+                        <div className="mb-2 sm:mb-0">
+                            <button onClick={handleConcludeAppointment} className="bg-teal-500">Zaključi</button>
+                            <button onClick={handleDeleteAppointment} className="sm:ml-8 bg-red-700">Obriši</button>
+                        </div>
                     )}
-                    <button onClick={handleSave}>{isEdit ? "Ažuriraj" : "Kreiraj"}</button>
                     <button className="cancel" onClick={closeModal}>Poništi</button>
                 </div>
             </div>
