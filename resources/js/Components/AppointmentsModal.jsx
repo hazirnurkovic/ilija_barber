@@ -83,7 +83,9 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                 }
             
             }
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
 
         }catch(error)
         {
@@ -124,7 +126,9 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                 });
             }
 
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
 
         } catch (error) {
             console.log(`${error}  ${response.message}`);
@@ -156,7 +160,9 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                     });
                 }
 
-                window.location.reload();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
 
             } catch (error) {
                 console.log(`${error}  ${response.message}`);

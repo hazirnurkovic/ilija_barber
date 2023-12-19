@@ -19,9 +19,11 @@ const Barbers = ({ users, auth }) => {
             .then(response => {
                 // Check if the response is ok
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Greška! Molimo Vas ponovite!');
                 }
-                window.location.reload();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             })
             .catch(error => {
                 console.error('Error:', error);

@@ -16,6 +16,15 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
     const [price, setPrice] = useState('');
     const [appointmentId, setAppointmentId] = useState('');
 
+    var totalPrice = 0;
+    var visible = '';
+    
+    if(!Array.isArray(users))
+    {
+        users = [users];
+        visible = 'hidden';
+    } 
+
     while (startTime <= endTime) {
         timeSlots.push(new Date(startTime));
         startTime.setMinutes(startTime.getMinutes() + 30);
@@ -43,8 +52,6 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
         setCustomerName('');
         setPrice('');
     };
-
-    users = Array.isArray(users) ? users : [users];
     
     return (
         <>
@@ -63,6 +70,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                     {timeSlots.map(timeSlot => {
                         const formattedTime = timeSlot.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
                         return(
+
                             <tr key={formattedTime}>
 
                                 <td>
@@ -104,7 +112,27 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                                 })}
                             </tr>
                         );
+                        
                     })}
+                    {
+                        
+                    }
+                    <tr className={visible}>
+                        <td className="bg-blue-400 font-bold text-xl">Ukupno po barberu: </td>
+                        {users.map(user => {
+                            const totalUserPrice = appointments
+                                .filter(app => app.user_id === user.id)
+                                .reduce((total, app) => total + app.price, 0);
+                            
+                            totalPrice += totalUserPrice;
+
+                            return <td className="font-bold text-xl" key={`total_${user.id}`}>{totalUserPrice}</td>;
+                        })}
+                    </tr>
+                    <tr>
+                        <td className="text-xl bg-blue-500 font-bold">Ukupni dnevni pazar:</td>
+                        <td className="text-xl font-bold">{totalPrice}</td>
+                    </tr>
                 </tbody>
             </table>
 
