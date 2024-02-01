@@ -13,7 +13,7 @@ class Cosmetic extends Model
     protected $fillable = [
         'name',
         'price',
-        'units',
+        'quantity',
         'sell_date',
     ];
 }

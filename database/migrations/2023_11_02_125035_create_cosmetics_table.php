@@ -15,8 +15,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->float('price');
-            $table->integer('units');
-            $table->dateTime('sell_date');
+            $table->integer('quantity');
+            $table->date('sell_date');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->integer('status');
-            $table->integer('price');
+            $table->integer('price')->nullable();
             $table->date('date');
             $table->timestamps();
         });
