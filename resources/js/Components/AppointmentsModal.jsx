@@ -3,9 +3,8 @@ import Modal from 'react-modal';
 import '../../css/AppointmentsModal.css';
 import Swal from "sweetalert2";
 
-const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
+const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }) => {
     const [formData, setFormData] = useState(initialFormData);
-
     useEffect(() => {
         updateFormDataDates(initialFormData);
     }, [isOpen, initialFormData]);
@@ -16,7 +15,7 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
         const end_dateTimeObject = new Date(start_dateTimeObject.getTime() + 30 * 60000);
 
         setFormData({
-            ...formData, 
+            ...formData,
             start_date: start_dateTimeObject,
             end_date: end_dateTimeObject
         });
@@ -27,9 +26,9 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
     };
 
     const handleSave = async () => {
-  
+
         try{
-            
+
             if(isEdit)
             {
                 const response = await fetch(`appointments/${formData.appointment}`, {
@@ -65,7 +64,7 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                     body: JSON.stringify(formData),
                 });
                 const result = await response.json();
-                if(!response.ok) 
+                if(!response.ok)
                 {
                     Swal.fire({
                         icon: "error",
@@ -81,7 +80,7 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                         icon: "success"
                     });
                 }
-            
+
             }
             setTimeout(() => {
                 window.location.reload();
@@ -197,12 +196,12 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal }) => {
                 </label>
                 <div className="flex flex-col items-center sm:flex-row sm:justify-between">
                     <button onClick={handleSave} className="mb-2 sm:mb-0">{isEdit ? "Ažuriraj" : "Kreiraj"}</button>
-                    {isEdit && (
                         <div className="mb-2 sm:mb-0">
+                            {auth.user && auth.user.is_admin ? (
                             <button onClick={handleConcludeAppointment} className="bg-teal-500">Zaključi</button>
+                                ):null}
                             <button onClick={handleDeleteAppointment} className="sm:ml-8 bg-red-700">Obriši</button>
                         </div>
-                    )}
                     <button className="cancel" onClick={closeModal}>Poništi</button>
                 </div>
             </div>

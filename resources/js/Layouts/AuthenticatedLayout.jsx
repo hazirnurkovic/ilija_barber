@@ -27,11 +27,20 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             {user.is_admin ? (
-                                <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                    <NavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
-                                        Barberi
-                                    </NavLink>
-                                </div>
+                                <>
+                                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                        <NavLink href={route('create_barber.index')}
+                                                 active={route().current('create_barber.index')}>
+                                            Barberi
+                                        </NavLink>
+                                    </div>
+                                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                        <NavLink href={route('cosmetics.index')} active={route().current('cosmetics.index')}>
+                                            Kozmetika
+                                        </NavLink>
+                                    </div>
+                                </>
+
                             ) : ''}
                         </div>
 
@@ -44,7 +53,7 @@ export default function Authenticated({ user, header, children }) {
                                                 type="button"
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {user.name}
+                                                Dobrodošli , {user.first_name}
 
                                                 <svg
                                                     className="ml-2 -mr-0.5 h-4 w-4"
@@ -107,18 +116,22 @@ export default function Authenticated({ user, header, children }) {
                         <ResponsiveNavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
                             Barberi
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink href={route('cosmetics.index')} active={route().current('cosmetics.index')}>
+                            Kozmetika
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
+                        {/*<div className="px-4">*/}
+                        {/*    <div className="font-medium text-base text-gray-800">{user.first_name}</div>*/}
+                        {/*    <div className="font-medium text-sm text-gray-500">{user.email}</div>*/}
+                        {/*</div>*/}
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
+                            <ResponsiveNavLink href={route('profile.edit')}>Profil</ResponsiveNavLink>
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
+                                Odjavi se
                             </ResponsiveNavLink>
                         </div>
                     </div>

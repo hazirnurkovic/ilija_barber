@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import '../../css/AllUsersAppointmentsTable.css'; // Import a CSS file for styling
 import AppointmentsModal from "./AppointmentsModal";
 
-const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
+const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
     const timeSlots = [];
     const startTime = new Date(`${date}T09:00:00`);
     const endTime = new Date(`${date}T20:00:00`);
@@ -18,19 +18,19 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
 
     var totalPrice = 0;
     var visible = '';
-    
+
     if(!Array.isArray(users))
     {
         users = [users];
         visible = 'hidden';
-    } 
+    }
 
     while (startTime <= endTime) {
         timeSlots.push(new Date(startTime));
         startTime.setMinutes(startTime.getMinutes() + 30);
     }
 
-    
+
     const handleCellClick = (userId, timeSlot, date, status2, status3, customer_name, price, appointment_id) => {
         const edit = (status2 || status3);
         setSelectedUserId(userId);
@@ -52,7 +52,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
         setCustomerName('');
         setPrice('');
     };
-    
+
     return (
         <>
             <table className="appointment-table">
@@ -78,10 +78,10 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                                 </td>
 
                                 {users.map(user => {
-                                    
+
                                     const appointment = appointments.find(
-                                        app => app.user_id === user.id 
-                                        && new Date(app.start_date) <= timeSlot 
+                                        app => app.user_id === user.id
+                                        && new Date(app.start_date) <= timeSlot
                                         && new Date(app.end_date) > timeSlot
                                     );
 
@@ -95,27 +95,27 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                                     return (
                                         <td
                                             key = {cellKey}
-                                            className = 
+                                            className =
                                             {`
                                                 ${isStatus2 ? 'status-2' : ''}
                                                 ${isStatus3 ? 'status-3' : ''}
                                             `}
-                                            onClick = {() => 
+                                            onClick = {() =>
                                                 {
                                                     handleCellClick(user.id, formattedTime, date, isStatus2, isStatus3, customer_name, price, appointment_id)
                                                 }
                                             }
-                                        > 
+                                        >
                                             {customer_name}
                                         </td>
                                     );
                                 })}
                             </tr>
                         );
-                        
+
                     })}
                     {
-                        
+
                     }
                     <tr className={visible}>
                         <td className="bg-blue-400 font-bold text-xl">Ukupno po barberu: </td>
@@ -123,7 +123,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                             const totalUserPrice = appointments
                                 .filter(app => app.user_id === user.id)
                                 .reduce((total, app) => total + app.price, 0);
-                            
+
                             totalPrice += totalUserPrice;
 
                             return <td className="font-bold text-xl" key={`total_${user.id}`}>{totalUserPrice}</td>;
@@ -136,9 +136,10 @@ const AllUsersAppointmentsTable = ({ users, appointments, date }) => {
                 </tbody>
             </table>
 
-           <AppointmentsModal 
+           <AppointmentsModal
             isOpen={isModalOpen}
             isEdit={isEdit}
+            auth={auth}
             initialFormData={{
                 customer_name: customerName,
                 price: price,
