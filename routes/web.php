@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CosmeticsController;
+use App\Http\Controllers\ReportsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -42,8 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('appointments', AppointmentController::class);
     Route::post('getAllAppointmentsForSpecificDateForUser', [AppointmentController::class, 'getAllAppointmentsForSpecificDateForUser']);
     Route::post('concludeAppointment', [AppointmentController::class, 'concludeAppointment']);
-
 });
+// zasto ovdje?
 Route::post('saveCosmetics', [CosmeticsController::class, 'saveCos']);
 
 Route::middleware(['is_admin'])->group(function () {
@@ -52,6 +53,8 @@ Route::middleware(['is_admin'])->group(function () {
     Route::post('getAllAppointmentsForSpecificDate', [AppointmentController::class, 'getAllAppointmentsForSpecificDate']);
     Route::resource('cosmetics', CosmeticsController::class);
     Route::post('getCosmetics', [CosmeticsController::class, 'getCosmeticsData']);
-
 });
+
+Route::post('generateDailyReport', [ReportsController::class, 'generateDailyReport']);
+
 require __DIR__ . '/auth.php';

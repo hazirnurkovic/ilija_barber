@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CosmeticsRequest;
 use App\Models\Cosmetic;
 use Carbon\Carbon;
 use Exception;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -39,25 +37,22 @@ class CosmeticsController extends Controller
         $data = $request->all();
         $data['sell_date'] = Carbon::parse($data['sell_date'])->format('Y-m-d');
         try {
-             Cosmetic::create($data);
+            Cosmetic::create($data);
             return response()->json(['message' => 'Uspjesno kreirano'], 200);
-        } catch (Exception $e){
+        } catch (Exception $e) {
 
-            return response()->json(['message'=> 'Desila se greska '.$e->getMessage() .' Pokusajte ponovo'], 400);
+            return response()->json(['message' => 'Desila se greska ' . $e->getMessage() . ' Pokusajte ponovo'], 400);
         }
-
-
     }
     public function getCosmeticsData(Request $request)
     {
         $date = $request->date;
         $cosmetics = Cosmetic::where('sell_date', $date)->get();
-        if(!$cosmetics) {
+        if (!$cosmetics) {
             return response()->json(['message' => 'Nema podataka za ovaj datum'], 400);
         } else {
             return  response()->json(['cosmetics' => $cosmetics], 200);
         }
-
     }
 
     /**

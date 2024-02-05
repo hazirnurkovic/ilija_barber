@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Hashemi\QueryFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cosmetic extends Model
 {
 
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $fillable = [
         'name',
