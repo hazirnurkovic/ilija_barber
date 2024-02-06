@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
- * Class DailyReportService.
+ * Class ReportService.
  */
-class DailyReportService
+class ReportService
 {
     public function __construct(private AppointmentService $appointmentService, private CosmeticService $cosmeticService)
     {
@@ -16,8 +16,8 @@ class DailyReportService
 
     public function getReportData(Request $request)
     {
-        $daily_report_appointments_data = $this->appointmentService->getDailyAppointments($request);
-        $daily_report_cosmetics_data = $this->cosmeticService->getCosmeticsDailyData($request);
+        $daily_report_appointments_data = $this->appointmentService->getAppointments($request);
+        $daily_report_cosmetics_data = $this->cosmeticService->getCosmeticsData($request);
 
         return [
             'date' => Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y'),

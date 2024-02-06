@@ -11,28 +11,18 @@ class AppointmentFilter extends QueryFilter
         return $this->builder->whereIn('user_id', $users_ids);
     }
 
-    public function applyStartDateProperty($start_date)
+    public function applyFromProperty($from)
     {
-        return $this->builder->where('date', '>=', $start_date);
+        return $this->builder->where('date', '>=', $from);
     }
 
-    public function applyEndDateProperty($end_date)
+    public function applyToProperty($to)
     {
-        return $this->builder->where('date', '<=', $end_date);
+        return $this->builder->where('date', '<=', $to);
     }
 
     public function applyDateProperty($date)
     {
         return $this->builder->where('date', $date);
-    }
-
-    public function applyMonthProperty($month)
-    {
-        return $this->builder->whereMonth('date', $month);
-    }
-
-    public function applyYearProperty($year)
-    {
-        return $this->builder->whereYear('date', $year);
     }
 }

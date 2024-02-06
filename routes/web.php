@@ -55,6 +55,6 @@ Route::middleware(['is_admin'])->group(function () {
     Route::post('getCosmetics', [CosmeticsController::class, 'getCosmeticsData']);
 });
 
-Route::post('generateDailyReport', [ReportsController::class, 'generateDailyReport']);
+Route::post('sendDailyReportEmail', [ReportsController::class, 'sendDailyReportEmail']);
 
 require __DIR__ . '/auth.php';

@@ -17,17 +17,7 @@ class AppointmentService
     ) {
     }
 
-    public function getDailyAppointments(Request $request)
-    {
-        return $this->appointment::with('user:id,first_name,last_name')
-            ->filter($this->appointmentFilter)
-            ->orderBy('user_id')
-            ->selectRaw('user_id, SUM(price) as price')
-            ->groupBy('user_id')
-            ->get();
-    }
-
-    public function getMonthlyAppointments(Request $request)
+    public function getAppointments(Request $request)
     {
         return $this->appointment::with('user:id,first_name,last_name')
             ->filter($this->appointmentFilter)
