@@ -38,10 +38,10 @@ class CosmeticsController extends Controller
         $data['sell_date'] = Carbon::parse($data['sell_date'])->format('Y-m-d');
         try {
             Cosmetic::create($data);
-            return response()->json(['message' => 'Uspjesno kreirano'], 200);
+            return response()->json(['message' => 'Uspješno kreirano'], 200);
         } catch (Exception $e) {
 
-            return response()->json(['message' => 'Desila se greska ' . $e->getMessage() . ' Pokusajte ponovo'], 400);
+            return response()->json(['message' => 'Desila se greška ' . $e->getMessage() . ' Pokusajte ponovo'], 400);
         }
     }
     public function getCosmeticsData(Request $request)

@@ -13,11 +13,19 @@
 .react-datepicker__input-container input {
     width: 100%;
     padding: 10px;
-    border: 2px solid #0a6bab; /* Light blue border color */
+    border: 1px solid #7dc4f3; /* Light blue border color */
     background-color: #3498db;
     font-size: 16px;
     color: white;
     cursor: pointer; /* Show pointer cursor on hover */
+    border-radius: 20px; /* Rounded border */
+    outline: none; /* Remove outline */
+}
+
+.react-datepicker__input-container input:hover,
+.react-datepicker__input-container input:focus {
+    /* Define styles for hover and focus states */
+    border-color: #0a6bab; /* Darker blue border color on hover/focus */
 }
 
 .react-datepicker__month-container {
