@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import DatePicker from 'react-datepicker';
@@ -15,6 +15,10 @@ const CosmeticsPage = ({users, auth}) => {
     const [quantity, setQuantity] = useState('');
     const [date, setDate] = useState(new Date()); // For storing the selected date
     const [formData, setFormData] = useState({ name: '', price: '', quantity: '' });
+
+    useEffect(() => {
+        fetchData(date);
+    }, []);
 
     const openModal = () => {
         setModalOpen(true);

@@ -1,27 +1,35 @@
 .appointment-table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     width: 100%;
 }
 
 .appointment-table th,
 .appointment-table td {
-    border: 2px solid #333; /* Stronger border color */
-    padding: 8px; /* Adjust the padding to reduce cell height */
+    border: 1px solid #ccc; /* Lighter border color */
+    padding: 12px; /* Adjusted padding */
     text-align: left;
 }
 
 .appointment-table th {
-    background-color: #3498db; /* Blue background color for header */
+    background-color: #4a90e2; /* Updated header background color */
     color: #fff; /* White text for better contrast */
-    text-align: center; /* Center the text inside th cells */
+    text-align: center;
+    border-radius: 8px 8px 0 0; /* Rounded corners for the top */
+}
+
+.appointment-table td {
+    background-color: #f5f5f5; /* Light gray background color for cells */
+    border-top: none; /* Remove top border for cells */
 }
 
 .status-2 {
-    background-color: #4CAF50; /* Green color for status 2 */
-    color: #fff; /* White text for better contrast */
+    background-color: #66bb6a; /* Updated green color for status 2 */
+    color: #fff;
 }
 
 .status-3 {
-    background-color: #FF5252; /* Red color for status 3 */
-    color: #fff; /* White text for better contrast */
+    background-color: #ef5350; /* Updated red color for status 3 */
+    color: #fff;
 }
+

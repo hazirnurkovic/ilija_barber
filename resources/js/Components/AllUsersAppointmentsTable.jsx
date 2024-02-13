@@ -118,7 +118,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
 
                     }
                     <tr className={visible}>
-                        <td className="bg-blue-400 font-bold text-xl">Ukupno po barberu: </td>
+                        <td className="!bg-emerald-500 font-bold text-l text-white">Ukupno po barberu: </td>
                         {users.map(user => {
                             const totalUserPrice = appointments
                                 .filter(app => app.user_id === user.id)
@@ -126,12 +126,12 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
 
                             totalPrice += totalUserPrice;
 
-                            return <td className="font-bold text-xl" key={`total_${user.id}`}>{totalUserPrice}</td>;
+                            return <td className="!bg-emerald-500 font-bold text-l text-white" key={`total_${user.id}`}>{totalUserPrice}</td>;
                         })}
                     </tr>
                     <tr>
-                        <td className="text-xl bg-blue-500 font-bold">Ukupni dnevni pazar:</td>
-                        <td className="text-xl font-bold">{totalPrice}</td>
+                        <td className="text-l !bg-emerald-600 font-bold text-white">Ukupni dnevni pazar:</td>
+                        <td colSpan={users.length} className="text-l !bg-emerald-600 font-bold text-white">{totalPrice}</td>
                     </tr>
                 </tbody>
             </table>
