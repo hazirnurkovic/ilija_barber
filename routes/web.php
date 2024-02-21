@@ -54,7 +54,7 @@ Route::middleware(['is_admin'])->group(function () {
     Route::resource('finances', FinanceController::class);
     Route::post('getCosmetics', [CosmeticController::class, 'getCosmeticsData']);
 
-    Route::get('reports', [ReportController::class], 'index')->name('reports.index');
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
     Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
 });
