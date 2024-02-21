@@ -19,7 +19,7 @@
 }
 
 .appointment-table td {
-    background-color: #f5f5f5; /* Light gray background color for cells */
+    /*background-color: #f5f5f5; !* Light gray background color for cells *!*/
     border-top: none; /* Remove top border for cells */
 }
 
@@ -29,7 +29,7 @@
 }
 
 .status-3 {
-    background-color: #ef5350; /* Updated red color for status 3 */
+    background-color: rgba(140, 140, 140, 0.96); /* Updated red color for status 3 */
     color: #fff;
 }
 

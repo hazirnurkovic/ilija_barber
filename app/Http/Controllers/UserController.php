@@ -41,6 +41,7 @@ class UserController extends Controller
             'last_name'  => 'required|string|max:255',
             'username'   => 'required|string|max:255',
             'telephone'  => 'required|string',
+            'percentage' => 'required|numeric|min:0|max:100',
             'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Password::default()],
         ]);
@@ -52,6 +53,7 @@ class UserController extends Controller
                 'username' => $request->username,
                 'telephone' => $request->telephone,
                 'email' => $request->email,
+                'percentage' => self::calculatePercentage($request->percentage),
                 'password' => Hash::make($request->password),
             ]);
 
@@ -85,6 +87,7 @@ class UserController extends Controller
     public function update(EditUserRequest $request, User $create_barber)
     {
         $validated = $request->validated();
+        $validated['percentage'] = self::calculatePercentage($validated['percentage']);
         $create_barber->update($validated);
 
         return redirect('/create_barber')->with('status', 'Podaci barbera su uspješno ažurirani!');
@@ -101,5 +104,10 @@ class UserController extends Controller
     public function delete_barber(Request $request)
     {
         return User::where('id', $request->id)->delete();
+    }
+
+    private static function calculatePercentage($percentage)
+    {
+            return $percentage / 100;
     }
 }

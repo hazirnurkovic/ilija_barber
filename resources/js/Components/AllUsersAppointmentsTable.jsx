@@ -58,7 +58,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
             <table className="appointment-table">
                 <thead>
                     <tr>
-                        <th>Vrijeme</th>
+                        <th className='w-1/12'>Vrijeme</th>
 
                         {users.map(user => (
                             <th key={user.id}>{user.first_name + " " + user.last_name}</th>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CosmeticsController;
@@ -44,15 +45,16 @@ Route::middleware('auth')->group(function () {
     Route::post('getAllAppointmentsForSpecificDateForUser', [AppointmentController::class, 'getAllAppointmentsForSpecificDateForUser']);
     Route::post('concludeAppointment', [AppointmentController::class, 'concludeAppointment']);
 });
-// zasto ovdje?
-Route::post('saveCosmetics', [CosmeticsController::class, 'saveCos']);
 
 Route::middleware(['is_admin'])->group(function () {
     Route::resource('create_barber', UserController::class);
     Route::post('delete_barber', [UserController::class, 'delete_barber']);
     Route::post('getAllAppointmentsForSpecificDate', [AppointmentController::class, 'getAllAppointmentsForSpecificDate']);
     Route::resource('cosmetics', CosmeticsController::class);
+    Route::resource('reports', ReportsController::class);
+    Route::resource('finances', FinancesController::class);
     Route::post('getCosmetics', [CosmeticsController::class, 'getCosmeticsData']);
+    Route::post('getReports', [ReportsController::class, 'getReports']);
 });
 
 Route::post('sendDailyReportEmail', [ReportsController::class, 'sendDailyReportEmail']);

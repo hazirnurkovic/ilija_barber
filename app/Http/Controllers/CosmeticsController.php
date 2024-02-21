@@ -37,7 +37,13 @@ class CosmeticsController extends Controller
         $data = $request->all();
         $data['sell_date'] = Carbon::parse($data['sell_date'])->format('Y-m-d');
         try {
-            Cosmetic::create($data);
+            Cosmetic::create([
+                'name' => $data['name'],
+                'price' => $data['price'],
+                'quantity' => $data['quantity'],
+                'sell_date' => $data['sell_date'],
+                'total' => $data['price'] * $data['quantity']
+            ]);
             return response()->json(['message' => 'Uspješno kreirano'], 200);
         } catch (Exception $e) {
 

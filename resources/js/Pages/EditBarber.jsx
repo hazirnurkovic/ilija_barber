@@ -15,6 +15,8 @@ const EditBarber = ({auth, user}) =>
         username: user?.username,
         telephone: user?.telephone,
         email: user?.email,
+        percentage : user?.percentage
+
     });
 
     useEffect(() => {
@@ -24,6 +26,7 @@ const EditBarber = ({auth, user}) =>
           username: user?.username || "",
           telephone: user?.telephone || "",
           email: user?.email || "",
+          percentage: user?.percentage || "",
         });
       }, [user]);
 
@@ -96,6 +99,20 @@ const EditBarber = ({auth, user}) =>
                             required
                         />
                     <InputError message={errors.email} className="mt-2 text-red-500" />
+                </div>
+                <div className="mb-4">
+                    <InputLabel htmlFor="percentage" value="Procenat zarade" />
+                        <TextInput
+                            id="percentage"
+                            name="percentage"
+                            value={barber.percentage}
+                            className="mt-1 block w-full"
+                            autoComplete="percentage"
+                            isFocused={true}
+                            onChange={(e) => setBarber('percentage', e.target.value)}
+                            required
+                        />
+                    <InputError message={errors.percentage} className="mt-2 text-red-500" />
                 </div>
 
                 <div className="mb-4">

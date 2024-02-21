@@ -12,6 +12,7 @@ export default function Register({ auth }) {
         last_name: '',
         username: '',
         telephone: '',
+        percentage: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -95,6 +96,19 @@ export default function Register({ auth }) {
                             required
                         />
                     <InputError message={errors.email} className="mt-2 text-red-500" />
+                </div> <div className="mb-4">
+                    <InputLabel htmlFor="percentage" value="Procenat zarade" />
+                        <TextInput
+                            id="percentage"
+                            name="percentage"
+                            value={data.percentage}
+                            className="mt-1 block w-full"
+                            autoComplete="percentage"
+                            isFocused={true}
+                            onChange={(e) => setData('percentage', e.target.value)}
+                            required
+                        />
+                    <InputError message={errors.percentage} className="mt-2 text-red-500" />
                 </div>
 
                 <div className="mb-4">

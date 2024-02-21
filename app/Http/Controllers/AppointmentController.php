@@ -129,7 +129,7 @@ class AppointmentController extends Controller
                 return response()->json(['message' => "Termin ne postoji!"], 404);
             }
 
-            $appointment->update(['status' => 3]);
+            $appointment->update(['status' => 3, 'price'=>$request->price]);
             $appointment->save();
 
             return response()->json(['message' => 'Uspješno zaključen termin!'], 200);

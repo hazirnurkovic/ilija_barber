@@ -101,6 +101,7 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }
         try{
             const requestBody = {
                 appointment_id: formData.appointment,
+                price:formData.price
             };
 
             const response = await fetch('/concludeAppointment', {
@@ -135,38 +136,49 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }
     }
 
     const handleDeleteAppointment = async () => {
-        if(confirm('Da li ste sigurni da želite obrisati ovaj termin?'))
-        {
+
             try{
-                const response = await fetch(`/appointments/${formData.appointment}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type' : 'application/json',
-                    },
+                const willDelete = await Swal.fire({
+                    title: 'Da li ste sigurni ?',
+                    text: "da želite da izbrišete ovaj termin",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Izbriši',
+                    cancelButtonText:'Odustani'
                 });
-                const result = await response.json();
-                if (!response.ok) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: result.message,
-                      });
-                } else {
-                    Swal.fire({
-                        title: "Uspješno!",
-                        text: result.message,
-                        icon: "success"
+
+                if(willDelete.isConfirmed) {
+                    const response = await fetch(`/appointments/${formData.appointment}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
                     });
+                    const result = await response.json();
+                    if (!response.ok) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: result.message,
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Uspješno!",
+                            text: result.message,
+                            icon: "success"
+                        });
+                    }
+
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
                 }
-
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
-
             } catch (error) {
                 console.log(`${error}  ${response.message}`);
             }
-        }
+
     }
 
     return (

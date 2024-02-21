@@ -28,7 +28,7 @@ class AppointmentRequest extends FormRequest
             'end_date'      => 'required',
             'user_id'       => 'required|integer',
             'customer_name' => 'required|string',
-            'price'         => 'required|numeric',
+            'price'         => 'nullable|numeric',
             'status'        => 'required|integer'
         ];
     }

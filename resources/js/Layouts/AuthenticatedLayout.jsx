@@ -39,6 +39,16 @@ export default function Authenticated({ user, header, children }) {
                                             Kozmetika
                                         </NavLink>
                                     </div>
+                                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                        <NavLink href={route('reports.index')} active={route().current('reports.index')}>
+                                            Izvještaji
+                                        </NavLink>
+                                    </div>
+                                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                        <NavLink href={route('finances.index')} active={route().current('finances.index')}>
+                                            Finansije
+                                        </NavLink>
+                                    </div>
                                 </>
 
                             ) : ''}
