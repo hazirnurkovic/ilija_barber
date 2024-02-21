@@ -7,6 +7,7 @@ use App\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Inertia\Inertia;
 
 class ReportController extends Controller
 {
@@ -14,7 +15,12 @@ class ReportController extends Controller
     {
     }
 
-    public function getReportsData(Request $request)
+    public function index()
+    {
+        return Inertia::render('Reports');
+    }
+
+    public function getReportsDataForRangeOfDates(Request $request)
     {
         return $this->reportService->getData($request);
     }

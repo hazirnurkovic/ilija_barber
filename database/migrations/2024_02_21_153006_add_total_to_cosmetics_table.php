@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cosmetics', function (Blueprint $table) {
-            $table->float('percentage')->default(0);
+            $table->float('total')->default(0);
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cosmetics', function (Blueprint $table) {
-            $table->dropColumn('percentage');
+            $table->dropColumn('total');
         });
     }
 };

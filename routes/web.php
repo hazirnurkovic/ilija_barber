@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\FinancesController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CosmeticsController;
-use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\CosmeticController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -50,13 +50,15 @@ Route::middleware(['is_admin'])->group(function () {
     Route::resource('create_barber', UserController::class);
     Route::post('delete_barber', [UserController::class, 'delete_barber']);
     Route::post('getAllAppointmentsForSpecificDate', [AppointmentController::class, 'getAllAppointmentsForSpecificDate']);
-    Route::resource('cosmetics', CosmeticsController::class);
-    Route::resource('reports', ReportsController::class);
-    Route::resource('finances', FinancesController::class);
-    Route::post('getCosmetics', [CosmeticsController::class, 'getCosmeticsData']);
-    Route::post('getReports', [ReportsController::class, 'getReports']);
+    Route::resource('cosmetics', CosmeticController::class);
+    Route::resource('finances', FinanceController::class);
+    Route::post('getCosmetics', [CosmeticController::class, 'getCosmeticsData']);
+
+    Route::get('reports', [ReportController::class], 'index')->name('reports.index');
+    Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
+    Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
 });
 
-Route::post('sendDailyReportEmail', [ReportsController::class, 'sendDailyReportEmail']);
+Route::post('sendDailyReportEmail', [ReportController::class, 'sendDailyReportEmail']);
 
 require __DIR__ . '/auth.php';

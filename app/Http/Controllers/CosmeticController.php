@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class CosmeticsController extends Controller
+class CosmeticController extends Controller
 {
     /**
      * Display a listing of the resource.

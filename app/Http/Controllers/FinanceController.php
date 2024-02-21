@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class FinancesController extends Controller
+class FinanceController extends Controller
 {
     /**
      * Display a listing of the resource.
