@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Bus\Queueable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

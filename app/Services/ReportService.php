@@ -14,13 +14,29 @@ class ReportService
     {
     }
 
+    public function getDailyReportData(Request $request)
+    {
+        $report_data = $this->getReportData($request);
+        $report_data['date'] = Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y');
+
+        return $report_data;
+    }
+
+    public function getData(Request $request)
+    {
+        $report_data = $this->getReportData($request);
+        $report_data['start_date'] = Carbon::createFromFormat('Y-m-d', $request->start_date)->format('d.m.Y');
+        $report_data['end_date'] = Carbon::createFromFormat('Y-m-d', $request->end_date)->format('d.m.Y');
+
+        return $report_data;
+    }
+
     public function getReportData(Request $request)
     {
         $daily_report_appointments_data = $this->appointmentService->getAppointments($request);
         $daily_report_cosmetics_data = $this->cosmeticService->getCosmeticsData($request);
 
         return [
-            'date' => Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y'),
             'appointments' => $daily_report_appointments_data,
             'cosmetics_price' => $daily_report_cosmetics_data
         ];
