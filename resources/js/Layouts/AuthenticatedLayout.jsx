@@ -130,6 +130,14 @@ export default function Authenticated({ user, header, children }) {
                         <ResponsiveNavLink href={route('cosmetics.index')} active={route().current('cosmetics.index')}>
                             Kozmetika
                         </ResponsiveNavLink>
+
+                        <ResponsiveNavLink href={route('reports.index')} active={route().current('reports.index')}>
+                            Izvještaji
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink href={route('finances.index')} active={route().current('finances.index')}>
+                            Finansije
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
