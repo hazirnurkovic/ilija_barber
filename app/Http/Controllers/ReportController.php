@@ -8,10 +8,15 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-class ReportsController extends Controller
+class ReportController extends Controller
 {
     public function __construct(private ReportService $reportService)
     {
+    }
+
+    public function getReportsData(Request $request)
+    {
+        return $this->reportService->getData($request);
     }
 
     public function sendDailyReportEmail(Request $request)
@@ -24,9 +29,9 @@ class ReportsController extends Controller
 
     public function getDailyReportData(Request $request)
     {
-        $data = $this->reportService->getReportData($request);
+        $data = $this->reportService->getDailyReportData($request);
 
-        $pdf = Pdf::loadView('reports.daily_report', [
+        $pdf = Pdf::loadView('reports.daily_report_pdf', [
             'data' => $data
         ]);
         return $pdf->output();

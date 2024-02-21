@@ -16,5 +16,6 @@ class Cosmetic extends Model
         'price',
         'quantity',
         'sell_date',
+        'total',
     ];
 }
