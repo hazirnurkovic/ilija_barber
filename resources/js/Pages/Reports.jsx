@@ -15,9 +15,10 @@ const ReportsPage = ({ users, auth }) => {
     const [cosmetics, setCosmetics] = useState(0);
     const [showTable, setShowTable] = useState(false);
 
-    // useEffect(() => {
-    //     fetchData(startDate, endDate);
-    // }, [startDate, endDate]);
+    useEffect(() => {
+        fetchData(startDate, endDate);
+        setShowTable(true);
+    }, []);
 
     const fetchData = async (startDate, endDate) => {
         try {
@@ -92,42 +93,44 @@ const ReportsPage = ({ users, auth }) => {
                         </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {reports && reports.length > 0 ? (
-                            reports.map(item => (
-                                <tr key={item.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                                        {item.first_name}
+                        {reports && reports.length > 0 && cosmetics ? (
+                            <>
+                                {reports.map((item) => (
+                                    <tr key={item.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                            {item.user.first_name}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                            {item.price}
+                                        </td>
+                                    </tr>
+                                ))}
+                                <tr className="bg-gray-200">
+                                    <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800">
+                                        Kozmetika
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                                        {item.total_price}
+                                    <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800">
+                                        {cosmetics}
                                     </td>
-
                                 </tr>
-
-                            ))
+                                <tr className="bg-gray-300">
+                                    <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                        Ukupno
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                        {reports.reduce((total, item) => total + Number(item.price), 0) + Number(cosmetics)}
+                                    </td>
+                                </tr>
+                            </>
                         ) : (
                             <tr>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                     Nema podataka za ovaj datum.
                                 </td>
                             </tr>
                         )}
-                        <tr className="bg-gray-200">
-                            <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 ">
-                                Kozmetika
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 ">
-                                {cosmetics}
-                            </td>
-                        </tr>
-                        <tr className="bg-gray-300">
-                            <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 ">
-                                Ukupno
-                            </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 ">
-                                {reports.reduce((total, item) => total + Number(item.total_price), 0) + Number(cosmetics)}
-                            </td>
-                        </tr>
+
+
                         </tbody>
 
                     </table>

@@ -91,7 +91,7 @@ const CosmeticsPage = ({users, auth}) => {
                 <DatePicker selected={date} onChange={handleChangeDate}/>
             </div>
             <div className="flex flex-col m-2">
-                <div className="-m-1.5 overflow-x-auto w-1/2 mx-auto md:-1/2">
+                <div className="-m-1.5 overflow-x-auto w-full  md:-1/2">
                     <div className="p-1.5 min-w-full inline-block align-middle">
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
