@@ -24,14 +24,14 @@ const ReportsPage = ({ users, auth }) => {
             const formattedStartDate = startDate.toISOString().slice(0, 10);
             const formattedEndDate = endDate.toISOString().slice(0, 10);
 
-            const response = await fetch('/getReports', {
+            const response = await fetch('/getReportsDataForRangeOfDates', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    startDate: formattedStartDate,
-                    endDate: formattedEndDate,
+                    start_date: formattedStartDate,
+                    end_date: formattedEndDate,
                 }),
             });
 
