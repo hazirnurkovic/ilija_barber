@@ -67,12 +67,16 @@ export default function Dashboard({ auth }) {
             <Head title="Termini" />
             <div className="date-picker-container">
                 <DatePicker selected={date}  onChange={handleDateChange}/>
+                <button
+                        className=" mx-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    Zaključi dan
+                </button>
             </div>
 
             <AllUsersAppointmentsTable
-                users = {users}
-                appointments = {appointments}
-                date = {formattedDate}
+                users={users}
+                appointments={appointments}
+                date={formattedDate}
                 auth={auth}
             />
 
