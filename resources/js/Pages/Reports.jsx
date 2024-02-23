@@ -80,60 +80,69 @@ const ReportsPage = ({ users, auth }) => {
                         <div className="p-1.5 w-1/2 mx-auto  align-middle">
                             {showTable && (
                             <div className="border rounded-lg overflow-hidden dark:border-gray-700">
-                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-blue-500 text-white">
-                        <tr>
-                            <th scope="col"
-                                className="px-6 py-3 text-start text-xs font-bold uppercase">Barberi
-                            </th>
-                            <th scope="col"
-                                className="px-6 py-3 text-start text-xs font-bold uppercase">Ukupno
-                            </th>
-
-                        </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {reports && reports.length > 0 && cosmetics ? (
-                            <>
-                                {reports.map((item) => (
-                                    <tr key={item.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {item.user.first_name}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {item.price}
-                                        </td>
+                                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead className="bg-blue-500 text-white">
+                                    <tr>
+                                        <th scope="col"
+                                            className="px-6 py-3 text-start text-xs font-bold uppercase">Barberi
+                                        </th>
+                                        <th scope="col"
+                                            className="px-6 py-3 text-start text-xs font-bold uppercase">Ukupno
+                                        </th>
+                                        <th scope='col'
+                                            className="px-6 py-3 text-start text-xs font-bold uppercase">Obračun zarada
+                                        </th>
                                     </tr>
-                                ))}
-                                <tr className="bg-gray-200">
-                                    <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800">
-                                        Kozmetika
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800">
-                                        {cosmetics}
-                                    </td>
-                                </tr>
-                                <tr className="bg-gray-300">
-                                    <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
-                                        Ukupno
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
-                                        {reports.reduce((total, item) => total + Number(item.price), 0) + Number(cosmetics)}
-                                    </td>
-                                </tr>
-                            </>
-                        ) : (
-                            <tr>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                    Nema podataka za ovaj datum.
-                                </td>
-                            </tr>
-                        )}
+                                    </thead>
+                                    
+                                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                    {reports && reports.length > 0 || cosmetics ? (
+                                        <>
+                                            {reports.map((item) => (
+                                                <tr key={item.id}>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                        {item.user.first_name}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                        {item.price}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                        {item.barber_total}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            <tr className="bg-gray-200">
+                                                <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800">
+                                                    Kozmetika
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800" colSpan={2}>
+                                                    {cosmetics}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-gray-300">
+                                                <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                                    Ukupno
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                                    {reports.reduce((total, item) => total + Number(item.price), 0) + Number(cosmetics)}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                                {reports.reduce((total, item) => total + Number(item.barber_total), 0)}
+                                                </td>
+                                            </tr>
+                                        </>
+                                    ) : (
+                                        <tr>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                Nema podataka za ovaj datum.
+                                            </td>
+                                        </tr>
+                                    )}
 
 
-                        </tbody>
+                                    </tbody>
 
-                    </table>
+                                </table>
                             </div>
                             )}
                         </div>

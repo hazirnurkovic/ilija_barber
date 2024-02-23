@@ -17,6 +17,6 @@ class CosmeticService
 
     public function getCosmeticsData(Request $request)
     {
-        return $this->cosmetic::query()->filter($this->cosmeticFilter)->sum('price');
+        return $this->cosmetic::query()->filter($this->cosmeticFilter)->sum('total');
     }
 }

@@ -19,10 +19,10 @@ class AppointmentService
 
     public function getAppointments(Request $request)
     {
-        return $this->appointment::with('user:id,first_name,last_name')
+        return $this->appointment::with('user:id,first_name,last_name,percentage')
             ->filter($this->appointmentFilter)
             ->orderBy('user_id')
-            ->selectRaw('user_id, SUM(price) as price')
+            ->selectRaw('user_id, SUM(price) as price, sum(barber_total) as barber_total')
             ->groupBy('user_id')
             ->get();
     }

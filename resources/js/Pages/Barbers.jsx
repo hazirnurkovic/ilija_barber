@@ -67,13 +67,13 @@ const Barbers = ({ users, auth }) => {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium border flex flex-col items-center">
                                             <Link
-                                                className="bg-blue-500 mb-2 w-24 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                                className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
                                                 href={route('create_barber.edit', {create_barber: user.id})}
                                             >
                                                 Ažuriraj
                                             </Link>
                                             <button
-                                                className="bg-blue-500 w-24 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                                className="bg-red-500 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
                                                 onClick={()=> handleOnDelete(user.id)}
                                             >
                                                 Obriši

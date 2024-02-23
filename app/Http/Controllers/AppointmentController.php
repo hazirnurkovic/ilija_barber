@@ -128,8 +128,13 @@ class AppointmentController extends Controller
             if (empty($appointment)) {
                 return response()->json(['message' => "Termin ne postoji!"], 404);
             }
+            $user = User::find($appointment->user_id);
 
-            $appointment->update(['status' => 3, 'price'=>$request->price]);
+            $appointment->update([
+                'status' => 3,
+                'price' => $request->price,
+                'barber_total' => $request->price * $user->percentage
+            ]);
             $appointment->save();
 
             return response()->json(['message' => 'Uspješno zaključen termin!'], 200);

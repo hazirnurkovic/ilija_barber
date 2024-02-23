@@ -11,12 +11,12 @@ class CosmeticFilter extends QueryFilter
         return $this->builder->where("sell_date", $date);
     }
 
-    public function applyFromProperty($from)
+    public function applyStartDateProperty($from)
     {
         return $this->builder->where("sell_date", ">=", $from);
     }
 
-    public function applyToProperty($to)
+    public function applyEndDateProperty($to)
     {
         return $this->builder->where("sell_date", "<=", $to);
     }
