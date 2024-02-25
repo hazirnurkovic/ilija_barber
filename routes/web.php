@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
     Route::resource('appointments', AppointmentController::class);
     Route::post('getAllAppointmentsForSpecificDateForUser', [AppointmentController::class, 'getAllAppointmentsForSpecificDateForUser']);
     Route::post('concludeAppointment', [AppointmentController::class, 'concludeAppointment']);
@@ -55,10 +57,22 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['is_admin'])->group(function () {
     Route::resource('create_barber', UserController::class);
+    Route::post('delete_barber', [UserController::class, 'delete_barber']);
+
+
     Route::post('getAllAppointmentsForSpecificDate', [AppointmentController::class, 'getAllAppointmentsForSpecificDate']);
+
     Route::resource('cosmetics', CosmeticController::class);
-    Route::resource('finances', FinanceController::class);
     Route::post('getCosmetics', [CosmeticController::class, 'getCosmeticsData']);
+
+    Route::resource('finances', FinanceController::class);
+    Route::post('getFinancesReport', [FinanceController::class, 'getFinancesReport']);
+
+
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
+
     Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
 });
 

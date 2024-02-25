@@ -71,7 +71,7 @@ const ReportsPage = ({ users, auth }) => {
                     <button
                         onClick={handleSubmit}
                         className="text-white font-bold py-3 px-10 lg:w-52"
-                        style={{ 
+                        style={{
                             backgroundColor: '#3498db',
                             borderRadius: '20px',
                             height: "45px"
@@ -100,7 +100,7 @@ const ReportsPage = ({ users, auth }) => {
                                         </th>
                                     </tr>
                                     </thead>
-                                    
+
                                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                                     {reports && reports.length > 0 || cosmetics ? (
                                         <>
