@@ -1,13 +1,15 @@
 import AllUsersAppointmentsTable from '@/Components/AllUsersAppointmentsTable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DatePickerStyles.css';
+import Swal from 'sweetalert2';
 
 
 export default function Dashboard({ auth }) {
+    const { success, error } = usePage().props;
 
     const [users, setUsers] = useState([]);
     const [appointments, setAppointments] = useState([]);
@@ -17,6 +19,23 @@ export default function Dashboard({ auth }) {
     useEffect(() => {
         fetchData(date);
     }, []);
+
+    useEffect(() => {
+        if (success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: success,
+            });
+        }
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: error,
+            });
+        }
+    }, [success, error]);
 
     const fetchData = async (date) => {
         try {
@@ -68,15 +87,9 @@ export default function Dashboard({ auth }) {
             <div className="date-picker-container mt-2">
                 <DatePicker selected={date}  onChange={handleDateChange}/>
                 {auth.user.is_admin ? (
-                    <button
-                        className="text-white font-bold py-3 ml-3 px-10 lg:w-52 bg-red-500"
-                        style={{ 
-                            borderRadius: '20px',
-                            height: "45px"
-                        }}
-                    >
-                        Zaključi dan
-                    </button>
+                    <Link method="post" as='button' href={route('send_daily_report_email', {date: formattedDate})} className="text-white font-bold py-3 ml-3 px-10 lg:w-52 bg-red-500">
+                        Zakljuci dan
+                    </Link>
                 ) : ''}
             </div>
 

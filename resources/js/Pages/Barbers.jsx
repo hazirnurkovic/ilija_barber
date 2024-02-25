@@ -1,8 +1,30 @@
-import React from 'react';
-import { Head, Link } from '@inertiajs/react';
+import React, { useEffect } from 'react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
+import Swal from 'sweetalert2';
 
 const Barbers = ({ users, auth }) => {
+    const { success, error } = usePage().props;
+
+    useEffect(() => {
+        // Display success message if it exists
+        if (success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Uspješno!',
+                text: success,
+            });
+        }
+
+        // Display error message if it exists
+        if (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...!',
+                text: error,
+            });
+        }
+    }, [success, error]);
 
     const handleOnDelete = (userId) => {
         if(confirm('Da li ste siguri da želite da obrišete ovog barbera?'))
@@ -19,14 +41,29 @@ const Barbers = ({ users, auth }) => {
             .then(response => {
                 // Check if the response is ok
                 if (!response.ok) {
-                    throw new Error('Greška! Molimo Vas ponovite!');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...!',
+                        text: response.message,
+                    });
                 }
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Uspjeh!',
+                    text: response.message,
+                });
+
                 setTimeout(() => {
                     window.location.reload();
                 }, 2000);
             })
             .catch(error => {
-                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...!',
+                    text: `Došlo je do greške: ${error}`,
+                });
             });
         }
     };

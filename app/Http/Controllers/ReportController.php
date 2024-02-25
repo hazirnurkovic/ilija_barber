@@ -27,10 +27,15 @@ class ReportController extends Controller
 
     public function sendDailyReportEmail(Request $request)
     {
-        $data = $this->getDailyReportData($request);
-        Mail::to('hari_n99@gmail.com')->send(new DailyReportMail($data));
+        try {
+            $data = $this->getDailyReportData($request);
+            Mail::to('hari_n99@gmail.com')->send(new DailyReportMail($data));
 
-        return true;
+            return redirect()->route('dashboard')->with('success','Uspješno poslat izvještaj!');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', $e->getMessage());
+        }
+
     }
 
     public function getDailyReportData(Request $request)

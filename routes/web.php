@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CosmeticController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 /*
@@ -21,20 +22,23 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
+
     return Inertia::render('Auth/Login', [
         'canResetPassword' => Route::has('password.request'),
         'status' => session('status'),
     ]);
+
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+
+    $successMessage = Session::get('success');
+    $errorrMessage = Session::get('error');
+    return Inertia::render('Dashboard', [
+        'success'=> $successMessage,
+        'error'=> $errorrMessage,
+    ]);
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -59,6 +63,6 @@ Route::middleware(['is_admin'])->group(function () {
     Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
 });
 
-Route::post('sendDailyReportEmail', [ReportController::class, 'sendDailyReportEmail']);
+Route::post('sendDailyReportEmail', [ReportController::class, 'sendDailyReportEmail'])->name('send_daily_report_email');
 
 require __DIR__ . '/auth.php';

@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
@@ -17,9 +18,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        $successMessage = Session::get('success');
+        $errorMessage = Session::get('error');
         $users = User::all();
         return Inertia::render('Barbers', [
             'users' => $users,
+            'success' => $successMessage,
+            'error' => $errorMessage
         ]);
     }
 
@@ -57,9 +62,9 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            return redirect('/create_barber');
+            return redirect('/create_barber')->with('success','Uspješno ste kreirali barbera.');
         } catch (Exception $e) {
-            return response()->json(['message' => 'Greska pri kreiranju korisnika: ' . $e], 400);
+            return redirect('/create_barber')->with('error', $e->getMessage());
         }
     }
 
@@ -86,11 +91,15 @@ class UserController extends Controller
      */
     public function update(EditUserRequest $request, User $create_barber)
     {
-        $validated = $request->validated();
-        $validated['percentage'] = self::calculatePercentage($validated['percentage']);
-        $create_barber->update($validated);
+        try{
+            $validated = $request->validated();
+            $validated['percentage'] = self::calculatePercentage($validated['percentage']);
+            $create_barber->update($validated);
 
-        return redirect('/create_barber')->with('status', 'Podaci barbera su uspješno ažurirani!');
+            return redirect('/create_barber')->with('success','Uspješno ste ažurirali podatke barbera.');
+        } catch (Exception $e) {
+            return redirect('/create_barber')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -103,7 +112,12 @@ class UserController extends Controller
 
     public function delete_barber(Request $request)
     {
-        return User::where('id', $request->id)->delete();
+        try{
+            $delete = User::where('id', $request->id)->delete();
+            return response()->json(['message'=> 'Uspješno ste obrisali barbera.'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message'=> $e->getMessage()], 400);
+        }
     }
 
     private static function calculatePercentage($percentage)
