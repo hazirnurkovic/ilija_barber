@@ -55,7 +55,7 @@ export default function Dashboard({ auth }) {
 
     const handleDateChange = (selectedDate) => {
         setDate(selectedDate);
-        fetchData(selectedDate); // Fetch data when the date changes
+        fetchData(selectedDate);
     };
 
 
@@ -65,12 +65,19 @@ export default function Dashboard({ auth }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Termini</h2>}
         >
             <Head title="Termini" />
-            <div className="date-picker-container">
+            <div className="date-picker-container mt-2">
                 <DatePicker selected={date}  onChange={handleDateChange}/>
-                <button
-                        className=" mx-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                    Zaključi dan
-                </button>
+                {auth.user.is_admin ? (
+                    <button
+                        className="text-white font-bold py-3 ml-3 px-10 lg:w-52 bg-red-500"
+                        style={{ 
+                            borderRadius: '20px',
+                            height: "45px"
+                        }}
+                    >
+                        Zaključi dan
+                    </button>
+                ) : ''}
             </div>
 
             <AllUsersAppointmentsTable

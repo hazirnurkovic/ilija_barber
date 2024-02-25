@@ -121,6 +121,15 @@ class AppointmentController extends Controller
             return response()->json(['message' => 'Pogrešan termin!'], 404);
         }
 
+        if (empty($request->price)) {
+            return response()->json(['message'=> 'Cijena mora biti unijeta'],404);
+        }
+
+        
+        if (empty($request->customer_name)) {
+            return response()->json(['message'=> 'Ime klijenta mora biti popunjeno'],404);
+        }
+
         try {
 
             $appointment = Appointment::find($request->appointment_id);
@@ -129,9 +138,9 @@ class AppointmentController extends Controller
                 return response()->json(['message' => "Termin ne postoji!"], 404);
             }
             $user = User::find($appointment->user_id);
-
             $appointment->update([
                 'status' => 3,
+                'customer_name' => $request->customer_name,
                 'price' => $request->price,
                 'barber_total' => $request->price * $user->percentage
             ]);
@@ -139,7 +148,7 @@ class AppointmentController extends Controller
 
             return response()->json(['message' => 'Uspješno zaključen termin!'], 200);
         } catch (Exception $e) {
-            return response()->json(['message' => "Greška: " . $e], 403);
+            return response()->json(['message' => "Greška: " . $e->getMessage()], 403);
         }
     }
 }

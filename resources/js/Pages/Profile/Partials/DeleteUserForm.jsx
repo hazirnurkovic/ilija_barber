@@ -46,7 +46,7 @@ export default function DeleteUserForm({ className = '' }) {
     return (
         <section className={`space-y-6 ${className}`}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Obrisi profil</h2>
+                <h2 className="text-lg font-medium text-gray-900">Obriši profil</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
                     Kada jednom obrisete profil, svi Vasi podaci koje ste sacuvali ce biti trajno obrisani. 
@@ -55,7 +55,7 @@ export default function DeleteUserForm({ className = '' }) {
                 </p>
             </header>
 
-            <DangerButton onClick={confirmUserDeletion}>Obrisi profil</DangerButton>
+            <DangerButton onClick={confirmUserDeletion}>Obriši profil</DangerButton>
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
                 <form onSubmit={deleteUser} className="p-6">
@@ -87,10 +87,10 @@ export default function DeleteUserForm({ className = '' }) {
                     </div>
 
                     <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>Ponisti</SecondaryButton>
+                        <SecondaryButton onClick={closeModal}>Poništi</SecondaryButton>
 
                         <DangerButton className="ml-3" disabled={processing}>
-                            Obrisi Profil
+                            Obriši Profil
                         </DangerButton>
                     </div>
                 </form>

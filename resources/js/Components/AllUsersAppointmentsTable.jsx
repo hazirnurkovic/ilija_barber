@@ -9,6 +9,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+    const [isConcluded, setIsConcluded] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState('');
     const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
     const [selectedDate, setSelectedDate] = useState('');
@@ -37,6 +38,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
         setSelectedTimeSlot(timeSlot);
         setSelectedDate(date);
         setIsEdit(edit);
+        setIsConcluded(status3);
         setIsModalOpen(true);
         setSelectedTimeSlot(timeSlot);
         setSelectedUserId(userId);
@@ -49,6 +51,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
     const closeModal = () => {
         setIsModalOpen(false);
         setIsEdit(false);
+        setIsConcluded(false);
         setCustomerName('');
         setPrice('');
     };
@@ -139,6 +142,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
            <AppointmentsModal
             isOpen={isModalOpen}
             isEdit={isEdit}
+            isConcluded={isConcluded}
             auth={auth}
             initialFormData={{
                 customer_name: customerName,
