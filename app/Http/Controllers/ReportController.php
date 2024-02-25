@@ -22,6 +22,9 @@ class ReportController extends Controller
 
     public function getReportsDataForRangeOfDates(Request $request)
     {
+        if (!auth()->user()->is_admin) {
+            $request->merge(['user_id' => auth()->user()->id]);
+        }
         return $this->reportService->getData($request);
     }
 

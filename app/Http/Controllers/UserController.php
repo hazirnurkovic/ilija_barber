@@ -81,6 +81,7 @@ class UserController extends Controller
      */
     public function edit(User $create_barber)
     {
+        $create_barber['percentage'] = $create_barber['percentage'] * 100;
         return Inertia::render('EditBarber', [
             'user' => $create_barber
         ]);
@@ -105,18 +106,13 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
-        return response()->json(['message' => $user]);
-    }
-
-    public function delete_barber(Request $request)
+    public function destroy(User $create_barber)
     {
         try{
-            $delete = User::where('id', $request->id)->delete();
-            return response()->json(['message'=> 'Uspješno ste obrisali barbera.'], 200);
+            $create_barber->delete();
+            return redirect('/create_barber')->with('success','Uspješno ste obrisali podatke barbera');
         } catch (Exception $e) {
-            return response()->json(['message'=> $e->getMessage()], 400);
+            return redirect('/create_barber')->with('error', $e->getMessage());
         }
     }
 

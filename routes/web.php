@@ -50,11 +50,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('appointments', AppointmentController::class);
     Route::post('getAllAppointmentsForSpecificDateForUser', [AppointmentController::class, 'getAllAppointmentsForSpecificDateForUser']);
     Route::post('concludeAppointment', [AppointmentController::class, 'concludeAppointment']);
+    Route::post('sendDailyReportEmail', [ReportController::class, 'sendDailyReportEmail'])->name('send_daily_report_email');
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
 });
 
 Route::middleware(['is_admin'])->group(function () {
     Route::resource('create_barber', UserController::class);
     Route::post('delete_barber', [UserController::class, 'delete_barber']);
+
 
     Route::post('getAllAppointmentsForSpecificDate', [AppointmentController::class, 'getAllAppointmentsForSpecificDate']);
 
@@ -68,9 +72,8 @@ Route::middleware(['is_admin'])->group(function () {
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
+
     Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
 });
-
-Route::post('sendDailyReportEmail', [ReportController::class, 'sendDailyReportEmail'])->name('send_daily_report_email');
 
 require __DIR__ . '/auth.php';

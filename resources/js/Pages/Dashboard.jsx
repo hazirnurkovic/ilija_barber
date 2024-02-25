@@ -43,7 +43,7 @@ export default function Dashboard({ auth }) {
         if (error) {
             Swal.fire({
                 icon: 'error',
-                title: 'Error!',
+                title: 'Greška!',
                 text: error,
             });
         }
@@ -110,6 +110,7 @@ export default function Dashboard({ auth }) {
                         auth={auth}
                         closeModal={closeModal}
                     />}
+
             </div>
 
             <AllUsersAppointmentsTable

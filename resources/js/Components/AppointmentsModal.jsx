@@ -244,7 +244,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                     <div className="sm:mb-0">
 
                         { auth.user?.is_admin && isEdit ? 
-                            ( <button onClick={handleConcludeAppointment} className="bg-emerald-500">Zaključi</button> ) : null
+                            ( <button onClick={handleConcludeAppointment} className="bg-green-700">Zaključi</button> ) : null
                         }
                         
                         { !isEdit || (isConcluded && !auth.user?.is_admin) ?
@@ -252,7 +252,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                         }
 
                     </div>
-                    <button className="cancel mt-2 lg:mt-0 xl:mt-0 md:mt-0" onClick={closeModal}>Poništi</button>
+                    <button className="cancel xs:mt-2 sm:mt-2 lg:mt-0 xl:mt-0 md:mt-0" onClick={closeModal}>Poništi</button>
                 </div>
             </div>
         </Modal>

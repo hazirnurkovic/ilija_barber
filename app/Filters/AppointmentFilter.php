@@ -6,9 +6,9 @@ use Hashemi\QueryFilter\QueryFilter;
 
 class AppointmentFilter extends QueryFilter
 {
-    public function applyUserIdsProperty($users_ids)
+    public function applyUserIdProperty($user_id)
     {
-        return $this->builder->whereIn('user_id', $users_ids);
+        return $this->builder->where('user_id', $user_id);
     }
 
     public function applyStartDateProperty($start_date)
