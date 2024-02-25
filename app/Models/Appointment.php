@@ -17,7 +17,8 @@ class Appointment extends Model
         'end_date',
         'price',
         'status',
-        'date'
+        'date',
+        'barber_total'
     ];
 
     public function user()

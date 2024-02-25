@@ -78,12 +78,12 @@ const CosmeticsPage = ({users, auth}) => {
 
         >
             <Head title="Kozmetika"/>
-            <div className="flex space-x-4 m-3">
+            <div className="lg:w-1/2 lg:mx-auto m-3">
                 <DatePicker selected={date} onChange={handleChangeDate}/>
             </div>
             <div className="flex flex-col m-2">
-                <div className="-m-1.5 overflow-x-auto w-full  mx-auto md:w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
-                    <div className="p-1.5 min-w-full inline-block align-middle">
+                <div className="overflow-x-auto w-full  mx-auto md:w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
+                    <div className="min-w-full inline-block align-middle">
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-blue-500 text-white">

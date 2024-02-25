@@ -3,7 +3,6 @@
     display: inline-block;
     position: relative;
     margin-bottom: 5px;
-    margin-top: 5px;
 }
 
 .react-datepicker__input-container {
@@ -20,6 +19,7 @@
     cursor: pointer; /* Show pointer cursor on hover */
     border-radius: 20px; /* Rounded border */
     outline: none; /* Remove outline */
+    text-align: center;
 }
 
 .react-datepicker__input-container input:hover,

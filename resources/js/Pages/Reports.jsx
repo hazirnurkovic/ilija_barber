@@ -64,33 +64,39 @@ const ReportsPage = ({ users, auth }) => {
         }
         >
             <Head title="Izvještaji" />
-            <div className="container">
-                <div className="flex space-x-4 m-3">
+            <div className="w-1/2 mx-auto">
+                <div className="flex flex-col m-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                     <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                     <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
                     <button
                         onClick={handleSubmit}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                        className="text-white font-bold py-3 px-10 lg:w-52"
+                        style={{ 
+                            backgroundColor: '#3498db',
+                            borderRadius: '20px',
+                            height: "45px"
+                        }}
+                    >
                         Filtriraj
                     </button>
                 </div>
             </div>
-                <div className="flex flex-col m-2">
-                    <div className="-m-1.5 overflow-x-auto w-full md:-1/2">
-                        <div className="p-1.5 w-1/2 mx-auto  align-middle">
+                <div className="m-2">
+                    <div className="m-1.5 overflow-x-auto w-full">
+                        <div className="p-1.5 lg:w-1/2 xl:w-1/2 mx-auto">
                             {showTable && (
                             <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                     <thead className="bg-blue-500 text-white">
                                     <tr>
                                         <th scope="col"
-                                            className="px-6 py-3 text-start text-xs font-bold uppercase">Barberi
+                                            className="lg:px-6 py-3 text-center text-xs font-bold uppercase">Barberi
                                         </th>
                                         <th scope="col"
-                                            className="px-6 py-3 text-start text-xs font-bold uppercase">Ukupno
+                                            className="lg:px-6 py-3 text-center text-xs font-bold uppercase">Ukupno
                                         </th>
                                         <th scope='col'
-                                            className="px-6 py-3 text-start text-xs font-bold uppercase">Obračun zarada
+                                            className="lg:px-6 py-3 text-center text-xs font-bold uppercase">Obračun zarada
                                         </th>
                                     </tr>
                                     </thead>
@@ -100,40 +106,43 @@ const ReportsPage = ({ users, auth }) => {
                                         <>
                                             {reports.map((item) => (
                                                 <tr key={item.id}>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                    <td className="lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
                                                         {item.user.first_name}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                    <td className="lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
                                                         {item.price}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                                    <td className="lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
                                                         {item.barber_total}
                                                     </td>
                                                 </tr>
                                             ))}
                                             <tr className="bg-gray-200">
-                                                <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800">
+                                                <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
                                                     Kozmetika
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800" colSpan={2}>
+                                                <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
                                                     {cosmetics}
+                                                </td>
+                                                <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
+
                                                 </td>
                                             </tr>
                                             <tr className="bg-gray-300">
-                                                <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                                <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
                                                     Ukupno
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                                <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
                                                     {reports.reduce((total, item) => total + Number(item.price), 0) + Number(cosmetics)}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700">
+                                                <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
                                                 {reports.reduce((total, item) => total + Number(item.barber_total), 0)}
                                                 </td>
                                             </tr>
                                         </>
                                     ) : (
                                         <tr>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                            <td className="lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
                                                 Nema podataka za ovaj datum.
                                             </td>
                                         </tr>

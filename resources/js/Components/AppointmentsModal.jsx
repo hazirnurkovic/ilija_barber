@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import '../../css/AppointmentsModal.css';
 import Swal from "sweetalert2";
 
-const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }) => {
+const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, closeModal, auth }) => {
     const [formData, setFormData] = useState(initialFormData);
     useEffect(() => {
         updateFormDataDates(initialFormData);
@@ -31,6 +31,17 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }
 
             if(isEdit)
             {
+
+                if (!formData.customer_name) {
+                    // Display an error message if any of the required fields are empty
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Molimo popunite sva polja!",
+                    });
+                    return; // Exit the function early if input fields are not filled
+                }
+
                 const response = await fetch(`appointments/${formData.appointment}`, {
                     method: 'PUT',
                     headers: {
@@ -55,6 +66,16 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }
             }
             else
             {
+                if (!formData.customer_name) {
+                    // Display an error message if any of the required fields are empty
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Molimo popunite sva polja!",
+                    });
+                    return; // Exit the function early if input fields are not filled
+                }
+
                 formData.status = 2;
                 const response = await fetch('appointments', {
                     method : 'POST',
@@ -98,10 +119,22 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }
     };
 
     const handleConcludeAppointment = async () => {
+
+        if (!formData.customer_name || !formData.price) {
+            // Display an error message if any of the required fields are empty
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Molimo popunite sva polja!",
+            });
+            return; // Exit the function early if input fields are not filled
+        }
+
         try{
             const requestBody = {
                 appointment_id: formData.appointment,
-                price:formData.price
+                price: formData.price,
+                customer_name: formData.customer_name 
             };
 
             const response = await fetch('/concludeAppointment', {
@@ -205,16 +238,21 @@ const AppointmentsModal = ({ isOpen, isEdit, initialFormData, closeModal, auth }
                         value={formData.price}
                         onChange={(e) => handleInputChange(e, 'price')}
                     />
-                </label>
+                </label> 
                 <div className="flex flex-col items-center sm:flex-row sm:justify-between">
-                    <button onClick={handleSave} className="mb-2 sm:mb-0">{isEdit ? "Ažuriraj" : "Kreiraj"}</button>
-                        <div className="mb-2 sm:mb-0">
-                            {auth.user && auth.user.is_admin ? (
-                            <button onClick={handleConcludeAppointment} className="bg-emerald-500">Zaključi</button>
-                                ):null}
-                            <button onClick={handleDeleteAppointment} className="sm:ml-8 bg-red-700">Obriši</button>
-                        </div>
-                    <button className="cancel" onClick={closeModal}>Poništi</button>
+                    { ( isConcluded && !auth.user?.is_admin ) ? null : <button onClick={handleSave} className="mb-2 sm:mb-0"> {isEdit ? "Ažuriraj" : "Kreiraj"} </button> }
+                    <div className="sm:mb-0">
+
+                        { auth.user?.is_admin && isEdit ? 
+                            ( <button onClick={handleConcludeAppointment} className="bg-emerald-500">Zaključi</button> ) : null
+                        }
+                        
+                        { !isEdit || (isConcluded && !auth.user?.is_admin) ?
+                            ( null ) : <button onClick={handleDeleteAppointment} className="sm:ml-8 bg-red-700">Obriši</button>
+                        }
+
+                    </div>
+                    <button className="cancel mt-2 lg:mt-0 xl:mt-0 md:mt-0" onClick={closeModal}>Poništi</button>
                 </div>
             </div>
         </Modal>
