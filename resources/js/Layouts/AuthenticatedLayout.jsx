@@ -9,7 +9,7 @@ export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen min-w-fit bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
@@ -40,18 +40,18 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     </div>
                                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                        <NavLink href={route('reports.index')} active={route().current('reports.index')}>
-                                            Izvještaji
-                                        </NavLink>
-                                    </div>
-                                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                         <NavLink href={route('finances.index')} active={route().current('finances.index')}>
                                             Finansije
                                         </NavLink>
                                     </div>
                                 </>
 
-                            ) : ''}
+                            ) : null}
+                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink href={route('reports.index')} active={route().current('reports.index')}>
+                                    Izvještaji
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">

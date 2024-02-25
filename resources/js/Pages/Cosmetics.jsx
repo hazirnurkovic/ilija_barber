@@ -96,33 +96,32 @@ const CosmeticsPage = ({users, auth}) => {
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-blue-500 text-white">
-                                <tr>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 text-center py-3  text-xs font-bold uppercase">Naziv Artikla
-                                    </th>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Cijena
-                                    </th>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Količina
-                                    </th>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Ukupno
-                                    </th>
-
-                                </tr>
+                                    <tr>
+                                        <th scope="col"
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 text-center py-3 text-xs font-bold uppercase border-r">Naziv Artikla
+                                        </th>
+                                        <th scope="col"
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase border-r">Cijena
+                                        </th>
+                                        <th scope="col"
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase border-r">Količina
+                                        </th>
+                                        <th scope="col"
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Ukupno
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                                 {cosmetics && cosmetics.length > 0 ? (
                                     cosmetics.map(item => (
                                         <tr key={item.id}>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.name}
                                             </td>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.price}
                                             </td>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.quantity}
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
@@ -134,7 +133,7 @@ const CosmeticsPage = ({users, auth}) => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                        <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                             Nema podataka za ovaj datum.
                                         </td>
                                     </tr>
@@ -143,7 +142,7 @@ const CosmeticsPage = ({users, auth}) => {
                                 <tfoot>
                                 <tr>
                                     {/* Empty tds for the previous columns */}
-                                    <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 text-center  font-bold text-gray-800 ">
+                                    <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 text-center  font-bold text-gray-800 border-r">
                                         Ukupno: {
                                         cosmetics
                                             .map(item => item.total)

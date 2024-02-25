@@ -31,7 +31,7 @@ export default function Dashboard({ auth }) {
         if (error) {
             Swal.fire({
                 icon: 'error',
-                title: 'Error!',
+                title: 'Greška!',
                 text: error,
             });
         }
@@ -87,8 +87,8 @@ export default function Dashboard({ auth }) {
             <div className="date-picker-container mt-2">
                 <DatePicker selected={date}  onChange={handleDateChange}/>
                 {auth.user.is_admin ? (
-                    <Link method="post" as='button' href={route('send_daily_report_email', {date: formattedDate})} className="text-white font-bold py-3 ml-3 px-10 lg:w-52 bg-red-500">
-                        Zakljuci dan
+                    <Link method="post" as='button' href={route('send_daily_report_email', {date: formattedDate})} className="text-white font-bold py-3 ml-3  xs:w-48 px-10 w-52 bg-red-500 rounded-3xl">
+                        Zaključi dan
                     </Link>
                 ) : ''}
             </div>

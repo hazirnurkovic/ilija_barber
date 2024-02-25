@@ -117,28 +117,35 @@ const ReportsPage = ({ users, auth }) => {
                                                     </td>
                                                 </tr>
                                             ))}
-                                            <tr className="bg-gray-200">
-                                                <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
-                                                    Kozmetika
-                                                </td>
-                                                <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
-                                                    {cosmetics}
-                                                </td>
-                                                <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
+                                            {auth.user?.is_admin ? 
+                                                (
+                                                    <>
+                                                        <tr className="bg-gray-200">
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
+                                                                Kozmetika
+                                                            </td>
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
+                                                                {cosmetics}
+                                                            </td>
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
 
-                                                </td>
-                                            </tr>
-                                            <tr className="bg-gray-300">
-                                                <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
-                                                    Ukupno
-                                                </td>
-                                                <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
-                                                    {reports.reduce((total, item) => total + Number(item.price), 0) + Number(cosmetics)}
-                                                </td>
-                                                <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
-                                                {reports.reduce((total, item) => total + Number(item.barber_total), 0)}
-                                                </td>
-                                            </tr>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr className="bg-gray-300">
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
+                                                                Ukupno
+                                                            </td>
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
+                                                                {reports.reduce((total, item) => total + Number(item.price), 0) + Number(cosmetics)}
+                                                            </td>
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
+                                                                {reports.reduce((total, item) => total + Number(item.barber_total), 0)}
+                                                            </td>
+                                                        </tr>
+                                                    </>
+                                                ) : null
+                                            }
                                         </>
                                     ) : (
                                         <tr>
