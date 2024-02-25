@@ -5,33 +5,27 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DatePickerStyles.css';
 import '../../css/Cosmetics.css';
+import { format } from 'date-fns';  // Import the format function
+
+
 import CosmeticsFormModal from "@/Components/CosmeticsFormModal.jsx";
 const CosmeticsPage = ({users, auth}) => {
     const isAdmin = auth.user.is_admin;
-    const [cosmetics, setCosmetics] = useState([]); // For storing cosmetics data
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [date, setDate] = useState(new Date()); // For storing the selected date
-    const [formData, setFormData] = useState({ name: '', price: '', quantity: '' });
+    const [finances, setFinances] = useState([]); // For storing cosmetics data
+    const [amount, setAmount] = useState('');
+    const [date, setDate] = useState(() => {
+        const storedDate = localStorage.getItem('selectedDate');
+        return storedDate ? new Date(storedDate) : new Date();
+    });
+    const [formData, setFormData] = useState({ amount: '' });
 
     useEffect(() => {
         fetchData(date);
     }, []);
 
-    const openModal = () => {
-        setModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalOpen(false);
-        setPrice('');
-        setName('');
-        setQuantity('');
-    };
     const handleChangeDate = (selectedDate) => {
         setDate(selectedDate);
+        localStorage.setItem('selectedDate', selectedDate.toISOString());
         fetchData(selectedDate);
     };
 
@@ -46,7 +40,7 @@ const CosmeticsPage = ({users, auth}) => {
     const fetchData = async (date) => {
         try {
             const formattedDate = date.toISOString().slice(0,10);
-            const response = await fetch('/getCosmetics', {
+            const response = await fetch('/getFinancesReport', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,7 +52,7 @@ const CosmeticsPage = ({users, auth}) => {
             }
 
             const data = await response.json();
-            setCosmetics(data.cosmetics);
+            setFinances(data);
 
         } catch (error) {
             console.log(error);
@@ -104,17 +98,17 @@ const CosmeticsPage = ({users, auth}) => {
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                {cosmetics && cosmetics.length > 0 ? (
-                                    cosmetics.map(item => (
+                                {finances && finances.length > 0 ? (
+                                    finances.map(item => (
                                         <tr key={item.id}>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
-                                                {item.name}
+                                                {format(new Date(item.date), 'd.M.yyyy')}
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
-                                                {item.price}
+                                                {item.cash_amount}
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
-                                                {item.quantity}
+                                                {item.register_amount}
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
                                                 {item.total}
@@ -131,18 +125,6 @@ const CosmeticsPage = ({users, auth}) => {
                                     </tr>
                                 )}
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    {/* Empty tds for the previous columns */}
-                                    <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 text-center  font-bold text-gray-800 ">
-                                        Ukupno: {
-                                        cosmetics
-                                            .map(item => item.total)
-                                            .reduce((prev, curr) => prev + curr, 0)
-                                    }
-                                    </td>
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

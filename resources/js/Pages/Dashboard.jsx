@@ -6,19 +6,31 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DatePickerStyles.css';
 import Swal from 'sweetalert2';
-
+import ConcludeDayModal from "@/Components/ConcludeDayModal.jsx";
 
 export default function Dashboard({ auth }) {
     const { success, error } = usePage().props;
 
     const [users, setUsers] = useState([]);
     const [appointments, setAppointments] = useState([]);
-    const [date, setDate] = useState(new Date());
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [date, setDate] = useState(() => {
+        const storedDate = localStorage.getItem('selectedDate');
+        return storedDate ? new Date(storedDate) : new Date();
+    });
+
     const [formattedDate, setFormattedDate] = useState();
 
     useEffect(() => {
         fetchData(date);
     }, []);
+    const openModal = () => {
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
     useEffect(() => {
         if (success) {
@@ -74,6 +86,7 @@ export default function Dashboard({ auth }) {
 
     const handleDateChange = (selectedDate) => {
         setDate(selectedDate);
+        localStorage.setItem('selectedDate', selectedDate.toISOString());
         fetchData(selectedDate);
     };
 
@@ -85,12 +98,18 @@ export default function Dashboard({ auth }) {
         >
             <Head title="Termini" />
             <div className="date-picker-container mt-2">
-                <DatePicker selected={date}  onChange={handleDateChange}/>
-                {auth.user.is_admin ? (
-                    <Link method="post" as='button' href={route('send_daily_report_email', {date: formattedDate})} className="text-white font-bold py-3 ml-3 px-10 lg:w-52 bg-red-500">
+                <DatePicker selected={date} onChange={handleDateChange} />
+                {auth.user.is_admin && (
+                    <button onClick={openModal} className="text-white font-bold py-3 ml-3 px-10 lg:w-52 bg-red-500">
                         Zakljuci dan
-                    </Link>
-                ) : ''}
+                    </button>
+                )}
+                {isModalOpen &&
+                    <ConcludeDayModal
+                        date={date}
+                        auth={auth}
+                        closeModal={closeModal}
+                    />}
             </div>
 
             <AllUsersAppointmentsTable
@@ -99,7 +118,6 @@ export default function Dashboard({ auth }) {
                 date={formattedDate}
                 auth={auth}
             />
-
         </AuthenticatedLayout>
     );
 }
