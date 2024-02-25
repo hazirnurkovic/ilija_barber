@@ -98,16 +98,16 @@ const CosmeticsPage = ({users, auth}) => {
                                 <thead className="bg-blue-500 text-white">
                                     <tr>
                                         <th scope="col"
-                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 text-center py-3 text-xs font-bold uppercase border-r">Naziv Artikla
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Naziv Artikla
                                         </th>
                                         <th scope="col"
-                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase border-r">Cijena
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Cijena
                                         </th>
                                         <th scope="col"
-                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase border-r">Količina
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Količina
                                         </th>
                                         <th scope="col"
-                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Ukupno
+                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Ukupno
                                         </th>
                                     </tr>
                                 </thead>
@@ -115,16 +115,16 @@ const CosmeticsPage = ({users, auth}) => {
                                 {cosmetics && cosmetics.length > 0 ? (
                                     cosmetics.map(item => (
                                         <tr key={item.id}>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.name}
                                             </td>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.price}
                                             </td>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.quantity}
                                             </td>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
                                                 {item.total}
                                             </td>
 

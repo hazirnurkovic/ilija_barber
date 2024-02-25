@@ -37,8 +37,8 @@ export default function Register({ auth }) {
         >
             <Head title="Barberi" />
 
-            <form onSubmit={submit} className="max-w-md mx-auto ">
-                <div className="mb-4 mt-6">
+            <form onSubmit={submit} className="max-w-md mx-auto">
+                <div className="xs:px-2 sm:px-2 mb-4 mt-6">
                     <InputLabel htmlFor="first_name" value="Ime" />
                         <TextInput
                             id="first_name"
@@ -53,7 +53,7 @@ export default function Register({ auth }) {
                     <InputError message={errors.first_name} className="mt-2 text-red-500" />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 xs:px-2 sm:px-2">
                     <InputLabel htmlFor="last_name" value="Prezime" />
                         <TextInput
                             id="last_name"
@@ -68,7 +68,7 @@ export default function Register({ auth }) {
                     <InputError message={errors.last_name} className="mt-2 text-red-500" />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 xs:px-2 sm:px-2">
                     <InputLabel htmlFor="username" value="Korisničko ime" />
                         <TextInput
                             id="username"
@@ -83,7 +83,7 @@ export default function Register({ auth }) {
                     <InputError message={errors.username} className="mt-2 text-red-500" />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 xs:px-2 sm:px-2">
                     <InputLabel htmlFor="email" value="Email" />
                         <TextInput
                             id="email"
@@ -96,7 +96,8 @@ export default function Register({ auth }) {
                             required
                         />
                     <InputError message={errors.email} className="mt-2 text-red-500" />
-                </div> <div className="mb-4">
+                </div> 
+                <div className="mb-4 xs:px-2 sm:px-2">
                     <InputLabel htmlFor="percentage" value="Procenat zarade" />
                         <TextInput
                             id="percentage"
@@ -111,7 +112,7 @@ export default function Register({ auth }) {
                     <InputError message={errors.percentage} className="mt-2 text-red-500" />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 xs:px-2 sm:px-2">
                     <InputLabel htmlFor="telephone" value="Telefon" />
                         <TextInput
                             id="telephone"
@@ -126,7 +127,7 @@ export default function Register({ auth }) {
                     <InputError message={errors.telephone} className="mt-2 text-red-500" />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 xs:px-2 sm:px-2">
                     <InputLabel htmlFor="password" value="Lozinka" />
                         <TextInput
                             id="password"
@@ -136,12 +137,13 @@ export default function Register({ auth }) {
                             autoComplete="password"
                             isFocused={true}
                             onChange={(e) => setData('password', e.target.value)}
+                            type="password"
                             required
                         />
                     <InputError message={errors.password} className="mt-2 text-red-500" />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 xs:px-2 sm:px-2">
                     <InputLabel htmlFor="password_confirmation" value="Potvrdi lozinku" />
                         <TextInput
                             id="password_confirmation"
@@ -151,13 +153,14 @@ export default function Register({ auth }) {
                             autoComplete="password_confirmation"
                             isFocused={true}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
+                            type="password"
                             required
                         />
                     <InputError message={errors.password_confirmation} className="mt-2 text-red-500" />
                 </div>
 
-                <div className="flex items-center justify-end mt-6">
-                    <PrimaryButton className="w-full" disabled={processing}>
+                <div className="flex mt-6 justify-center xs:pb-2 sm:pb-2">
+                    <PrimaryButton className="w-1/2 lg:w-full xl:w-full 2xl:w-full" disabled={processing}>
                         Kreiraj barbera
                     </PrimaryButton>
                 </div>

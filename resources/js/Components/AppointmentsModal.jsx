@@ -244,7 +244,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                     <div className="sm:mb-0">
 
                         { auth.user?.is_admin && isEdit ? 
-                            ( <button onClick={handleConcludeAppointment} className="bg-emerald-500">Zaključi</button> ) : null
+                            ( <button onClick={handleConcludeAppointment} className="bg-green-700">Zaključi</button> ) : null
                         }
                         
                         { !isEdit || (isConcluded && !auth.user?.is_admin) ?

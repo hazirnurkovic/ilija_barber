@@ -100,6 +100,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
                                             key = {cellKey}
                                             className =
                                             {`
+                                                center
                                                 ${isStatus2 ? 'status-2' : ''}
                                                 ${isStatus3 ? 'status-3' : ''}
                                             `}
@@ -129,7 +130,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
 
                             totalPrice += totalUserPrice;
 
-                            return <td className="!bg-emerald-500 font-bold text-l text-white" key={`total_${user.id}`}>{totalUserPrice}</td>;
+                            return <td className="!bg-emerald-500 font-bold text-l text-white center" key={`total_${user.id}`}>{totalUserPrice}</td>;
                         })}
                     </tr>
                     <tr>
