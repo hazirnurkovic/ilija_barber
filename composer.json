@@ -8,12 +8,15 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^2.0",
         "doctrine/dbal": "^3.7",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.8",
         "hashemi/queryfilter": "^1.3",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "mailgun/mailgun-php": "^4.1",
+        "symfony/http-client": "^7.0",
+        "symfony/mailgun-mailer": "^7.0",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

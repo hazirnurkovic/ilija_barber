@@ -53,7 +53,6 @@ class FinanceController extends Controller
         ]);
 
         $insert->save();
-
             return response()->json(['message' => 'Uspješno kreirano'], 200);
 
 

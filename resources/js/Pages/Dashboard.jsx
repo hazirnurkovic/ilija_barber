@@ -99,11 +99,11 @@ export default function Dashboard({ auth }) {
             <Head title="Termini" />
             <div className="date-picker-container mt-2">
                 <DatePicker selected={date} onChange={handleDateChange} />
-                {auth.user.is_admin && (
+                {auth.user.is_admin ? (
                     <button onClick={openModal} className="text-white font-bold py-3 ml-3 px-10 lg:w-52 bg-red-500 rounded-full">
                         Zaključi dan
                     </button>
-                )}
+                ): ''}
                 {isModalOpen &&
                     <ConcludeDayModal
                         date={date}

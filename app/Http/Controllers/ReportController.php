@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\DailyReportMail;
 use App\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -32,7 +33,8 @@ class ReportController extends Controller
     {
         try {
             $data = $this->getDailyReportData($request);
-            Mail::to('hari_n99@gmail.com')->send(new DailyReportMail($data));
+            $date = Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y');
+            Mail::to('dusanvuletic24@gmail.com')->send(new DailyReportMail($data, $date));
 
             return redirect()->route('dashboard')->with('success','Uspješno poslat izvještaj!');
         } catch (\Exception $e) {

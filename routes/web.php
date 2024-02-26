@@ -28,7 +28,7 @@ Route::get('/', function () {
         'status' => session('status'),
     ]);
 
-});
+})->name('welcome');
 
 Route::get('/dashboard', function () {
 
@@ -70,8 +70,8 @@ Route::middleware(['is_admin'])->group(function () {
 
 
 
-    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
+    //Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    //Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
 
     Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
 });

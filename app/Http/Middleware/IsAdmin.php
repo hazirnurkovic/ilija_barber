@@ -17,7 +17,7 @@ class IsAdmin
     {
         $user = auth()->user();
         if (!$user) {
-            return redirect()->route('/')->with('error', "Nemate pravo pristupa ovoj stranici!");
+            return redirect()->route('welcome')->with('error', "Nemate pravo pristupa ovoj stranici!");
         }
         $is_admin = $user->is_admin;
         if ($is_admin == false) {

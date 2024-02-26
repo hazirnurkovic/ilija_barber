@@ -19,7 +19,7 @@ class DailyReportMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(protected $data)
+    public function __construct(protected $data, protected $date)
     {
     }
 
@@ -38,8 +38,12 @@ class DailyReportMail extends Mailable
      */
     public function content(): Content
     {
+
         return new Content(
             markdown: 'emails.daily_report',
+            with: [
+                'date' => $this->date,
+            ]
         );
     }
 
@@ -51,7 +55,7 @@ class DailyReportMail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromData(fn () => $this->data, 'Dnevni_izvjestaj.pdf')
+            Attachment::fromData(fn () => $this->data, "Dnevni_izvjestaj_$this->date.pdf")
                 ->withMime('application/pdf'),
         ];
     }

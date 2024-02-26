@@ -13,10 +13,7 @@ const CosmeticsPage = ({users, auth}) => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
-    const [date, setDate] = useState(() => {
-        const storedDate = localStorage.getItem('selectedDate');
-        return storedDate ? new Date(storedDate) : new Date();
-    });
+    const [date, setDate] = useState(new Date());
     const [formData, setFormData] = useState({ name: '', price: '', quantity: '' });
 
     useEffect(() => {
@@ -35,7 +32,6 @@ const CosmeticsPage = ({users, auth}) => {
     };
     const handleChangeDate = (selectedDate) => {
         setDate(selectedDate);
-        localStorage.setItem('selectedDate', selectedDate.toISOString());
         fetchData(selectedDate);
     };
 
