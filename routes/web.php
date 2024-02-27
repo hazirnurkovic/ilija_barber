@@ -27,7 +27,6 @@ Route::get('/', function () {
         'canResetPassword' => Route::has('password.request'),
         'status' => session('status'),
     ]);
-
 })->name('welcome');
 
 Route::get('/dashboard', function () {
@@ -35,10 +34,9 @@ Route::get('/dashboard', function () {
     $successMessage = Session::get('success');
     $errorrMessage = Session::get('error');
     return Inertia::render('Dashboard', [
-        'success'=> $successMessage,
-        'error'=> $errorrMessage,
+        'success' => $successMessage,
+        'error' => $errorrMessage,
     ]);
-
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -67,11 +65,6 @@ Route::middleware(['is_admin'])->group(function () {
 
     Route::resource('finances', FinanceController::class);
     Route::post('getFinancesReport', [FinanceController::class, 'getFinancesReport']);
-
-
-
-    //Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    //Route::post('getReportsDataForRangeOfDates', [ReportController::class, 'getReportsDataForRangeOfDates']);
 
     Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
 });

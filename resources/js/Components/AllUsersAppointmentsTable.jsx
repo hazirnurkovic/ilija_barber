@@ -5,7 +5,7 @@ import AppointmentsModal from "./AppointmentsModal";
 const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
     const timeSlots = [];
     const startTime = new Date(`${date}T09:00:00`);
-    const endTime = new Date(`${date}T20:00:00`);
+    const endTime = new Date(`${date}T19:30:00`);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);

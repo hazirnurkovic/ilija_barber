@@ -29,18 +29,17 @@ class ReportController extends Controller
         return $this->reportService->getData($request);
     }
 
-    public function sendDailyReportEmail(Request $request)
+    public static function sendDailyReportEmail(Request $request)
     {
         try {
-            $data = $this->getDailyReportData($request);
+            $data = self::getDailyReportData($request);
             $date = Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y');
             Mail::to('dusanvuletic24@gmail.com')->send(new DailyReportMail($data, $date));
 
-            return redirect()->route('dashboard')->with('success','Uspješno poslat izvještaj!');
+            return redirect()->route('dashboard')->with('success', 'Uspješno poslat izvještaj!');
         } catch (\Exception $e) {
             return redirect()->route('dashboard')->with('error', $e->getMessage());
         }
-
     }
 
     public function getDailyReportData(Request $request)

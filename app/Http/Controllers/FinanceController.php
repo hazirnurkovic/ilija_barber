@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Finances;
+use App\Models\Finance;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,31 +39,29 @@ class FinanceController extends Controller
         $data = $request->all();
         $barbers_total_and_cosmetics = $this->reportService->getDailyReportData($request);
         $barbers_total = $barbers_total_and_cosmetics['appointments'] ?? 0;
-        $cosmetics_total = $barbers_total_and_cosmetics['cosmetics_price'] ?? 0 ;
+        $cosmetics_total = $barbers_total_and_cosmetics['cosmetics_price'] ?? 0;
         $sum = $cosmetics_total;
         foreach ($barbers_total as $total) {
             $sum += $total['barber_total'];
         }
         try {
-        $insert = Finances::create([
-            'date' => $data['date'],
-            'cash_amount' => $sum - $data['amount'],
-            'register_amount' => $data['amount'],
-            'total' => $sum
-        ]);
+            $insert = Finance::create([
+                'date' => $data['date'],
+                'cash_amount' => $sum - $data['amount'],
+                'register_amount' => $data['amount'],
+                'total' => $sum
+            ]);
 
-        $insert->save();
+            $insert->save();
             return response()->json(['message' => 'Uspješno kreirano'], 200);
-
-
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return response()->json(['message' => 'Desila se greška' . $e->getMessage()], 500);
         }
     }
 
     public function getFinancesReport(Request $request)
     {
-        return Finances::where('date', $request->date)->get();
+        return Finance::where('date', $request->date)->get();
     }
 
     /**

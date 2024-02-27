@@ -44,14 +44,14 @@ export default function Authenticated({ user, header, children }) {
                                             Finansije
                                         </NavLink>
                                     </div>
+                                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                        <NavLink href={route('reports.index')} active={route().current('reports.index')}>
+                                            Izvještaji
+                                        </NavLink>
+                                    </div>
                                 </>
 
                             ) : null}
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('reports.index')} active={route().current('reports.index')}>
-                                    Izvještaji
-                                </NavLink>
-                            </div>
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
@@ -123,21 +123,25 @@ export default function Authenticated({ user, header, children }) {
                             Termini
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
-                            Barberi
-                        </ResponsiveNavLink>
+                        {user?.is_admin ? (
+                            <>
+                                <ResponsiveNavLink href={route('create_barber.index')} active={route().current('create_barber.index')}>
+                                    Barberi
+                                </ResponsiveNavLink>
 
-                        <ResponsiveNavLink href={route('cosmetics.index')} active={route().current('cosmetics.index')}>
-                            Kozmetika
-                        </ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('cosmetics.index')} active={route().current('cosmetics.index')}>
+                                    Kozmetika
+                                </ResponsiveNavLink>
 
-                        <ResponsiveNavLink href={route('reports.index')} active={route().current('reports.index')}>
-                            Izvještaji
-                        </ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('reports.index')} active={route().current('reports.index')}>
+                                    Izvještaji
+                                </ResponsiveNavLink>
 
-                        <ResponsiveNavLink href={route('finances.index')} active={route().current('finances.index')}>
-                            Finansije
-                        </ResponsiveNavLink>
+                                <ResponsiveNavLink href={route('finances.index')} active={route().current('finances.index')}>
+                                    Finansije
+                                </ResponsiveNavLink>
+                            </>
+                        ): null}
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
