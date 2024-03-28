@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DatePickerStyles.css';
 import '../../css/Cosmetics.css';
 import CosmeticsFormModal from "@/Components/CosmeticsFormModal.jsx";
-const CosmeticsPage = ({users, auth}) => {
+const CosmeticsWarehouse = ({users, auth}) => {
     const isAdmin = auth.user.is_admin;
     const [cosmetics, setCosmetics] = useState([]); // For storing cosmetics data
     const [isModalOpen, setModalOpen] = useState(false);
@@ -54,7 +54,7 @@ const CosmeticsPage = ({users, auth}) => {
             setCosmetics(data.cosmetics);
 
         } catch (error) {
-            console.log(error);
+            console.log(error); 
         }
     };
 
@@ -160,4 +160,4 @@ const CosmeticsPage = ({users, auth}) => {
     );
 };
 
-export default CosmeticsPage;
+export default CosmeticsWarehouse;

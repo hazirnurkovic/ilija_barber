@@ -5,6 +5,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CosmeticController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -67,6 +68,9 @@ Route::middleware(['is_admin'])->group(function () {
     Route::post('getFinancesReport', [FinanceController::class, 'getFinancesReport']);
 
     Route::post('getDailyReportData', [ReportController::class, 'getDailyReportData']);
+
+    Route::resource('expenses', ExpenseController::class);
+    Route::post('getExpenses', [ExpenseController::class, 'getExpenses']);
 });
 
 require __DIR__ . '/auth.php';

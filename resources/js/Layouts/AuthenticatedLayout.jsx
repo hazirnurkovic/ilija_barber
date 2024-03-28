@@ -45,6 +45,11 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     </div>
                                     <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                        <NavLink href={route('expenses.index')} active={route().current('expenses.index')}>
+                                            Troškovi
+                                        </NavLink>
+                                    </div>
+                                    <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                         <NavLink href={route('reports.index')} active={route().current('reports.index')}>
                                             Izvještaji
                                         </NavLink>

@@ -37,7 +37,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Molimo popunite sva polja!",
+                        text: "Molimo unesite ime mušterije!",
                     });
                     return; // Exit the function early if input fields are not filled
                 }
@@ -71,7 +71,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Molimo popunite sva polja!",
+                        text: "Molimo unesite ime mušterije!",
                     });
                     return; // Exit the function early if input fields are not filled
                 }

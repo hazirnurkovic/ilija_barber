@@ -5,21 +5,19 @@ import axios from 'axios';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
-const CosmeticsFormModal = ({ closeModal, auth }) => {
+const ExpensesFormModal = ({ closeModal, auth }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     const onSubmit = async(data) => {
         if (!(auth.user && auth.user.is_admin)) {
-            console.error('Unauthorized access');
             return;
         }
         data.price = Number(data.price);
-        data.quantity = Number(data.quantity);
-        data.sell_date = selectedDate;
-        console.log(data)
+        data.date = selectedDate;
+        
         try {
-            const response = await fetch('/cosmetics', {
+            const response = await fetch('/expenses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +25,6 @@ const CosmeticsFormModal = ({ closeModal, auth }) => {
                 body: JSON.stringify(data),
             });
             const result = await response.json();
-            console.log(result)
             if (!response.ok) {
                 {
                     Swal.fire({
@@ -66,7 +63,7 @@ const CosmeticsFormModal = ({ closeModal, auth }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Naziv Artikla
+                    Naziv
                 </label>
                 <input {...register('name', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                 {errors.name && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
@@ -80,14 +77,7 @@ const CosmeticsFormModal = ({ closeModal, auth }) => {
             </div>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Količina
-                </label>
-                <input {...register('quantity', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-                {errors.quantity && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
-            </div>
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Datum prodaje
+                    Datum
                 </label>
                 <DatePicker selected={selectedDate} onChange={date => setSelectedDate(date)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
             </div>
@@ -105,4 +95,4 @@ const CosmeticsFormModal = ({ closeModal, auth }) => {
     );
 }
 
-export default CosmeticsFormModal;
+export default ExpensesFormModal;

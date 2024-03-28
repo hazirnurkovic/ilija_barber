@@ -17,7 +17,7 @@ class CosmeticController extends Controller
     {
         $cosmetics =  Cosmetic::all();
         return Inertia::render('Cosmetics', [
-            '$cosmetics' => $cosmetics,
+            'cosmetics' => $cosmetics,
         ]);
     }
 

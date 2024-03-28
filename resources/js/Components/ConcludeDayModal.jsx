@@ -5,7 +5,7 @@ import axios from 'axios';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
-const CosmeticsFormModal = ({ closeModal, auth, date }) => {
+const ConcludeDayModal = ({ closeModal, auth, date }) => {
     console.log(auth.user)
     console.log(date)
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -76,7 +76,7 @@ const CosmeticsFormModal = ({ closeModal, auth, date }) => {
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                             Obračunaj
                         </button>
-                        <button onClick={closeModal} className="inline-block align-baseline font-bold text-sm text-white hover:bg-blue-700">
+                        <button onClick={closeModal} className="inline-block align-baseline font-bold text-sm text-white bg-red-500 hover:red-blue-700">
                             Poništi
                         </button>
                     </div>
@@ -86,4 +86,4 @@ const CosmeticsFormModal = ({ closeModal, auth, date }) => {
     );
 }
 
-export default CosmeticsFormModal;
+export default ConcludeDayModal;
