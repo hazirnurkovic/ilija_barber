@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AppointmentRequest;
 use App\Models\Appointment;
 use App\Models\User;
+use App\Services\BarberService;
 use Carbon\Carbon;
 use Exception;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,6 +17,12 @@ class AppointmentController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private $barberService;
+    public function __construct(BarberService $barberService)
+    {
+        $this->barberService = $barberService;
+    }
+
     public function index()
     {
         return Appointment::all();
@@ -125,7 +133,7 @@ class AppointmentController extends Controller
             return response()->json(['message'=> 'Cijena mora biti unijeta'],404);
         }
 
-        
+
         if (empty($request->customer_name)) {
             return response()->json(['message'=> 'Ime klijenta mora biti popunjeno'],404);
         }
@@ -137,6 +145,11 @@ class AppointmentController extends Controller
             if (empty($appointment)) {
                 return response()->json(['message' => "Termin ne postoji!"], 404);
             }
+
+            if($appointment->status === 3) {
+                return response()->json(['message' => 'Termin je već zaključen'], 500);
+            }
+
             $user = User::find($appointment->user_id);
             $appointment->update([
                 'status' => 3,
@@ -145,6 +158,8 @@ class AppointmentController extends Controller
                 'barber_total' => $request->price * $user->percentage
             ]);
             $appointment->save();
+
+            $this->barberService->calculateBarberDetails($appointment);
 
             return response()->json(['message' => 'Uspješno zaključen termin!'], 200);
         } catch (Exception $e) {

@@ -27,7 +27,8 @@ class EditUserRequest extends FormRequest
             'username' => 'required|string|max:255',
             'email' => 'required|email',
             'telephone' => 'required|string|max:20',
-            'percentage' => 'required|numeric|min:0|max:100'
+            'percentage' => 'required|numeric|min:0|max:100',
+            'bank_amount' => 'required|numeric'
         ];
     }
 }

@@ -86,7 +86,6 @@ export default function Dashboard({ auth }) {
 
     const handleDateChange = (selectedDate) => {
         setDate(selectedDate);
-        localStorage.setItem('selectedDate', selectedDate.toISOString());
         fetchData(selectedDate);
     };
 

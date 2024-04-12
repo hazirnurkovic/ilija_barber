@@ -47,6 +47,7 @@ class UserController extends Controller
             'username'   => 'required|string|max:255',
             'telephone'  => 'required|string',
             'percentage' => 'required|numeric|min:0|max:100',
+            'bank_amount' => 'required|numeric',
             'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Password::default()],
         ]);
@@ -59,6 +60,7 @@ class UserController extends Controller
                 'telephone' => $request->telephone,
                 'email' => $request->email,
                 'percentage' => self::calculatePercentage($request->percentage),
+                'bank_amount' =>$request->bank_amount,
                 'password' => Hash::make($request->password),
             ]);
 
