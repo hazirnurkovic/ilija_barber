@@ -65,7 +65,7 @@ const CosmeticsPage = ({users, auth}) => {
             header={
                 <div className="container">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Kozmetika</h2>
-                    {isAdmin && (
+                    {/* {isAdmin && (
                     <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                         Prodaja
                     </button>
@@ -74,7 +74,9 @@ const CosmeticsPage = ({users, auth}) => {
                         <CosmeticsFormModal
                         auth={auth}
                         closeModal={closeModal}
-                        />}
+                        />} */}
+
+                    
                 </div>
             }
 
