@@ -14,10 +14,7 @@ export default function Dashboard({ auth }) {
     const [users, setUsers] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [date, setDate] = useState(() => {
-        const storedDate = localStorage.getItem('selectedDate');
-        return storedDate ? new Date(storedDate) : new Date();
-    });
+    const [date, setDate] = useState(new Date());
 
     const [formattedDate, setFormattedDate] = useState();
 
@@ -86,7 +83,6 @@ export default function Dashboard({ auth }) {
 
     const handleDateChange = (selectedDate) => {
         setDate(selectedDate);
-        localStorage.setItem('selectedDate', selectedDate.toISOString());
         fetchData(selectedDate);
     };
 
