@@ -27,7 +27,8 @@ class User extends Authenticatable
         'password',
         'username',
         'is_admin',
-        'percentage'
+        'percentage',
+        'bank_amount'
     ];
 
     /**
