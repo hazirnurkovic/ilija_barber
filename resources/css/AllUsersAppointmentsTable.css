@@ -37,3 +37,16 @@
     text-align: center !important;
 }
 
+.highlighted {
+    border: 2px solid darkred !important; /* Add any border styling */
+}
+
+.highlighted:hover::after {
+    content: "Barber je dostigao bankovni iznos!"; /* Replace with your custom message */
+    position: absolute;
+    background-color: #111111;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}

@@ -49,6 +49,7 @@ class BarberService
                 if ($query->total >= $target) {
                     $query->update([
                         'target_achieved_at' => now(),
+                        'appointment_id' => $appointment->id,
                         'difference_amount' => $query->total - $target
                     ]);
                 }

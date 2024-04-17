@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentRequest;
 use App\Models\Appointment;
+use App\Models\BarberDetails;
 use App\Models\User;
 use App\Services\BarberService;
 use Carbon\Carbon;
@@ -103,8 +104,9 @@ class AppointmentController extends Controller
     public function getAllAppointmentsForSpecificDate(Request $request)
     {
         $date = $request->date;
-        $users = User::all();
+        $users = User::with('barberDetails')->get();
         $appointments = Appointment::where('date', $date)->get();
+
         return response()->json(['users' => $users, 'appointments' => $appointments], 200);
     }
 
@@ -120,7 +122,9 @@ class AppointmentController extends Controller
             ->where('user_id', $user_id)
             ->get();
 
-        return response()->json(['users' => $user, 'appointments' => $appointments], 200);
+        $barber_target = BarberDetails::where('user_id', $user_id)->value('target_achieved_at');
+
+        return response()->json(['users' => $user, 'appointments' => $appointments, 'target' => $barber_target], 200);
     }
 
     public function concludeAppointment(Request $request)
