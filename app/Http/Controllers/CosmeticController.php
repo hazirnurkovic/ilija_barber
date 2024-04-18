@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cosmetic;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -35,29 +34,15 @@ class CosmeticController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['sell_date'] = Carbon::parse($data['sell_date'])->format('Y-m-d');
         try {
             Cosmetic::create([
                 'name' => $data['name'],
-                'price' => $data['price'],
-                'quantity' => $data['quantity'],
-                'sell_date' => $data['sell_date'],
-                'total' => $data['price'] * $data['quantity']
+                'status' => $data['price'],
             ]);
             return response()->json(['message' => 'Uspješno kreirano'], 200);
         } catch (Exception $e) {
 
             return response()->json(['message' => 'Desila se greška ' . $e->getMessage() . ' Pokusajte ponovo'], 400);
-        }
-    }
-    public function getCosmeticsData(Request $request)
-    {
-        $date = $request->date;
-        $cosmetics = Cosmetic::where('sell_date', $date)->get();
-        if (!$cosmetics) {
-            return response()->json(['message' => 'Nema podataka za ovaj datum'], 400);
-        } else {
-            return  response()->json(['cosmetics' => $cosmetics], 200);
         }
     }
 

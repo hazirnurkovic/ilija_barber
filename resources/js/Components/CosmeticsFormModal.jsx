@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import DatePicker from 'react-datepicker';
-import axios from 'axios';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
@@ -14,10 +12,7 @@ const CosmeticsFormModal = ({ closeModal, auth }) => {
             console.error('Unauthorized access');
             return;
         }
-        data.price = Number(data.price);
-        data.quantity = Number(data.quantity);
-        data.sell_date = selectedDate;
-        console.log(data)
+        data.status = Number(data.status);
         try {
             const response = await fetch('/cosmetics', {
                 method: 'POST',
@@ -64,6 +59,7 @@ const CosmeticsFormModal = ({ closeModal, auth }) => {
         <div className="modal-container">
             <div className="modal-content">
         <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded px-8 pt-6 pb-8 mb-4">
+
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                     Naziv Artikla
@@ -71,26 +67,18 @@ const CosmeticsFormModal = ({ closeModal, auth }) => {
                 <input {...register('name', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
                 {errors.name && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
             </div>
+
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Cijena
+                    Status
                 </label>
-                <input {...register('price', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                <select {...register('status', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="1">Aktivan</option>
+                    <option value="0">Neaktivan</option>
+                </select>
                 {errors.price && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
             </div>
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Količina
-                </label>
-                <input {...register('quantity', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-                {errors.quantity && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
-            </div>
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Datum prodaje
-                </label>
-                <DatePicker selected={selectedDate} onChange={date => setSelectedDate(date)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-            </div>
+            
             <div className="flex items-center justify-between">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Sačuvaj

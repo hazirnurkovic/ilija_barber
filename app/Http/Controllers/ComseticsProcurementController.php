@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ComseticsProcurement;
 use App\Http\Requests\StoreComseticsProcurementRequest;
 use App\Http\Requests\UpdateComseticsProcurementRequest;
+use Illuminate\Http\Request;
 
 class ComseticsProcurementController extends Controller
 {
@@ -62,5 +63,16 @@ class ComseticsProcurementController extends Controller
     public function destroy(ComseticsProcurement $comseticsProcurement)
     {
         //
+    }
+
+    public function getProcurements(Request $request)
+    {
+        $date = $request->date;
+        $procurements = ComseticsProcurement::where('date', $date)->get();
+        if (!$procurements) {
+            return response()->json(['message' => 'Nema podataka za ovaj datum'], 400);
+        } else {
+            return  response()->json(['procurements' => $procurements], 200);
+        }
     }
 }

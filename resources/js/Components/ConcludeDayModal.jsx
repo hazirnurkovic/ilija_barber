@@ -6,8 +6,6 @@ import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
 const ConcludeDayModal = ({ closeModal, auth, date }) => {
-    console.log(auth.user)
-    console.log(date)
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = async(data) => {
