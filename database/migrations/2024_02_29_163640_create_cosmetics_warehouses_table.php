@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('cosmetics_id');
             $table->integer('quantity');
             $table->float('purchase_price');
+            $table->foreignId('cosmetics_procurements_id');
             $table->date('date');
             $table->timestamps();
         });

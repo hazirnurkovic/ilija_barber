@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cosmetics_sales', function (Blueprint $table) {
+        Schema::create('comsetics_procurements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cosmetics_warehouse_id');
-            $table->integer('quantity');
-            $table->float('sell_price');
-            $table->date('date');
             $table->foreignId('cosmetics_id');
+            $table->integer('quantity');
+            $table->float('purchase_price');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cosmetics_sales');
+        Schema::dropIfExists('comsetics_procurements');
     }
 };

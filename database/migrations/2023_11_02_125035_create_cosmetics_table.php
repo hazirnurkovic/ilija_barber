@@ -14,9 +14,7 @@ return new class extends Migration
         Schema::create('cosmetics', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->float('price');
-            $table->integer('quantity');
-            $table->date('sell_date');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
