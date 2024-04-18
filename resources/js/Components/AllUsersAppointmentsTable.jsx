@@ -94,6 +94,8 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
                                     const customer_name = appointment ? appointment.customer_name : '';
                                     const price = appointment ? appointment.price : '';
                                     const appointment_id = appointment ? appointment.id : '';
+                                    const barberDetailsAppointmentId = user.barber_details ? user.barber_details.appointment_id : null;
+                                    const isHighlighted = barberDetailsAppointmentId === appointment_id;
 
                                     return (
                                         <td
@@ -103,6 +105,8 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
                                                 center
                                                 ${isStatus2 ? 'status-2' : ''}
                                                 ${isStatus3 ? 'status-3' : ''}
+                                                ${isHighlighted ? 'highlighted' : ''}
+                                               {...(isHighlighted ? {title: "Custom message here"} : {})
                                             `}
                                             onClick = {() =>
                                                 {
