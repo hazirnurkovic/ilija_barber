@@ -74,7 +74,7 @@ const ConcludeDayModal = ({ closeModal, auth, date }) => {
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                             Obračunaj
                         </button>
-                        <button onClick={closeModal} className="inline-block align-baseline font-bold text-sm text-white bg-red-500 hover:red-blue-700">
+                        <button onClick={closeModal} className="inline-block cancel_button align-baseline font-bold text-sm text-white bg-red-500 hover:red-blue-700 ml-2">
                             Poništi
                         </button>
                     </div>

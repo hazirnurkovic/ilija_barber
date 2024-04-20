@@ -37,7 +37,7 @@ class CosmeticController extends Controller
         try {
             Cosmetic::create([
                 'name' => $data['name'],
-                'status' => $data['price'],
+                'status' => $data['status'],
             ]);
             return response()->json(['message' => 'Uspješno kreirano'], 200);
         } catch (Exception $e) {
@@ -65,16 +65,34 @@ class CosmeticController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $validate_data = $request->validate([
+                'name' => 'required|string',
+                'status' => 'required|integer'
+            ]);
+
+            $cosmetic = Cosmetic::findOrFail($id);
+            $cosmetic->update($validate_data);
+
+            return response()->json(['message' => 'Uspješno ažurirani podaci!'], 200);
+        } catch (\Exception $e) {
+            // Return an error response if something goes wrong
+            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo.', 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cosmetic $cosmetic)
     {
-        //
+        try {
+            $cosmetic->delete();
+            return redirect('/cosmetics')->with('success', 'Uspješno ste obrisali podatke');
+        } catch (\Exception $e) {
+            return redirect('/cosmetics')->with('error', 'Desila se greška! Pokušajte ponovo' . $e->getMessage());
+        }
     }
 }

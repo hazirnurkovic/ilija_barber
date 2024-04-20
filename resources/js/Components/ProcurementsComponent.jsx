@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
 
@@ -5,6 +6,7 @@ import DatePicker from 'react-datepicker';
 const ProcurementsComponent = ({auth}) => {
     const [procurements, setProcurements] = useState([]);
     const [date, setDate] = useState(new Date());
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData(date);
@@ -14,6 +16,14 @@ const ProcurementsComponent = ({auth}) => {
         setDate(selectedDate);
         fetchData(selectedDate);
     };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    }
 
     const fetchData = async (date) => {
         try {
@@ -40,6 +50,7 @@ const ProcurementsComponent = ({auth}) => {
 
     return (
         <>
+            <button onClick={openModal} className="bg-green-500 w-full hover:bg-green-700 text-white font-bold py-2 px-4 mb-3 rounded-10">Dodaj</button>
             <div className="lg:w-1/2 mb-2">
                 <DatePicker selected={date} onChange={handleChangeDate} />
             </div>
@@ -54,6 +65,9 @@ const ProcurementsComponent = ({auth}) => {
                         </th>
                         <th scope="col"
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Nabavna cijena
+                        </th>
+                        <th scope="col"
+                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj / Obriši
                         </th>
                     </tr>
                 </thead>
@@ -70,6 +84,28 @@ const ProcurementsComponent = ({auth}) => {
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
                                         {procurement.purchase_price}
+                                    </td>
+                                    <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
+                                        <Link
+                                            className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
+                                            as='button'
+                                            href=""
+                                        >
+                                            Ažuriraj
+                                        </Link>
+                                        
+                                        <Link className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
+                                            as='button'
+                                            method='delete'
+                                            href=""
+                                            onClick={(e) => {
+                                                if (!window.confirm("Da li ste sigurni da zelite da obrišete barbera?")) {
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                        >
+                                            Obriši
+                                        </Link>
                                     </td>
                                 </tr>
                             );

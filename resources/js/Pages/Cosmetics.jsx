@@ -9,7 +9,6 @@ import ArticlesComponent from '@/Components/ArticlesComponent';
 import ProcurementsComponent from '@/Components/ProcurementsComponent';
 const CosmeticsPage = ({ auth, cosmetics }) => {
     const [activeLink, setActiveLink] = useState('artikli');
-    console.log(cosmetics);
     return (
         <Authenticated
             user={auth.user}
@@ -65,10 +64,10 @@ const CosmeticsPage = ({ auth, cosmetics }) => {
 
                     <div className="hidden sm:block">
                         <div>
-                            <button onClick={() => setActiveLink('artikli')} className={`inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'artikli' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'artikli' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Artikli </button>
-                            <button onClick={() => setActiveLink('nabavka')} className={`inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'nabavka' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'nabavka' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Nabavka </button>
-                            <button onClick={() => setActiveLink('magacin')} className={`inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'magacin' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'magacin' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Magacin </button>
-                            <button onClick={() => setActiveLink('prodaja')} className={`inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'prodaja' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'prodaja' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Prodaja </button>
+                            <button onClick={() => setActiveLink('artikli')} className={`cosmetics_button inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'artikli' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'artikli' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Artikli </button>
+                            <button onClick={() => setActiveLink('nabavka')} className={`cosmetics_button inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'nabavka' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'nabavka' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Nabavka </button>
+                            <button onClick={() => setActiveLink('magacin')} className={`cosmetics_button inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'magacin' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'magacin' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Magacin </button>
+                            <button onClick={() => setActiveLink('prodaja')} className={`cosmetics_button inline-flex items-center ml-2 px-2 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${activeLink === 'prodaja' && 'active' && 'border-indigo-400 text-gray-900 border-indigo-700'} ${activeLink !== 'prodaja' && activeLink !== 'active' && 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 focus:border-gray-300'}`}> Prodaja </button>
                         </div>
                     </div>
 
@@ -81,7 +80,7 @@ const CosmeticsPage = ({ auth, cosmetics }) => {
                 <div className="overflow-x-auto w-full  mx-auto md:w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
                     <div className="min-w-full inline-block align-middle">
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
-                            {activeLink === 'artikli' && <ArticlesComponent cosmetics={cosmetics}/>}
+                            {activeLink === 'artikli' && <ArticlesComponent cosmetics={cosmetics} auth={auth}/>}
                             {activeLink === 'nabavka' && <ProcurementsComponent auth={auth}/>}
                             {/*
                             {activeLink === 'magacin' && <ArticlesComponent cosmetics={cosmetics}/>}
