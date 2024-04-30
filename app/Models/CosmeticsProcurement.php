@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ComseticsProcurement extends Model
+class CosmeticsProcurement extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,7 @@ class ComseticsProcurement extends Model
         'cosmetics_id',
         'quantity',
         'purchase_price',
+        'total',
         'date'
     ];
 

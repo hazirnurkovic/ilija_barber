@@ -4,15 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateComseticsProcurementRequest extends FormRequest
+class StoreCosmeticsProcurementRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -22,7 +15,10 @@ class UpdateComseticsProcurementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'cosmetics_id'      => 'required|integer',
+            'quantity'          => 'required|integer',
+            'purchase_price'    => 'required|numeric',
+            'date'              => 'required|date'
         ];
     }
 }

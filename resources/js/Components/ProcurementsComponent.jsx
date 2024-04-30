@@ -79,6 +79,9 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Nabavna cijena
                         </th>
                         <th scope="col"
+                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ukupno
+                        </th>
+                        <th scope="col"
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj / Obriši
                         </th>
                     </tr>
@@ -97,17 +100,17 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
                                         {procurement.purchase_price}
                                     </td>
+                                    <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
+                                        {procurement.total}
+                                    </td>
                                     <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
                                         <button className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
                                             onClick={() => openModal(procurement)}
                                         >
                                             Ažuriraj
                                         </button>
-                                        
-                                        <Link className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
-                                            as='button'
-                                            method='delete'
-                                            href={route('cosmetics_procurements.destroy', {cosmetics_procurement: procurement.id})}
+                                        <button 
+                                            className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
                                             onClick={(e) => {
                                                 if (!window.confirm("Da li ste sigurni da zelite da obrišete nabavku?")) {
                                                     e.preventDefault();
@@ -115,7 +118,8 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                                             }}
                                         >
                                             Obriši
-                                        </Link>
+                                        </button>
+                                        
                                     </td>
                                 </tr>
                             );

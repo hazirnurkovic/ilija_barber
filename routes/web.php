@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\ComseticsProcurementController;
+use App\Http\Controllers\CosmeticsProcurementController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -72,8 +72,8 @@ Route::middleware(['is_admin'])->group(function () {
     Route::resource('expenses', ExpenseController::class);
     Route::post('getExpenses', [ExpenseController::class, 'getExpenses']);
 
-    Route::resource('cosmetics_procurements', ComseticsProcurementController::class);
-    Route::post('getProcurements', [ComseticsProcurementController::class, 'getProcurements']);
+    Route::resource('cosmetics_procurements', CosmeticsProcurementController::class);
+    Route::post('getProcurements', [CosmeticsProcurementController::class, 'getProcurements']);
 });
 
 require __DIR__ . '/auth.php';

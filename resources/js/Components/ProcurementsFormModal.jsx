@@ -7,7 +7,7 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date }) =
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const method = rowData ? 'PUT' : 'POST'; 
 
-    // Set initial form values based on rowData
+    
     useEffect(() => {
         if (rowData) {
             setValue('cosmetics_id', rowData.cosmetics_id);
@@ -23,6 +23,8 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date }) =
             return;
         }
         data.date = date;
+        data.purchase_price = Number(data.purchase_price);
+        data.quantity = Number(data.quantity);
         try {
             let url = '/cosmetics_procurements';
             if (method === 'PUT') {
