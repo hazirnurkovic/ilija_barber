@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Head } from '@inertiajs/react';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DatePickerStyles.css';
@@ -9,6 +9,7 @@ import ArticlesComponent from '@/Components/ArticlesComponent';
 import ProcurementsComponent from '@/Components/ProcurementsComponent';
 const CosmeticsPage = ({ auth, cosmetics }) => {
     const [activeLink, setActiveLink] = useState('artikli');
+    
     return (
         <Authenticated
             user={auth.user}
@@ -81,7 +82,7 @@ const CosmeticsPage = ({ auth, cosmetics }) => {
                     <div className="min-w-full inline-block align-middle">
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                             {activeLink === 'artikli' && <ArticlesComponent cosmetics={cosmetics} auth={auth}/>}
-                            {activeLink === 'nabavka' && <ProcurementsComponent auth={auth}/>}
+                            {activeLink === 'nabavka' && <ProcurementsComponent auth={auth} cosmetics={cosmetics}/>}
                             {/*
                             {activeLink === 'magacin' && <ArticlesComponent cosmetics={cosmetics}/>}
                             {activeLink === 'prodaja' && <ArticlesComponent cosmetics={cosmetics}/>} */}

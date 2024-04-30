@@ -1,12 +1,14 @@
 import { Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
+import ProcurementsFormModal from "./ProcurementsFormModal";
 
 
-const ProcurementsComponent = ({auth}) => {
+const ProcurementsComponent = ({auth, cosmetics}) => {
     const [procurements, setProcurements] = useState([]);
     const [date, setDate] = useState(new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [rowData, setRowData] = useState(null);
 
     useEffect(() => {
         fetchData(date);
@@ -17,7 +19,8 @@ const ProcurementsComponent = ({auth}) => {
         fetchData(selectedDate);
     };
 
-    const openModal = () => {
+    const openModal = (data) => {
+        setRowData(data);
         setIsModalOpen(true);
     }
 
@@ -50,7 +53,16 @@ const ProcurementsComponent = ({auth}) => {
 
     return (
         <>
-            <button onClick={openModal} className="bg-green-500 w-full hover:bg-green-700 text-white font-bold py-2 px-4 mb-3 rounded-10">Dodaj</button>
+            <button onClick={()=>openModal(null)} className="bg-green-500 w-full hover:bg-green-700 text-white font-bold py-2 px-4 mb-3 rounded-10">Dodaj</button>
+            {isModalOpen && 
+                <ProcurementsFormModal
+                    auth={auth}
+                    closeModal={closeModal}
+                    rowData={rowData}
+                    cosmetics={cosmetics}
+                    date={date}
+                />
+            }
             <div className="lg:w-1/2 mb-2">
                 <DatePicker selected={date} onChange={handleChangeDate} />
             </div>
@@ -77,7 +89,7 @@ const ProcurementsComponent = ({auth}) => {
                             return (
                                 <tr key={procurement.id}>
                                     <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
-                                        {procurement.name}
+                                        {procurement.cosmetics.name}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
                                         {procurement.quantity}
@@ -86,20 +98,18 @@ const ProcurementsComponent = ({auth}) => {
                                         {procurement.purchase_price}
                                     </td>
                                     <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
-                                        <Link
-                                            className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
-                                            as='button'
-                                            href=""
+                                        <button className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
+                                            onClick={() => openModal(procurement)}
                                         >
                                             Ažuriraj
-                                        </Link>
+                                        </button>
                                         
                                         <Link className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
                                             as='button'
                                             method='delete'
-                                            href=""
+                                            href={route('cosmetics_procurements.destroy', {cosmetics_procurement: procurement.id})}
                                             onClick={(e) => {
-                                                if (!window.confirm("Da li ste sigurni da zelite da obrišete barbera?")) {
+                                                if (!window.confirm("Da li ste sigurni da zelite da obrišete nabavku?")) {
                                                     e.preventDefault();
                                                 }
                                             }}

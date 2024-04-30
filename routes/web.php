@@ -72,6 +72,7 @@ Route::middleware(['is_admin'])->group(function () {
     Route::resource('expenses', ExpenseController::class);
     Route::post('getExpenses', [ExpenseController::class, 'getExpenses']);
 
+    Route::resource('cosmetics_procurements', ComseticsProcurementController::class);
     Route::post('getProcurements', [ComseticsProcurementController::class, 'getProcurements']);
 });
 
