@@ -25,6 +25,7 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date }) =
         data.date = date;
         data.purchase_price = Number(data.purchase_price);
         data.quantity = Number(data.quantity);
+        data.cosmetics_id = Number(data.cosmetics_id);
         try {
             let url = '/cosmetics_procurements';
             if (method === 'PUT') {

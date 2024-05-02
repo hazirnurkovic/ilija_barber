@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Http\Controllers\ReportController;
 use App\Models\Appointment;
 use App\Models\Finance;
-use Exception;
 use Illuminate\Http\Request;
 
 class FinanceObserver

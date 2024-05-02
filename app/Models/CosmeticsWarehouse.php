@@ -14,6 +14,9 @@ class CosmeticsWarehouse extends Model
         'quantity',
         'purchase_price',
         'sell_price',
+        'cosmetics_id',
+        'cosmetics_procurements_id',
+        'total',
         'date'
     ];
 }

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
-import ProcurementsFormModal from "./ProcurementsFormModal";
+//import WarehouseFormModal from "./WarehouseFormModal";
 
 
-const ProcurementsComponent = ({auth, cosmetics}) => {
-    const [procurements, setProcurements] = useState([]);
+const WarehouseComponent = ({auth, cosmetics}) => {
+    const [warehouses, setWarehouses] = useState([]);
     const [date, setDate] = useState(new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [rowData, setRowData] = useState(null);
@@ -30,7 +30,7 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
     const fetchData = async (date) => {
         try {
             const formattedDate = date.toISOString().slice(0, 10);
-            const response = await fetch('/getProcurements', {
+            const response = await fetch('/getWarehouses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
             }
 
             const data = await response.json();
-            setProcurements(data.procurements);
+            setWarehouses(data.warehosues);
 
         } catch (error) {
             throw new Error('Došlo je do greške, pokušajte ponovo!' + error)
@@ -54,13 +54,13 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
         <>
             <button onClick={()=>openModal(null)} className="bg-green-500 w-full hover:bg-green-700 text-white font-bold py-2 px-4 mb-3 rounded-10">Dodaj</button>
             {isModalOpen && 
-                <ProcurementsFormModal
-                    auth={auth}
-                    closeModal={closeModal}
-                    rowData={rowData}
-                    cosmetics={cosmetics}
-                    date={date}
-                />
+                // <WarehouseFormModal
+                //     auth={auth}
+                //     closeModal={closeModal}
+                //     rowData={rowData}
+                //     cosmetics={cosmetics}
+                //     date={date}
+                // />
             }
             <div className="lg:w-1/2 mb-2">
                 <DatePicker selected={date} onChange={handleChangeDate} />
@@ -80,45 +80,24 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                         <th scope="col"
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ukupno
                         </th>
-                        <th scope="col"
-                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj / Obriši
-                        </th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {procurements && procurements.length > 0 ? (
-                        procurements.map(procurement => {
+                    {warehouses && warehouses.length > 0 ? (
+                        warehouses.map(warehouse => {
                             return (
-                                <tr key={procurement.id}>
+                                <tr key={warehouse.id}>
                                     <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
-                                        {procurement.cosmetics.name}
+                                        {warehouse.cosmetics.name}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {procurement.quantity}
+                                        {warehouse.quantity}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {procurement.purchase_price}
+                                        {warehouse.purchase_price}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {procurement.total}
-                                    </td>
-                                    <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
-                                        <button className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
-                                            onClick={() => openModal(procurement)}
-                                        >
-                                            Ažuriraj
-                                        </button>
-                                        <button 
-                                            className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
-                                            onClick={(e) => {
-                                                if (!window.confirm("Da li ste sigurni da zelite da obrišete nabavku?")) {
-                                                    e.preventDefault();
-                                                }
-                                            }}
-                                        >
-                                            Obriši
-                                        </button>
-                                        
+                                        {warehouse.total}
                                     </td>
                                 </tr>
                             );
@@ -127,7 +106,7 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                     (
                         <tr>
                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
-                                Nema unijetih nabavki
+                                Nema artikala u magazinu
                             </td>
                         </tr>
                     )}
@@ -137,4 +116,4 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
     );
 }
 
-export default ProcurementsComponent;
+export default WarehouseComponent;

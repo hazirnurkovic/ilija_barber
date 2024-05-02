@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\CosmeticsProcurement;
+use App\Observers\CosmeticsProcurementObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        CosmeticsProcurement::observe(CosmeticsProcurementObserver::class);
     }
 }
