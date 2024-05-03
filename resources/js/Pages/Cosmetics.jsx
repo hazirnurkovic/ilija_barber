@@ -8,6 +8,7 @@ import Dropdown from '@/Components/Dropdown';
 import ArticlesComponent from '@/Components/ArticlesComponent';
 import ProcurementsComponent from '@/Components/ProcurementsComponent';
 import WarehouseComponent from '@/Components/WarehouseComponent';
+import SalesComponent from '@/Components/SalesComponent';
 const CosmeticsPage = ({ auth, cosmetics }) => {
     const [activeLink, setActiveLink] = useState('artikli');
     
@@ -85,8 +86,7 @@ const CosmeticsPage = ({ auth, cosmetics }) => {
                             {activeLink === 'artikli' && <ArticlesComponent cosmetics={cosmetics} auth={auth}/>}
                             {activeLink === 'nabavka' && <ProcurementsComponent auth={auth} cosmetics={cosmetics}/>}
                             {activeLink === 'magacin' && <WarehouseComponent auth={auth} cosmetics={cosmetics}/>}
-                            {/*
-                            {activeLink === 'prodaja' && <ArticlesComponent cosmetics={cosmetics}/>} */}
+                            {activeLink === 'prodaja' && <SalesComponent auth={auth} cosmetics={cosmetics}/>}
                         </div>
                     </div>
                 </div>

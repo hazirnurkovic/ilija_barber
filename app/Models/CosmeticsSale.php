@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CosmeticsSale extends Model
 {
@@ -14,6 +15,17 @@ class CosmeticsSale extends Model
         'quantity',
         'sell_price',
         'date',
-        'cosmetics_id'
+        'cosmetics_id',
+        'total'
     ];
+
+    public function cosmetics(): BelongsTo
+    {
+        return $this->belongsTo(Cosmetic::class);
+    }
+
+    public function cosmetics_warehouse(): BelongsTo
+    {
+        return $this->belongsTo(CosmeticsWarehouse::class);
+    }
 }
