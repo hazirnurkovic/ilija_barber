@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
-const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date }) => {
+const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateProcurements}) => {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const method = rowData ? 'PUT' : 'POST'; 
 
@@ -42,7 +42,6 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date }) =
             });
             
             const result = await response.json();
-            
             if (!response.ok) {
                 Swal.fire({
                     icon: "error",
@@ -55,10 +54,16 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date }) =
                     text: result.message,
                     icon: "success"
                 });
+                if (method === 'PUT') {
+                    updateProcurements(prevProcurements =>
+                        prevProcurements.map(procurement =>
+                            procurement.id === result.procurement.id ? result.procurement : procurement
+                        )
+                    );
+                } else {
+                    updateProcurements(prevProcurements => [...prevProcurements, result.procurement]);
+                }
                 closeModal();
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
             }
         } catch (error) {
             console.error(error);

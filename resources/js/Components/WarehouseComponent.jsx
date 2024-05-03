@@ -6,8 +6,6 @@ import DatePicker from 'react-datepicker';
 const WarehouseComponent = ({auth, cosmetics}) => {
     const [warehouses, setWarehouses] = useState([]);
     const [date, setDate] = useState(new Date());
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [rowData, setRowData] = useState(null);
 
     useEffect(() => {
         fetchData(date);
@@ -18,19 +16,10 @@ const WarehouseComponent = ({auth, cosmetics}) => {
         fetchData(selectedDate);
     };
 
-    const openModal = (data) => {
-        setRowData(data);
-        setIsModalOpen(true);
-    }
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    }
-
     const fetchData = async (date) => {
         try {
             const formattedDate = date.toISOString().slice(0, 10);
-            const response = await fetch('/getWarehouses', {
+            const response = await fetch('/getWarehouseData', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,7 +31,7 @@ const WarehouseComponent = ({auth, cosmetics}) => {
             }
 
             const data = await response.json();
-            setWarehouses(data.warehosues);
+            setWarehouses(data.warehouses);
 
         } catch (error) {
             throw new Error('Došlo je do greške, pokušajte ponovo!' + error)
@@ -52,16 +41,6 @@ const WarehouseComponent = ({auth, cosmetics}) => {
 
     return (
         <>
-            <button onClick={()=>openModal(null)} className="bg-green-500 w-full hover:bg-green-700 text-white font-bold py-2 px-4 mb-3 rounded-10">Dodaj</button>
-            {isModalOpen && 
-                // <WarehouseFormModal
-                //     auth={auth}
-                //     closeModal={closeModal}
-                //     rowData={rowData}
-                //     cosmetics={cosmetics}
-                //     date={date}
-                // />
-            }
             <div className="lg:w-1/2 mb-2">
                 <DatePicker selected={date} onChange={handleChangeDate} />
             </div>
@@ -79,6 +58,9 @@ const WarehouseComponent = ({auth, cosmetics}) => {
                         </th>
                         <th scope="col"
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ukupno
+                        </th>
+                        <th scope="col"
+                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Datum
                         </th>
                     </tr>
                 </thead>
@@ -98,6 +80,9 @@ const WarehouseComponent = ({auth, cosmetics}) => {
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
                                         {warehouse.total}
+                                    </td>
+                                    <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
+                                        {warehouse.date}
                                     </td>
                                 </tr>
                             );

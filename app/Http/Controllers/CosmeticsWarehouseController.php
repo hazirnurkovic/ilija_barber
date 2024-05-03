@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CosmeticsWarehouse;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CosmeticsWarehouseController extends Controller
@@ -61,5 +62,17 @@ class CosmeticsWarehouseController extends Controller
     public function destroy(CosmeticsWarehouse $cosmeticsWarehouse)
     {
         //
+    }
+
+    public function getWarehouseData(Request $request)
+    {
+        $month = Carbon::parse($request->date)->month;
+        $warehouses = CosmeticsWarehouse::with('cosmetics')->whereMonth('date', $month)->get();
+        
+        if (!$warehouses) {
+            return response()->json(['message' => 'Nema podataka za ovaj datum'], 400);
+        }
+
+        return response()->json(['warehouses' => $warehouses], 200);
     }
 }

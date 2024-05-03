@@ -6,6 +6,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CosmeticController;
+use App\Http\Controllers\CosmeticsWarehouseController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +75,8 @@ Route::middleware(['is_admin'])->group(function () {
 
     Route::resource('cosmetics_procurements', CosmeticsProcurementController::class);
     Route::post('getProcurements', [CosmeticsProcurementController::class, 'getProcurements']);
+
+    Route::post('getWarehouseData', [CosmeticsWarehouseController::class, 'getWarehouseData']);
 });
 
 require __DIR__ . '/auth.php';

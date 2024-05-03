@@ -35,11 +35,12 @@ class CosmeticsProcurementController extends Controller
         $validated_request['date'] = Carbon::parse($validated_request['date'])->format('Y-m-d');
         $validated_request['total'] = $validated_request['purchase_price'] * $validated_request['quantity'];
 
-        $procurements = CosmeticsProcurement::create($validated_request);
-        if (!$procurements) {
+        $procurement = CosmeticsProcurement::create($validated_request);
+        if (!$procurement) {
             return response()->json(['message' => 'Desila se greška! Molimo Vas pokušajte ponovo!'], 400);
         }
-        return response()->json(['message' => 'Uspješno ste unijeli nabavku!'], 200);
+        $procurement->load('cosmetics');
+        return response()->json(['message' => 'Uspješno ste unijeli nabavku!', 'procurement' => $procurement], 200);
     }
 
     /**
@@ -73,10 +74,11 @@ class CosmeticsProcurementController extends Controller
             
             $cosmeticsProcurement = CosmeticsProcurement::findOrFail($id);
             $cosmeticsProcurement->update($validated_request);
+            $cosmeticsProcurement->load('cosmetics');
 
-            return response()->json(['message' => 'Uspješno ste ažurirali nabavku']);
+            return response()->json(['message' => 'Uspješno ste ažurirali nabavku', 'procurement' => $cosmeticsProcurement], 200);
         } catch(\Exception $e) {
-            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!'. $e->getMessage()]);
+            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!'. $e->getMessage()],400);
         }
 
     }
@@ -84,13 +86,14 @@ class CosmeticsProcurementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CosmeticsProcurement $cosmetics_procurement)
+    public function destroy($procurement_id)
     {
         try {
+            $cosmetics_procurement = CosmeticsProcurement::findOrFail($procurement_id);
             $cosmetics_procurement->delete();
-            return redirect('/cosmetics')->with('success', 'Uspješno ste obrisali nabavku');
+            return response()->json(['message' => 'Uspješno ste obrisali nabavku']);
         } catch (\Exception $e) {
-            return redirect('/cosmetics')->with('error', 'Desila se greška! Pokušajte ponovo' . $e->getMessage());
+            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!'. $e->getMessage()]);
         }
     }
 
@@ -98,10 +101,11 @@ class CosmeticsProcurementController extends Controller
     {
         $date = $request->date;
         $procurements = CosmeticsProcurement::with('cosmetics')->where('date', $date)->get();
+        
         if (!$procurements) {
             return response()->json(['message' => 'Nema podataka za ovaj datum'], 400);
-        } else {
-            return response()->json(['procurements' => $procurements], 200);
         }
+        
+        return response()->json(['procurements' => $procurements], 200);
     }
 }

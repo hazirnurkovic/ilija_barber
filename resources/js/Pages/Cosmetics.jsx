@@ -7,6 +7,7 @@ import '../../css/Cosmetics.css';
 import Dropdown from '@/Components/Dropdown';
 import ArticlesComponent from '@/Components/ArticlesComponent';
 import ProcurementsComponent from '@/Components/ProcurementsComponent';
+import WarehouseComponent from '@/Components/WarehouseComponent';
 const CosmeticsPage = ({ auth, cosmetics }) => {
     const [activeLink, setActiveLink] = useState('artikli');
     
@@ -83,8 +84,8 @@ const CosmeticsPage = ({ auth, cosmetics }) => {
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                             {activeLink === 'artikli' && <ArticlesComponent cosmetics={cosmetics} auth={auth}/>}
                             {activeLink === 'nabavka' && <ProcurementsComponent auth={auth} cosmetics={cosmetics}/>}
+                            {activeLink === 'magacin' && <WarehouseComponent auth={auth} cosmetics={cosmetics}/>}
                             {/*
-                            {activeLink === 'magacin' && <ArticlesComponent cosmetics={cosmetics}/>}
                             {activeLink === 'prodaja' && <ArticlesComponent cosmetics={cosmetics}/>} */}
                         </div>
                     </div>

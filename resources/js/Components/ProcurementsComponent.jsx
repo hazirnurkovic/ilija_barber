@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
 import ProcurementsFormModal from "./ProcurementsFormModal";
+import Swal from "sweetalert2";
 
 
 const ProcurementsComponent = ({auth, cosmetics}) => {
@@ -49,6 +50,34 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
         }
     };
 
+    const deleteProcurement = async (procurementId) => {
+        try {
+            const response = await fetch(`/cosmetics_procurements/${procurementId}`, {
+                method: 'DELETE',
+            });
+            const responseData = await response.json(); 
+
+            if (!response.ok) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Greška: ${responseData.message}`,
+                });
+            } else {
+                Swal.fire({
+                    title: "Uspješno!",
+                    text: responseData.message,
+                    icon: "success"
+                });
+
+                // Remove the deleted procurement from state
+                setProcurements(prevProcurements => prevProcurements.filter(procurement => procurement.id !== procurementId));
+            }
+        } catch (error) {
+            console.error('Greška prilikom brisanja nabavke:', error);
+        }
+    };
+
 
     return (
         <>
@@ -60,6 +89,7 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                     rowData={rowData}
                     cosmetics={cosmetics}
                     date={date}
+                    updateProcurements={setProcurements}
                 />
             }
             <div className="lg:w-1/2 mb-2">
@@ -110,9 +140,9 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                                         </button>
                                         <button 
                                             className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
-                                            onClick={(e) => {
-                                                if (!window.confirm("Da li ste sigurni da zelite da obrišete nabavku?")) {
-                                                    e.preventDefault();
+                                            onClick={() => {
+                                                if (window.confirm("Da li ste sigurni da želite da obrišete nabavku?")) {
+                                                    deleteProcurement(procurement.id);
                                                 }
                                             }}
                                         >
