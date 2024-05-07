@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
-const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateProcurements}) => {
+const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSales}) => {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const method = rowData ? 'PUT' : 'POST'; 
 
@@ -15,7 +15,7 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateProc
         if (rowData) {
             setValue('cosmetics_id', rowData.cosmetics_id);
             setValue('quantity', rowData.quantity);
-            setValue('sell_price', rowData.purchase_price);
+            setValue('sell_price', rowData.sell_price);
             setValue('date', rowData.date);
         }
     }, [rowData, setValue]);
@@ -46,11 +46,11 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateProc
             return;
         }
         data.date = date;
-        data.purchase_price = Number(data.purchase_price);
+        data.sell_price = Number(data.sell_price);
         data.quantity = Number(data.quantity);
         data.cosmetics_id = Number(data.cosmetics_id);
         try {
-            let url = '/cosmetics_procurements';
+            let url = '/cosmetics_sales';
             if (method === 'PUT') {
                 url += `/${rowData.id}`;
             }
@@ -78,13 +78,13 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateProc
                     icon: "success"
                 });
                 if (method === 'PUT') {
-                    updateProcurements(prevProcurements =>
-                        prevProcurements.map(procurement =>
-                            procurement.id === result.procurement.id ? result.procurement : procurement
+                    updateSales(prevSales =>
+                        prevSales.map(sale =>
+                            sale.id === result.sale.id ? result.sale : sale
                         )
                     );
                 } else {
-                    updateProcurements(prevProcurements => [...prevProcurements, result.procurement]);
+                    updateSales(prevSales => [...prevSales, result.sales]);
                 }
                 closeModal();
             }
@@ -117,10 +117,10 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateProc
 
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Nabavna cijena
+                            Prodajna cijena
                         </label>
-                        <input {...register('purchase_price', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-                        {errors.purchase_price && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
+                        <input {...register('sell_price', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                        {errors.sell_price && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
                     </div>
 
                     <div className="mb-4">
