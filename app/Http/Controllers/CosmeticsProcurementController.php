@@ -99,8 +99,8 @@ class CosmeticsProcurementController extends Controller
 
     public function getProcurements(Request $request)
     {
-        $date = $request->date;
-        $procurements = CosmeticsProcurement::with('cosmetics')->where('date', $date)->get();
+        $month = Carbon::parse($request->date)->month;
+        $procurements = CosmeticsProcurement::with('cosmetics')->whereMonth('date', $month)->get();
         
         if (!$procurements) {
             return response()->json(['message' => 'Nema podataka za ovaj datum'], 400);

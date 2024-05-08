@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CosmeticsSale;
+use App\Models\CosmeticsWarehouse;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 
 class CosmeticsSaleController extends Controller
@@ -29,7 +31,34 @@ class CosmeticsSaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request['date'] = Carbon::parse($request->date)->format('Y-m-d');
+            $warehouse = CosmeticsWarehouse::where('id', $request->cosmetics_warehouse_id)->first();
+            if (!$warehouse) {
+                return response()->json(['message' => 'Nema podataka u magacinu!'], 400);
+            }
+            $request['cosmetics_id'] = $warehouse->cosmetics_id;
+            $total = $request->sell_price * $request->quantity;
+            if($warehouse->quantity < $request->quantity) {
+                return response()->json(['message' => 'Nema dovoljno na stanju. Na raspolaganju imate '.$warehouse->quantity], 400);
+            }
+            $sale= CosmeticsSale::create([
+                'cosmetics_warehouse_id' => $request->cosmetics_warehouse_id,
+                'quantity' => $request->quantity,
+                'sell_price' => $request->sell_price,
+                'date' => $request->date,
+                'cosmetics_id' => $request->cosmetics_id,
+                'total' => $total
+            ]);
+
+            if (!$sale) {
+                return response()->json(['message' => 'Desila se greška! Molimo Vas pokušajte ponovo!'], 400);
+            }
+            $sale->load('cosmetics');
+            return response()->json(['message' => 'Uspješno ste unijeli nabavku!', 'sale' => $sale], 200);
+        } catch(Exception $e) {
+            return response()->json(['message' => 'Greška!'.$e->getMessage()], 400);
+        }
     }
 
     /**

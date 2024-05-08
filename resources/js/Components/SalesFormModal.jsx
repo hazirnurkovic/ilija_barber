@@ -1,19 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
 const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSales}) => {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+    const [warehouses, setWarehouses] = useState([]);
     const method = rowData ? 'PUT' : 'POST'; 
 
     useEffect(() => {
         fetchData();
-    })
+    },[])
     
     useEffect(() => {
         if (rowData) {
-            setValue('cosmetics_id', rowData.cosmetics_id);
+            setValue('warehouse_id', rowData.warehouse_id);
             setValue('quantity', rowData.quantity);
             setValue('sell_price', rowData.sell_price);
             setValue('date', rowData.date);
@@ -33,8 +34,7 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSale
             }
 
             const data = await response.json();
-            console.log(data);
-
+            setWarehouses(data.warehouses);
         } catch (error) {
             throw new Error('Došlo je do greške, pokušajte ponovo!' + error)
         }
@@ -48,7 +48,7 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSale
         data.date = date;
         data.sell_price = Number(data.sell_price);
         data.quantity = Number(data.quantity);
-        data.cosmetics_id = Number(data.cosmetics_id);
+        data.cosmetics_warehouse_id = Number(data.cosmetics_warehouse_id);
         try {
             let url = '/cosmetics_sales';
             if (method === 'PUT') {
@@ -107,12 +107,12 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSale
                         <label className="block text-gray-700 text-sm font-bold mb-2">
                             Atikal
                         </label>
-                        <select {...register('cosmetics_id', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            {cosmetics.map(cosmetic => (
-                                <option key={cosmetic.id} value={cosmetic.id}>{cosmetic.name}</option>
+                        <select {...register('cosmetics_warehouse_id', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            {warehouses.map(warehouse => (
+                                <option key={warehouse.id} value={warehouse.id}>{warehouse.cosmetics.name + " - " + warehouse.date + ' - ' + warehouse.quantity}</option>
                             ))}
                         </select>
-                        {errors.cosmetics_id && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
+                        {errors.cosmetics_warehouse_id && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
                     </div>
 
                     <div className="mb-4">

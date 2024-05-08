@@ -81,6 +81,7 @@ class CosmeticsWarehouseController extends Controller
     {
         $warehouses = CosmeticsWarehouse::with('cosmetics')
             ->where('quantity', '>', 0)
+            ->orderBy('cosmetics_id')
             ->get();
 
         if($warehouses->isEmpty()) {
