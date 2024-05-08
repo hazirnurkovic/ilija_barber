@@ -67,20 +67,19 @@ class CosmeticsProcurementController extends Controller
         try {
             $validated_request = $request->validated();
             $validated_request['total'] = $validated_request['purchase_price'] * $validated_request['quantity'];
-            
+
             if ($validated_request['date']) {
                 unset($validated_request['date']);
             }
-            
+
             $cosmeticsProcurement = CosmeticsProcurement::findOrFail($id);
             $cosmeticsProcurement->update($validated_request);
             $cosmeticsProcurement->load('cosmetics');
 
             return response()->json(['message' => 'Uspješno ste ažurirali nabavku', 'procurement' => $cosmeticsProcurement], 200);
-        } catch(\Exception $e) {
-            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!'. $e->getMessage()],400);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!' . $e->getMessage()], 400);
         }
-
     }
 
     /**
@@ -91,9 +90,9 @@ class CosmeticsProcurementController extends Controller
         try {
             $cosmetics_procurement = CosmeticsProcurement::findOrFail($procurement_id);
             $cosmetics_procurement->delete();
-            return response()->json(['message' => 'Uspješno ste obrisali nabavku']);
+            return response()->json(['message' => 'Uspješno ste obrisali nabavku'], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!'. $e->getMessage()]);
+            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!' . $e->getMessage()]);
         }
     }
 
@@ -101,11 +100,11 @@ class CosmeticsProcurementController extends Controller
     {
         $month = Carbon::parse($request->date)->month;
         $procurements = CosmeticsProcurement::with('cosmetics')->whereMonth('date', $month)->get();
-        
+
         if (!$procurements) {
-            return response()->json(['message' => 'Nema podataka za ovaj datum'], 400);
+            return response()->json(['message' => 'Nema podataka za ovaj datum', 'procurements' => $procurements], 200);
         }
-        
+
         return response()->json(['procurements' => $procurements], 200);
     }
 }

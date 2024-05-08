@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
 import SalesFormModal from "./SalesFormModal";
+import Swal from "sweetalert2";
 //import WarehouseFormModal from "./WarehouseFormModal";
 
 
-const SalesComponent = ({auth, cosmetics}) => {
+const SalesComponent = ({auth}) => {
     const [sales, setSales] = useState([]);
     const [date, setDate] = useState(new Date());
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,7 +13,7 @@ const SalesComponent = ({auth, cosmetics}) => {
 
     useEffect(() => {
         fetchData(date);
-    }, []);
+    }, [date]);
 
     const handleChangeDate = (selectedDate) => {
         setDate(selectedDate);
@@ -50,6 +51,33 @@ const SalesComponent = ({auth, cosmetics}) => {
         }
     };
 
+    const deleteSale = async (saleId) => {
+        try {
+            const response = await fetch(`/cosmetics_sales/${saleId}`, {
+                method: 'DELETE',
+            });
+            const responseData = await response.json(); 
+
+            if (!response.ok) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Greška: ${responseData.message}`,
+                });
+            } else {
+                Swal.fire({
+                    title: "Uspješno!",
+                    text: responseData.message,
+                    icon: "success"
+                });
+
+                setSales(prevSales => prevSales.filter(sale => sale.id !== saleId));
+            }
+        } catch (error) {
+            console.error('Greška prilikom brisanja nabavke:', error);
+        }
+    };
+
 
     return (
         <>
@@ -59,7 +87,6 @@ const SalesComponent = ({auth, cosmetics}) => {
                     auth={auth}
                     closeModal={closeModal}
                     rowData={rowData}
-                    cosmetics={cosmetics}
                     date={date}
                     updateSales={setSales}
                 />
@@ -85,27 +112,48 @@ const SalesComponent = ({auth, cosmetics}) => {
                         <th scope="col"
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Datum
                         </th>
+                        <th scope="col"
+                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj/Obriši 
+                        </th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {sales && sales.length > 0 ? (
-                        sales.map(sales => {
+                        sales.map(sale => {
                             return (
-                                <tr key={sales.id}>
+                                <tr key={sale.id}>
                                     <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
-                                        {sales.cosmetics.name}
+                                        {sale.cosmetics.name}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sales.quantity}
+                                        {sale.quantity}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sales.purchase_price}
+                                        {sale.sell_price}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sales.total}
+                                        {sale.total}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sales.date}
+                                        {sale.date}
+                                    </td>
+                                    <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
+                                        <button className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
+                                            onClick={() => openModal(sale)}
+                                        >
+                                            Ažuriraj
+                                        </button>
+                                        <button 
+                                            className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
+                                            onClick={() => {
+                                                if (window.confirm("Da li ste sigurni da želite da obrišete nabavku?")) {
+                                                    deleteSale(sale.id);
+                                                }
+                                            }}
+                                        >
+                                            Obriši
+                                        </button>
+                                        
                                     </td>
                                 </tr>
                             );

@@ -14,7 +14,13 @@ class CosmeticsWarehouseController extends Controller
      */
     public function index()
     {
-        //
+        $warehouses = CosmeticsWarehouse::with('cosmetics')->get();
+
+        if ($warehouses->isEmpty()) {
+            return response()->json(['message' => 'Nema artikala u magacinu'], 200);
+        }
+
+        return response()->json(['warehouses' => $warehouses], 200);
     }
 
     /**
@@ -65,18 +71,6 @@ class CosmeticsWarehouseController extends Controller
         //
     }
 
-    public function getWarehouseData(Request $request)
-    {
-        $month = Carbon::parse($request->date)->month;
-        $warehouses = CosmeticsWarehouse::with('cosmetics')->whereMonth('date', $month)->get();
-        
-        if ($warehouses->isEmpty()) {
-            return response()->json(['message' => 'Nema podataka za ovaj datum'], 200);
-        }
-
-        return response()->json(['warehouses' => $warehouses], 200);
-    }
-
     public function getWarehouseDataForSales()
     {
         $warehouses = CosmeticsWarehouse::with('cosmetics')
@@ -84,7 +78,7 @@ class CosmeticsWarehouseController extends Controller
             ->orderBy('cosmetics_id')
             ->get();
 
-        if($warehouses->isEmpty()) {
+        if ($warehouses->isEmpty()) {
             return response()->json(['message' => 'Nema podataka u magacinu'], 200);
         }
 

@@ -37,12 +37,15 @@ class CosmeticsSaleController extends Controller
             if (!$warehouse) {
                 return response()->json(['message' => 'Nema podataka u magacinu!'], 400);
             }
+
+            if ($warehouse->quantity < $request->quantity) {
+                return response()->json(['message' => 'Nema dovoljno na stanju. Na raspolaganju imate ' . $warehouse->quantity], 400);
+            }
+
             $request['cosmetics_id'] = $warehouse->cosmetics_id;
             $total = $request->sell_price * $request->quantity;
-            if($warehouse->quantity < $request->quantity) {
-                return response()->json(['message' => 'Nema dovoljno na stanju. Na raspolaganju imate '.$warehouse->quantity], 400);
-            }
-            $sale= CosmeticsSale::create([
+
+            $sale = CosmeticsSale::create([
                 'cosmetics_warehouse_id' => $request->cosmetics_warehouse_id,
                 'quantity' => $request->quantity,
                 'sell_price' => $request->sell_price,
@@ -56,41 +59,59 @@ class CosmeticsSaleController extends Controller
             }
             $sale->load('cosmetics');
             return response()->json(['message' => 'Uspješno ste unijeli nabavku!', 'sale' => $sale], 200);
-        } catch(Exception $e) {
-            return response()->json(['message' => 'Greška!'.$e->getMessage()], 400);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Greška!' . $e->getMessage()], 400);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(CosmeticsSale $cosmeticsSale)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CosmeticsSale $cosmeticsSale)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CosmeticsSale $cosmeticsSale)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $validate_request = $request->validate([
+                'cosmetics_warehouse_id' => 'required|integer',
+                'quantity' => 'required|numeric',
+                'sell_price' => 'required|numeric',
+                'date' => 'required'
+            ]);
+
+            $warehouse = CosmeticsWarehouse::find($validate_request['cosmetics_warehouse_id'])->first();
+            if (!$warehouse) {
+                return response()->json(['message' => 'Nema podataka u magacinu!'], 400);
+            }
+
+            if ($validate_request['quantity'] > $warehouse->quantity) {
+                return response()->json(['message' => 'Nema dovoljno na stanju. Na raspolaganju imate ' . $warehouse->quantity], 400);
+            }
+            $cosmetics_id = $warehouse->cosmetics_id;
+            $validate_request['cosmetics_id'] = $cosmetics_id;
+            $validate_request['total'] = $validate_request['quantity'] * $validate_request['sell_price'];
+            $cosmetic_sale = CosmeticsSale::find($id);
+            if ($cosmetic_sale->isEmpty()) {
+                return response()->json(['message' => 'Nema podataka za ovu prodaju!'], 400);
+            }
+
+            $cosmetic_sale->update($validate_request);
+            return response()->json(['message' => 'Uspješno ste ažurirali prodaju', 'sale' => $cosmetic_sale], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!' . $e->getMessage()], 400);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CosmeticsSale $cosmeticsSale)
+    public function destroy($sale_id)
     {
-        //
+        try {
+            $cosmetics_sales = CosmeticsSale::findOrFail($sale_id);
+            $cosmetics_sales->delete();
+            return response()->json(['message' => 'Uspješno ste obrisali prodaju'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!' . $e->getMessage()]);
+        }
     }
 
     public function getSalesData(Request $request)
@@ -99,7 +120,7 @@ class CosmeticsSaleController extends Controller
         $sales = CosmeticsSale::with('cosmetics')->whereMonth('date', $month)->get();
 
         if ($sales->isEmpty()) {
-            return response()->json(['message' => 'Nema podataka za ovaj datum'], 200);
+            return response()->json(['message' => 'Nema podataka za ovaj datum', 'sales' => $sales], 200);
         }
 
         return response()->json(['sales' => $sales], 200);

@@ -3,18 +3,19 @@ import { useForm } from 'react-hook-form';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
 
-const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSales}) => {
+const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm();
     const [warehouses, setWarehouses] = useState([]);
-    const method = rowData ? 'PUT' : 'POST'; 
+    const method = rowData ? 'PUT' : 'POST';
 
     useEffect(() => {
         fetchData();
     },[])
     
     useEffect(() => {
+        console.log(rowData);
         if (rowData) {
-            setValue('warehouse_id', rowData.warehouse_id);
+            setValue('cosmetics_warehouse_id', rowData.cosmetics_warehouse_id);
             setValue('quantity', rowData.quantity);
             setValue('sell_price', rowData.sell_price);
             setValue('date', rowData.date);
@@ -84,7 +85,7 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSale
                         )
                     );
                 } else {
-                    updateSales(prevSales => [...prevSales, result.sales]);
+                    updateSales(prevSales => [...prevSales, result.sale]);
                 }
                 closeModal();
             }
@@ -107,8 +108,12 @@ const SalesFormModal = ({ closeModal, auth, rowData, cosmetics, date, updateSale
                         <label className="block text-gray-700 text-sm font-bold mb-2">
                             Atikal
                         </label>
-                        <select {...register('cosmetics_warehouse_id', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            {warehouses.map(warehouse => (
+                        <select 
+                            {...register('cosmetics_warehouse_id', { required: true })} 
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        >
+                            <option value="">Odaberi...</option>
+                            {warehouses?.map(warehouse => (
                                 <option key={warehouse.id} value={warehouse.id}>{warehouse.cosmetics.name + " - " + warehouse.date + ' - ' + warehouse.quantity}</option>
                             ))}
                         </select>

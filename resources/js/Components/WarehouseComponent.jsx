@@ -3,28 +3,20 @@ import DatePicker from 'react-datepicker';
 //import WarehouseFormModal from "./WarehouseFormModal";
 
 
-const WarehouseComponent = ({auth, cosmetics}) => {
+const WarehouseComponent = () => {
     const [warehouses, setWarehouses] = useState([]);
-    const [date, setDate] = useState(new Date());
 
     useEffect(() => {
-        fetchData(date);
+        fetchData();
     }, []);
-
-    const handleChangeDate = (selectedDate) => {
-        setDate(selectedDate);
-        fetchData(selectedDate);
-    };
 
     const fetchData = async (date) => {
         try {
-            const formattedDate = date.toISOString().slice(0, 10);
-            const response = await fetch('/getWarehouseData', {
-                method: 'POST',
+            const response = await fetch('/warehouse', {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ date: formattedDate }),
             });
             if (!response.ok) {
                 throw new Error('Došlo je do greške, pokušajte ponovo!')
@@ -41,9 +33,6 @@ const WarehouseComponent = ({auth, cosmetics}) => {
 
     return (
         <>
-            <div className="lg:w-1/2 mb-2">
-                <DatePicker selected={date} onChange={handleChangeDate} />
-            </div>
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-blue-500 text-white">
                     <tr>

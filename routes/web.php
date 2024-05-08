@@ -77,7 +77,7 @@ Route::middleware(['is_admin'])->group(function () {
     Route::resource('cosmetics_procurements', CosmeticsProcurementController::class);
     Route::post('getProcurements', [CosmeticsProcurementController::class, 'getProcurements']);
 
-    Route::post('getWarehouseData', [CosmeticsWarehouseController::class, 'getWarehouseData']);
+    Route::resource('warehouse', CosmeticsWarehouseController::class);
     Route::get('getWarehouseDataForSales', [CosmeticsWarehouseController::class, 'getWarehouseDataForSales']);
 
     Route::resource('cosmetics_sales', CosmeticsSaleController::class);
