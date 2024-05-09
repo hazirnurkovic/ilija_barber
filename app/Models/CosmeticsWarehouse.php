@@ -14,10 +14,8 @@ class CosmeticsWarehouse extends Model
         'name',
         'quantity',
         'purchase_price',
-        'sell_price',
         'cosmetics_id',
         'cosmetics_procurements_id',
-        'total',
         'date'
     ];
 

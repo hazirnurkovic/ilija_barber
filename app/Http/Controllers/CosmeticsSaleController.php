@@ -7,6 +7,7 @@ use App\Models\CosmeticsWarehouse;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CosmeticsSaleController extends Controller
 {
@@ -70,6 +71,15 @@ class CosmeticsSaleController extends Controller
     public function update(Request $request, $id)
     {
         try {
+
+            //starting transaction
+            DB::beginTransaction();
+
+            $cosmetic_sale = CosmeticsSale::find($id);
+            if (!$cosmetic_sale) {
+                return response()->json(['message' => 'Nema podataka za ovu prodaju!'], 400);
+            }
+
             $validate_request = $request->validate([
                 'cosmetics_warehouse_id' => 'required|integer',
                 'quantity' => 'required|numeric',
@@ -77,25 +87,36 @@ class CosmeticsSaleController extends Controller
                 'date' => 'required'
             ]);
 
-            $warehouse = CosmeticsWarehouse::find($validate_request['cosmetics_warehouse_id'])->first();
+            $validate_request['date'] = Carbon::parse($request->date)->format('Y-m-d');
+            $warehouse = CosmeticsWarehouse::where('id', $validate_request['cosmetics_warehouse_id'])->first();
+            
             if (!$warehouse) {
                 return response()->json(['message' => 'Nema podataka u magacinu!'], 400);
             }
 
-            if ($validate_request['quantity'] > $warehouse->quantity) {
-                return response()->json(['message' => 'Nema dovoljno na stanju. Na raspolaganju imate ' . $warehouse->quantity], 400);
-            }
-            $cosmetics_id = $warehouse->cosmetics_id;
-            $validate_request['cosmetics_id'] = $cosmetics_id;
+            $validate_request['cosmetics_id'] = $warehouse->cosmetics_id;
             $validate_request['total'] = $validate_request['quantity'] * $validate_request['sell_price'];
-            $cosmetic_sale = CosmeticsSale::find($id);
-            if ($cosmetic_sale->isEmpty()) {
-                return response()->json(['message' => 'Nema podataka za ovu prodaju!'], 400);
+
+            if ($validate_request['quantity'] > $warehouse->quantity + $cosmetic_sale->quantity) {
+                return response()->json(['message' => 'Nema dovoljno na stanju.'], 400);
             }
 
+            $warehouse_new_quantity = ($warehouse->quantity + $cosmetic_sale->quantity) - $validate_request['quantity'];
+
             $cosmetic_sale->update($validate_request);
-            return response()->json(['message' => 'Uspješno ste ažurirali prodaju', 'sale' => $cosmetic_sale], 200);
+            $cosmetic_sale->load('cosmetics');
+
+            $warehouse->update([
+                'quantity' => $warehouse_new_quantity
+            ]);
+
+            //commiting transaction
+            DB::commit();
+
+            return response()->json(['message' => 'Uspješno ste ažurirali prodaju', 'sale' => $cosmetic_sale], 200);       
         } catch (Exception $e) {
+            //rolback transaction
+            DB::rollBack();
             return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!' . $e->getMessage()], 400);
         }
     }
@@ -108,8 +129,8 @@ class CosmeticsSaleController extends Controller
         try {
             $cosmetics_sales = CosmeticsSale::findOrFail($sale_id);
             $cosmetics_sales->delete();
-            return response()->json(['message' => 'Uspješno ste obrisali prodaju'], 200);
-        } catch (\Exception $e) {
+            return response()->json(['message' => 'Uspješno ste obrisali prodaju', 'sale' => []], 200);
+        } catch (Exception $e) {
             return response()->json(['message' => 'Desila se greška! Pokušajte ponovo!' . $e->getMessage()]);
         }
     }

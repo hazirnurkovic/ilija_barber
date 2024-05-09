@@ -100,4 +100,26 @@ class ExpenseController extends Controller
 
         return response()->json(['expenses' => $expenses]);
     }
+
+    public static function createFromObserver(Request $request)
+    {
+        $validated_request = $request->validate([
+            'cosmetics_procurements_id' => 'required|integer',
+            'total'                    => 'required|numeric',
+            'date'                     => 'required',
+        ]);
+
+        $expense = Expense::where('name', 'nabavka')->where('date', $validated_request['date'])->first();
+        if (!$expense) {   
+            Expense::create([
+                'name'                      => 'Nabavka',
+                'price'                     => $validated_request['total'],
+                'date'                      => $validated_request['date'],
+                'cosmetics_procurements_id'  => $validated_request['cosmetics_procurements_id']
+            ]);
+        } else {
+            $expense->price += $validated_request['total'];
+            $expense->update();
+        }
+    }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->float('price');
             $table->date('date');
+            $table->foreignId('cosmetics_procurements_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

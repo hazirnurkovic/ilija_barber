@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,11 @@ class CosmeticsSale extends Model
         'cosmetics_id',
         'total'
     ];
+
+    protected function getDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d.m.Y');
+    }
 
     public function cosmetics(): BelongsTo
     {

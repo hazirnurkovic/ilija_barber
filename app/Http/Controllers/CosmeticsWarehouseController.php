@@ -74,7 +74,6 @@ class CosmeticsWarehouseController extends Controller
     public function getWarehouseDataForSales()
     {
         $warehouses = CosmeticsWarehouse::with('cosmetics')
-            ->where('quantity', '>', 0)
             ->orderBy('cosmetics_id')
             ->get();
 

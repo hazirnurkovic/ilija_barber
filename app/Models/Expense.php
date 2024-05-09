@@ -12,6 +12,7 @@ class Expense extends Model
     protected $fillable = [
         'name',
         'price',
-        'date'
+        'date',
+        'cosmetics_procurement_id'
     ];
 }

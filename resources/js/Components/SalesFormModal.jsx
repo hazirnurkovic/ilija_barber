@@ -13,7 +13,6 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
     },[])
     
     useEffect(() => {
-        console.log(rowData);
         if (rowData) {
             setValue('cosmetics_warehouse_id', rowData.cosmetics_warehouse_id);
             setValue('quantity', rowData.quantity);
@@ -114,7 +113,13 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
                         >
                             <option value="">Odaberi...</option>
                             {warehouses?.map(warehouse => (
-                                <option key={warehouse.id} value={warehouse.id}>{warehouse.cosmetics.name + " - " + warehouse.date + ' - ' + warehouse.quantity}</option>
+                                <option 
+                                    key={warehouse.id} 
+                                    value={warehouse.id}
+                                    selected={warehouse.id === rowData?.cosmetics_warehouse_id ? true : false}
+                                >
+                                    {warehouse.cosmetics.name + " - " + warehouse.date + ' - ' + warehouse.quantity}
+                                </option>
                             ))}
                         </select>
                         {errors.cosmetics_warehouse_id && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}

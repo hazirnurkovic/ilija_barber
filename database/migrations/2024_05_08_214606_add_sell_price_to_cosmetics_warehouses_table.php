@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cosmetics_warehouses', function (Blueprint $table) {
-            $table->float('total');
+            $table->float('sell_price')->nullable();
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cosmetics_warehouses', function (Blueprint $table) {
-            $table->dropColumn('total');
+            $table->dropColumn('sell_price');
         });
     }
 };

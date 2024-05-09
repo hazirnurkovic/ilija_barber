@@ -46,9 +46,6 @@ const WarehouseComponent = () => {
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Nabavna cijena
                         </th>
                         <th scope="col"
-                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ukupno
-                        </th>
-                        <th scope="col"
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Datum
                         </th>
                     </tr>
@@ -66,9 +63,6 @@ const WarehouseComponent = () => {
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
                                         {warehouse.purchase_price}
-                                    </td>
-                                    <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {warehouse.total}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
                                         {warehouse.date}

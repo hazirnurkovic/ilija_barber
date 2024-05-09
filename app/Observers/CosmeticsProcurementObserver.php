@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Http\Controllers\ExpenseController;
 use App\Models\CosmeticsProcurement;
 use App\Models\CosmeticsWarehouse;
 use App\Services\CosmeticsWarehouseService;
@@ -21,10 +22,11 @@ class CosmeticsProcurementObserver
             'quantity'                  => $cosmeticsProcurement->quantity,
             'purchase_price'            => $cosmeticsProcurement->purchase_price,
             'total'                     => $cosmeticsProcurement->total,
-            'date'                      => $cosmeticsProcurement->date
+            'date'                      => $cosmeticsProcurement->date,
         ]);
 
-        CosmeticsWarehouseService::createFromObserver($request);
+        CosmeticsWarehouseService::createFromProcurementObserver($request);
+        ExpenseController::createFromObserver($request);
     }
 
     /**
@@ -41,7 +43,7 @@ class CosmeticsProcurementObserver
             'total'                     => $cosmeticsProcurement->total,
         ]);
 
-        CosmeticsWarehouseService::updateFromObserver($request);
+        CosmeticsWarehouseService::updateFromProcurementObserver($request);
     }
 
     /**
