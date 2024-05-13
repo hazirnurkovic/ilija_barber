@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\CosmeticsWarehouse;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -12,12 +13,13 @@ class CosmeticsWarehouseService
 {
     public static function createFromProcurementObserver(Request $request)
     {
+        $date = Carbon::parse($request->date)->format('Y.m.d');
         $warehouse = CosmeticsWarehouse::create([
             'cosmetics_procurements_id' => $request->cosmetics_procurements_id,
             'cosmetics_id'              => $request->cosmetics_id,
             'quantity'                  => $request->quantity,
             'purchase_price'            => $request->purchase_price,
-            'date'                      => $request->date
+            'date'                      => $date
         ]);
         $warehouse->save();
     }
@@ -38,11 +40,10 @@ class CosmeticsWarehouseService
         $warehouse = CosmeticsWarehouse::where('id', $request['id'])->first();
         $warehouse->quantity = $warehouse->quantity - $request['quantity'];
         $warehouse->sell_price = $request['sell_price'];
-        $warehouse->update();
+        $warehouse->save();
     }
 
     public static function updateFromSaleUpdate(Request $request)
     {
-
     }
 }

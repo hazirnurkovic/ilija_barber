@@ -74,7 +74,7 @@ const SalesComponent = ({auth}) => {
                 setSales(prevSales => prevSales.filter(sale => sale.id !== saleId));
             }
         } catch (error) {
-            console.error('Greška prilikom brisanja nabavke:', error);
+            console.error('Greška prilikom brisanja prodaje:', error);
         }
     };
 
@@ -146,7 +146,7 @@ const SalesComponent = ({auth}) => {
                                         <button 
                                             className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
                                             onClick={() => {
-                                                if (window.confirm("Da li ste sigurni da želite da obrišete nabavku?")) {
+                                                if (window.confirm("Da li ste sigurni da želite da obrišete prodaju?")) {
                                                     deleteSale(sale.id);
                                                 }
                                             }}

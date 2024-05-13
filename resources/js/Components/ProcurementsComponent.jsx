@@ -111,6 +111,9 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ukupno
                         </th>
                         <th scope="col"
+                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Datum
+                        </th>
+                        <th scope="col"
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj / Obriši
                         </th>
                     </tr>
@@ -131,6 +134,9 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
                                         {procurement.total}
+                                    </td>
+                                    <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
+                                        {procurement.date}
                                     </td>
                                     <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
                                         <button className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"

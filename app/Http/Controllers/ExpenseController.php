@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CosmeticsProcurement;
 use App\Models\Expense;
 use Carbon\Carbon;
 use Exception;
@@ -108,18 +109,28 @@ class ExpenseController extends Controller
             'total'                    => 'required|numeric',
             'date'                     => 'required',
         ]);
+        $date = Carbon::parse($validated_request['date'])->format('Y.m.d');
 
-        $expense = Expense::where('name', 'nabavka')->where('date', $validated_request['date'])->first();
-        if (!$expense) {   
+        $expense = Expense::where('name', 'Nabavka kozmetike')->where('date', $date)->first();
+        if (!$expense) {
             Expense::create([
-                'name'                      => 'Nabavka',
+                'name'                      => 'Nabavka kozmetike',
                 'price'                     => $validated_request['total'],
-                'date'                      => $validated_request['date'],
+                'date'                      => $date,
                 'cosmetics_procurements_id'  => $validated_request['cosmetics_procurements_id']
             ]);
         } else {
             $expense->price += $validated_request['total'];
             $expense->update();
         }
+    }
+
+    public static function updateFromObserver(Request $request)
+    {
+        $date = Carbon::parse($request->date_expenses)->format('Y.m.d');
+        $procurements_sum = CosmeticsProcurement::where('date', $date)->sum('total');
+        $expense = Expense::where('date', $date)->where('name', 'Nabavka kozmetike')->first();
+        $expense->price = $procurements_sum;
+        $expense->save();
     }
 }

@@ -59,7 +59,7 @@ class CosmeticsSaleController extends Controller
                 return response()->json(['message' => 'Desila se greška! Molimo Vas pokušajte ponovo!'], 400);
             }
             $sale->load('cosmetics');
-            return response()->json(['message' => 'Uspješno ste unijeli nabavku!', 'sale' => $sale], 200);
+            return response()->json(['message' => 'Uspješno ste unijeli prodaju!', 'sale' => $sale], 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Greška!' . $e->getMessage()], 400);
         }
@@ -89,7 +89,7 @@ class CosmeticsSaleController extends Controller
 
             $validate_request['date'] = Carbon::parse($request->date)->format('Y-m-d');
             $warehouse = CosmeticsWarehouse::where('id', $validate_request['cosmetics_warehouse_id'])->first();
-            
+
             if (!$warehouse) {
                 return response()->json(['message' => 'Nema podataka u magacinu!'], 400);
             }
@@ -113,7 +113,7 @@ class CosmeticsSaleController extends Controller
             //commiting transaction
             DB::commit();
 
-            return response()->json(['message' => 'Uspješno ste ažurirali prodaju', 'sale' => $cosmetic_sale], 200);       
+            return response()->json(['message' => 'Uspješno ste ažurirali prodaju', 'sale' => $cosmetic_sale], 200);
         } catch (Exception $e) {
             //rolback transaction
             DB::rollBack();

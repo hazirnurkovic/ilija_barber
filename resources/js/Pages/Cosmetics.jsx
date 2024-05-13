@@ -80,7 +80,7 @@ const CosmeticsPage = ({ auth, cosmetics }) => {
         >
             <Head title={`Kozmetika - ${activeLink.toUpperCase()}`} />
             <div className="flex flex-col m-2">
-            <div className={`overflow-x-auto w-full mx-auto md:w-full lg:w-${activeLink === 'prodaja' ? 'full' : '1/2'}`}>
+            <div className={`overflow-x-auto w-full mx-auto md:w-full lg:w-${(activeLink === 'prodaja' || activeLink === 'nabavka') ? 'full' : '1/2'}`}>
                     <div className="min-w-full inline-block align-middle">
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                             {activeLink === 'artikli' && <ArticlesComponent cosmetics={cosmetics} auth={auth}/>}

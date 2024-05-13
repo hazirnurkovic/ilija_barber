@@ -5,7 +5,9 @@ namespace App\Observers;
 use App\Http\Controllers\ExpenseController;
 use App\Models\CosmeticsProcurement;
 use App\Models\CosmeticsWarehouse;
+use App\Models\Expense;
 use App\Services\CosmeticsWarehouseService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CosmeticsProcurementObserver
@@ -41,9 +43,11 @@ class CosmeticsProcurementObserver
             'quantity'                  => $cosmeticsProcurement->quantity,
             'purchase_price'            => $cosmeticsProcurement->purchase_price,
             'total'                     => $cosmeticsProcurement->total,
+            'date_expense'              => $cosmeticsProcurement->date
         ]);
 
         CosmeticsWarehouseService::updateFromProcurementObserver($request);
+        ExpenseController::updateFromObserver($request);
     }
 
     /**
@@ -51,7 +55,12 @@ class CosmeticsProcurementObserver
      */
     public function deleted(CosmeticsProcurement $cosmeticsProcurement): void
     {
+        $request = new Request();
+        $request->merge([
+            'date_expense' => $cosmeticsProcurement->date
+        ]);
         CosmeticsWarehouse::where('cosmetics_procurements_id', $cosmeticsProcurement->id)->delete();
+        ExpenseController::updateFromObserver($request);
     }
 
     /**

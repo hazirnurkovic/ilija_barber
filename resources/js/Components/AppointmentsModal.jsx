@@ -240,15 +240,15 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                     />
                 </label> 
                 <div className="flex flex-col items-center sm:flex-row sm:justify-between">
-                    { ( isConcluded && !auth.user?.is_admin ) ? null : <button onClick={handleSave} className="mb-2 sm:mb-0 appointments_button"> {isEdit ? "Ažuriraj" : "Kreiraj"} </button> }
+                    { ( isConcluded ) ? null : <button onClick={handleSave} className="mb-2 sm:mb-0 appointments_button"> {isEdit ? "Ažuriraj" : "Kreiraj"} </button> }
                     <div className="sm:mb-0">
 
-                        { auth.user?.is_admin && isEdit ? 
-                            ( <button onClick={handleConcludeAppointment} className="appointments_button bg-green-700">Zaključi</button> ) : null
+                        { auth.user?.is_admin && isEdit && !isConcluded ? 
+                            ( <button onClick={handleConcludeAppointment} className="appointments_button !bg-green-500">Zaključi</button> ) : null
                         }
                         
                         { !isEdit || (isConcluded && !auth.user?.is_admin) ?
-                            ( null ) : <button onClick={handleDeleteAppointment} className="appointments_button sm:ml-8 bg-red-700">Obriši</button>
+                            ( null ) : <button onClick={handleDeleteAppointment} className="appointments_button sm:ml-8 !bg-red-700">Obriši</button>
                         }
 
                     </div>

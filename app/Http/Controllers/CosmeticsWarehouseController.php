@@ -14,7 +14,9 @@ class CosmeticsWarehouseController extends Controller
      */
     public function index()
     {
-        $warehouses = CosmeticsWarehouse::with('cosmetics')->get();
+        $warehouses = CosmeticsWarehouse::with('cosmetics')
+            ->where('quantity', '>', 0)
+            ->get();
 
         if ($warehouses->isEmpty()) {
             return response()->json(['message' => 'Nema artikala u magacinu'], 200);
@@ -74,6 +76,7 @@ class CosmeticsWarehouseController extends Controller
     public function getWarehouseDataForSales()
     {
         $warehouses = CosmeticsWarehouse::with('cosmetics')
+            ->where('quantity', '>', 0)
             ->orderBy('cosmetics_id')
             ->get();
 
