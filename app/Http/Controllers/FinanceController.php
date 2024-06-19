@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarberDetails;
+use App\Models\Expense;
 use App\Models\Finance;
+use App\Services\BarberService;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +17,7 @@ class FinanceController extends Controller
      * Display a listing of the resource.
      */
 
-    public function __construct(private ReportService $reportService)
+    public function __construct(private BarberService $barberService)
     {
     }
     public function index()
@@ -37,19 +40,27 @@ class FinanceController extends Controller
     {
 
         $data = $request->all();
-        $barbers_total_and_cosmetics = $this->reportService->getDailyReportData($request);
-        $barbers_total = $barbers_total_and_cosmetics['appointments'] ?? 0;
-        $cosmetics_total = $barbers_total_and_cosmetics['cosmetics_price'] ?? 0;
-        $sum = $cosmetics_total;
-        foreach ($barbers_total as $total) {
-            $sum += $total['barber_total'];
-        }
+        $appointments_total = $this->barberService->calculateAppointmentsTotal($request);
+        $cosmetics_total = $this->barberService->calculateCosmeticsTotal($request);
+
+        $barberEarnings = $this->barberService->calculateBarbersEarnings($request);
+        $barberShopFinances = $this->barberService->calculateBarberShopEarnings($appointments_total, $barberEarnings);
+
+        $expense_amount = Expense::where('date', $request->date)->sum('price');
+
+        $cash = $barberShopFinances['total_earnings_for_barber_shop'] - $data['amount'] + $cosmetics_total;
+        $total = $barberShopFinances['total_earnings_for_barber_shop'] + $cosmetics_total;
+        $envelope = $cash - $expense_amount;
+
         try {
             $insert = Finance::create([
+
                 'date' => $data['date'],
-                'cash_amount' => $sum - $data['amount'],
+                'cash_amount' => $cash,
                 'register_amount' => $data['amount'],
-                'total' => $sum
+                'total' => $total,
+                'expense_amount' => $expense_amount,
+                'envelope' => $envelope
             ]);
 
             $insert->save();

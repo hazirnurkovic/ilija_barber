@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Filters\CosmeticFilter;
 use App\Models\Cosmetic;
+use App\Models\CosmeticsSale;
 use Illuminate\Http\Request;
 
 /**
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
  */
 class CosmeticService
 {
-    public function __construct(private Cosmetic $cosmetic, private CosmeticFilter $cosmeticFilter)
+    public function __construct(private CosmeticsSale $cosmetic, private CosmeticFilter $cosmeticFilter)
     {
     }
 

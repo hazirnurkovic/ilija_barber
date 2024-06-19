@@ -15,5 +15,7 @@ class Finance extends Model
         'cash_amount',
         'register_amount',
         'total',
+        'expense_amount',
+        'envelope'
     ];
 }

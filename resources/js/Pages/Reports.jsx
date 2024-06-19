@@ -41,9 +41,9 @@ const ReportsPage = ({ users, auth }) => {
             }
 
             const data = await response.json();
-            setReports(data.appointments);
-            setCosmetics(data.cosmetics_price);
-            console.log(data)
+            setReports(data.earnings.barber_shop_earnings);
+            setCosmetics(data.cosmetics);
+
         } catch (error) {
             console.log(error);
         }
@@ -97,6 +97,8 @@ const ReportsPage = ({ users, auth }) => {
                                         </th>
                                         <th scope='col'
                                             className="lg:px-6 py-3 text-center text-xs font-bold uppercase">Obračun zarada
+                                        </th> <th scope='col'
+                                            className="lg:px-6 py-3 text-center text-xs font-bold uppercase">Ukupno nakon zarada
                                         </th>
                                     </tr>
                                     </thead>
@@ -110,14 +112,17 @@ const ReportsPage = ({ users, auth }) => {
                                                         {item.user.first_name}
                                                     </td>
                                                     <td className="lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
-                                                        {item.price}
+                                                        {item.total}
                                                     </td>
                                                     <td className="lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
                                                         {item.barber_total}
                                                     </td>
+                                                    <td className="lg:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 text-center">
+                                                        {item.barber_shop_earning}
+                                                    </td>
                                                 </tr>
                                             ))}
-                                            {auth.user?.is_admin ? 
+                                            {auth.user?.is_admin ?
                                                 (
                                                     <>
                                                         <tr className="bg-gray-200">
@@ -130,6 +135,9 @@ const ReportsPage = ({ users, auth }) => {
                                                             <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
 
                                                             </td>
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-800 text-center">
+
+                                                            </td>
                                                         </tr>
 
                                                         <tr className="bg-gray-300">
@@ -137,10 +145,13 @@ const ReportsPage = ({ users, auth }) => {
                                                                 Ukupno
                                                             </td>
                                                             <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
-                                                                {reports.reduce((total, item) => total + Number(item.price), 0) + Number(cosmetics)}
+                                                                {reports.reduce((total, item) => total + Number(item.total), 0) + Number(cosmetics)}
                                                             </td>
                                                             <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
                                                                 {reports.reduce((total, item) => total + Number(item.barber_total), 0)}
+                                                            </td>
+                                                            <td className="lg:px-6 py-4 whitespace-nowrap text-xl font-bold text-red-700 text-center">
+                                                                {reports.reduce((total, item) => total + Number(item.barber_shop_earning), 0) + Number(cosmetics)}
                                                             </td>
                                                         </tr>
                                                     </>

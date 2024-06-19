@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DailyReportMail;
+use App\Services\BarberService;
 use App\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -12,7 +13,7 @@ use Inertia\Inertia;
 
 class ReportController extends Controller
 {
-    public function __construct(private ReportService $reportService)
+    public function __construct(private ReportService $reportService, private BarberService $barberService)
     {
     }
 
@@ -26,7 +27,18 @@ class ReportController extends Controller
         if (!auth()->user()->is_admin) {
             $request->merge(['user_id' => auth()->user()->id]);
         }
-        return $this->reportService->getData($request);
+
+        $appointments_total = $this->barberService->calculateAppointmentsTotal($request);
+        $cosmetics_total = $this->barberService->calculateCosmeticsTotal($request);
+
+        $barberEarnings = $this->barberService->calculateBarbersEarnings($request);
+        $barberShopFinances = $this->barberService->calculateBarberShopEarnings($appointments_total, $barberEarnings);
+
+        return [
+             'cosmetics' => $cosmetics_total,
+             'earnings' => $barberShopFinances,
+        ];
+
     }
 
     public static function sendDailyReportEmail(Request $request)

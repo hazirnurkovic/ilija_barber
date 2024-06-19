@@ -82,13 +82,17 @@ const CosmeticsPage = ({users, auth}) => {
                                         className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 text-center py-3  text-xs font-bold uppercase">Datum
                                     </th>
                                     <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Keš
-                                    </th>
-                                    <th scope="col"
+                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Ukupan iznos pazara sa kozmetikom
+                                    </th>  <th scope="col"
                                         className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Kucano
                                     </th>
                                     <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Ukupno
+                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Keš
+                                    </th>
+                                    <th scope="col"
+                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Rashodi
+                                    </th> <th scope="col"
+                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Koverta
                                     </th>
 
                                 </tr>
@@ -101,13 +105,17 @@ const CosmeticsPage = ({users, auth}) => {
                                                 {format(new Date(item.date), 'd.M.yyyy')}
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
-                                                {item.cash_amount}
-                                            </td>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                                {item.total}
+                                            </td> <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
                                                 {item.register_amount}
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
-                                                {item.total}
+                                                {item.cash_amount}
+                                            </td>
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                                {item.expense_amount}
+                                            </td>  <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                                {item.envelope}
                                             </td>
 
 

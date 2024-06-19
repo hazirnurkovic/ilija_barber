@@ -106,7 +106,6 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
                                                 ${isStatus2 ? 'status-2' : ''}
                                                 ${isStatus3 ? 'status-3' : ''}
                                                 ${isHighlighted ? 'highlighted' : ''}
-                                               {...(isHighlighted ? {title: "Custom message here"} : {})
                                             `}
                                             onClick = {() =>
                                                 {

@@ -25,4 +25,8 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function barberDetails()
+    {
+        return $this->hasMany(BarberDetails::class, 'appointment_id', 'id');
+    }
 }
