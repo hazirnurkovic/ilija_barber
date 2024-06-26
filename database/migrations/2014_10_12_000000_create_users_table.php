@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('username');
+            $table->float('percentage')->default(0);
+            $table->float('bank_amount');
             $table->string('password');
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();

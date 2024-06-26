@@ -27,8 +27,13 @@ class BarberService
         $year = $date->year;
 
         //barber's target amount
-        $target = User::where('id', $user_id)->value('bank_amount');
+        $user = User::where('id', $user_id)->select('bank_amount', 'percentage')->first();
 
+
+        if ($user) {
+            $bankAmount = $user->bank_amount;
+            $percentage = $user->percentage;
+         }
         $query = BarberDetails::where('user_id', $user_id)->where('month', $month)
             ->where('year', $year)->first();
 
@@ -50,12 +55,15 @@ class BarberService
                 $query->update();
 
 
-                if ($query->total >= $target) {
+                if ($query->total >= $bankAmount) {
+
+                    $difference_amount = ($percentage != 0) ? ($query->total - $bankAmount) * $percentage : 0;
+
                     $query->update([
                         'target_achieved_at' => now(),
                         'appointment_id' => $appointment->id,
                         'start_date' => $appointment->start_date,
-                        'difference_amount' => $query->total - $target
+                        'difference_amount' => $difference_amount
                     ]);
                 }
             }
@@ -83,26 +91,26 @@ class BarberService
         } elseif ($request->has('start_date') && $request->has('end_date')) {
             $query->whereBetween('appointments.date', [$request->start_date, $request->end_date]);
         }
-        $query->where(function ($query) use ($barberDetails) {
+         $query->where(function ($query) use ($barberDetails) {
             foreach ($barberDetails as $userId => $details) {
                 $startDate = $details->start_date;
                 $query->orWhere(function ($q) use ($userId, $startDate) {
-                    $q->where('appointments.user_id', $userId)
+                      $q->where('appointments.user_id', $userId)
                         ->where('appointments.start_date', '>', $startDate);
                 });
             }
         });
 
-        // Step 3: Get the results and map difference amount
-        $results = $query->get()->map(function ($appointment) use ($barberDetails, $request) {
+         // Step 3: Get the res  ults and map difference amount
+        //FIXME : diff amount
+         $results = $query->get()->map(function ($appointment) use ($barberDetails, $request) {
 
             $differenceAmount = 0;
             $appointmentDate = $request->input('date');
             $startDate = $request->input('start_date');
-
-             if (isset($barberDetails[$appointment->user_id])) {
+               if (isset($barberDetails[$appointment->user_id])) {
                 $barberDetail = $barberDetails[$appointment->user_id];
-                if (($appointmentDate && $barberDetail->start_date->toDateString() === $appointmentDate) ||
+                 if (($appointmentDate && $barberDetail->start_date->toDateString() === $appointmentDate) ||
                     ($startDate && $barberDetail->start_date->toDateString() === $startDate)) {
                     $differenceAmount = $barberDetail->difference_amount;
                 }
@@ -111,8 +119,40 @@ class BarberService
             $appointment->total_barber_earned += $differenceAmount;
             return $appointment;
         });
+          $resultsArray = $results->toArray();
 
-         return $results->toArray();
+        $allUserIds = array_unique(array_column($resultsArray, 'user_id'));
+
+        // Get user IDs with barber details
+        $userIdsWithBarberDetails = $barberDetails->keys()->toArray();
+        // Create a map of user IDs to their earnings
+        $earningsMap = [];
+        foreach ($resultsArray as $result) {
+            $earningsMap[$result['user_id']] = $result['total_barber_earned'];
+        }
+
+
+        // Add users with 0 total_barber_earned where they don't have barber details
+        foreach ($allUserIds as $userId) {
+            if (!in_array($userId, $userIdsWithBarberDetails)) {
+                $earningsMap[$userId] = 0;
+            }
+        }
+
+
+        //if percentage = 0, barber_total is always 0
+
+
+        // Convert the earnings map back to an array
+        $finalResultsArray = [];
+        foreach ($earningsMap as $userId => $totalBarberEarned) {
+            $finalResultsArray[] = [
+                'user_id' => $userId,
+                'total_barber_earned' => $totalBarberEarned,
+            ];
+        }
+
+        return $finalResultsArray;
     }
 
     public function calculateAppointmentsTotal($request) : array

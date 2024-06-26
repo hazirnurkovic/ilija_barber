@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->float('sell_price');
             $table->date('date');
+            $table->float('total');
             $table->foreignId('cosmetics_id');
             $table->timestamps();
         });

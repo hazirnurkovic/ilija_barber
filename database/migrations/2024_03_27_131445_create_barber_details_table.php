@@ -19,6 +19,8 @@ return new class extends Migration
             $table->float('total');
             $table->timestamp('target_achieved_at')->nullable()->default(null);
             $table->float('difference_amount')->nullable()->default(0);
+            $table->foreignId('appointment_id')->nullable();
+            $table->dateTime('start_date')->nullable();
             $table->timestamps();
         });
     }

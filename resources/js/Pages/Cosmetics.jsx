@@ -11,7 +11,7 @@ import WarehouseComponent from '@/Components/WarehouseComponent';
 import SalesComponent from '@/Components/SalesComponent';
 const CosmeticsPage = ({ auth, cosmetics }) => {
     const [activeLink, setActiveLink] = useState('artikli');
-    
+
     return (
         <Authenticated
             user={auth.user}

@@ -5,24 +5,27 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DatePickerStyles.css';
 import '../../css/Cosmetics.css';
-import { format } from 'date-fns';  // Import the format function
+import { format } from 'date-fns';
 
-
-import CosmeticsFormModal from "@/Components/CosmeticsFormModal.jsx";
-const CosmeticsPage = ({users, auth}) => {
+const CosmeticsPage = ({ users, auth }) => {
     const isAdmin = auth.user.is_admin;
-    const [finances, setFinances] = useState([]); // For storing cosmetics data
+    const [finances, setFinances] = useState([]);
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState(new Date());
     const [formData, setFormData] = useState({ amount: '' });
 
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
     useEffect(() => {
-        fetchData(date);
-    }, []);
+        fetchData(date, currentPage);
+    }, [currentPage]);
 
     const handleChangeDate = (selectedDate) => {
         setDate(selectedDate);
-        fetchData(selectedDate);
+        setCurrentPage(1); // Reset to first page on date change
+        fetchData(selectedDate, 1);
     };
 
     const handleChange = (e) => {
@@ -32,69 +35,59 @@ const CosmeticsPage = ({users, auth}) => {
         });
     };
 
-
-    const fetchData = async (date) => {
+    const fetchData = async (date, page) => {
         try {
-            const formattedDate = date.toISOString().slice(0,10);
+            const formattedDate = date.toISOString().slice(0, 10);
             const response = await fetch('/getFinancesReport', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({date: formattedDate}),
+                body: JSON.stringify({ date: formattedDate, page, limit: 10 }),
             });
+
             if (!response.ok) {
-                throw new Error('An error occured. Try again!')
+                throw new Error('An error occurred. Try again!');
             }
 
             const data = await response.json();
-            setFinances(data);
-
+            setFinances(data.finances);
+            setTotalPages(data.totalPages);
         } catch (error) {
             console.log(error);
         }
     };
 
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
     return (
         <Authenticated
             user={auth.user}
-
             header={
                 <div className="container">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Finansije</h2>
-
                 </div>
             }
-
         >
-            <Head title="Kozmetika"/>
+            <Head title="Kozmetika" />
             <div className="lg:w-1/2 lg:mx-auto m-3">
-                <DatePicker selected={date} onChange={handleChangeDate}/>
+                <DatePicker selected={date} onChange={handleChangeDate} />
             </div>
             <div className="flex flex-col m-2">
-                <div className="overflow-x-auto w-full  mx-auto md:w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
+                <div className="overflow-x-auto w-full mx-auto md:w-full lg:w-1/2 xl:w-1/2 2xl:w-1/2">
                     <div className="min-w-full inline-block align-middle">
                         <div className="border rounded-lg overflow-hidden dark:border-gray-700">
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-blue-500 text-white">
                                 <tr>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 text-center py-3  text-xs font-bold uppercase">Datum
-                                    </th>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Ukupan iznos pazara sa kozmetikom
-                                    </th>  <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Kucano
-                                    </th>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Keš
-                                    </th>
-                                    <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Rashodi
-                                    </th> <th scope="col"
-                                        className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6  py-3 text-center text-xs font-bold uppercase">Koverta
-                                    </th>
-
+                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 text-center py-3 text-xs font-bold uppercase">Datum</th>
+                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Ukupan iznos pazara sa kozmetikom</th>
+                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Kucano</th>
+                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Keš</th>
+                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Rashodi</th>
+                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Koverta</th>
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -106,7 +99,8 @@ const CosmeticsPage = ({users, auth}) => {
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
                                                 {item.total}
-                                            </td> <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                            </td>
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
                                                 {item.register_amount}
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
@@ -114,11 +108,10 @@ const CosmeticsPage = ({users, auth}) => {
                                             </td>
                                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
                                                 {item.expense_amount}
-                                            </td>  <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
+                                            </td>
+                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 ">
                                                 {item.envelope}
                                             </td>
-
-
                                         </tr>
                                     ))
                                 ) : (
@@ -133,9 +126,26 @@ const CosmeticsPage = ({users, auth}) => {
                         </div>
                     </div>
                 </div>
+                {/* Pagination Controls */}
+                <div className="flex justify-center mt-4">
+                    <button
+                        className="px-4 py-2 mx-1 border border-gray-300 rounded-md"
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                         Prethodna
+                    </button>
+                    <span className="px-4 py-2 mx-1">{currentPage} / {totalPages}</span>
+                    <button
+                        className="px-4 py-2 mx-1 border border-gray-300 rounded-md"
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        Sledeća
+                    </button>
+                </div>
             </div>
         </Authenticated>
-
     );
 };
 

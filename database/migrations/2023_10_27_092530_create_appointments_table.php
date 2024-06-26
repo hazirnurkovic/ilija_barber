@@ -18,8 +18,9 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->integer('status');
-            $table->integer('price')->nullable();
+            $table->float('price')->nullable();
             $table->date('date');
+            $table->float('barber_total')->default(0.00);
             $table->timestamps();
         });
     }

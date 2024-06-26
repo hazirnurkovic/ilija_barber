@@ -6,6 +6,7 @@ use App\Models\BarberDetails;
 use App\Models\Expense;
 use App\Models\Finance;
 use App\Services\BarberService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -72,7 +73,26 @@ class FinanceController extends Controller
 
     public function getFinancesReport(Request $request)
     {
-        return Finance::where('date', $request->date)->get();
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 10);
+        $date = Carbon::createFromFormat('Y-m-d', $request->date);
+        $month = $date->month;
+
+         $offset = ($page - 1) * $limit;
+
+         $totalRecords = Finance::whereMonth('date', $month)->count();
+
+         $finances = Finance::whereMonth('date', $month)
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+
+         return response()->json([
+            'finances' => $finances,
+            'totalRecords' => $totalRecords,
+            'currentPage' => $page,
+            'totalPages' => ceil($totalRecords / $limit),
+        ]);
     }
 
     /**

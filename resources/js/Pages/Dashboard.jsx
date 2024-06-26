@@ -20,7 +20,8 @@ export default function Dashboard({ auth }) {
 
     useEffect(() => {
         fetchData(date);
-    }, []);
+    }, [date]);
+
     const openModal = () => {
         setModalOpen(true);
     };
@@ -114,6 +115,8 @@ export default function Dashboard({ auth }) {
                 appointments={appointments}
                 date={formattedDate}
                 auth={auth}
+                fetchData={() => fetchData(date)}
+
             />
         </AuthenticatedLayout>
     );

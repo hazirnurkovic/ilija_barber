@@ -17,6 +17,8 @@ return new class extends Migration
             $table->float('cash_amount');
             $table->float('register_amount');
             $table->float('total');
+            $table->float('expense_amount')->nullable();
+            $table->float('envelope');
             $table->timestamps();
         });
     }

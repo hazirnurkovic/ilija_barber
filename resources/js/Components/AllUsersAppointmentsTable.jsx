@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import '../../css/AllUsersAppointmentsTable.css'; // Import a CSS file for styling
 import AppointmentsModal from "./AppointmentsModal";
 
-const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
+const AllUsersAppointmentsTable = ({ users, appointments= [], date, auth, fetchData }) => {
     const timeSlots = [];
     const startTime = new Date(`${date}T09:00:00`);
     const endTime = new Date(`${date}T19:30:00`);
@@ -83,9 +83,9 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
                                 {users.map(user => {
 
                                     const appointment = appointments.find(
-                                        app => app.user_id === user.id
-                                        && new Date(app.start_date) <= timeSlot
-                                        && new Date(app.end_date) > timeSlot
+                                        app => app?.user_id === user.id
+                                        && new Date(app?.start_date) <= timeSlot
+                                        && new Date(app?.end_date) > timeSlot
                                     );
 
                                     const cellKey = `${user.id}_${formattedTime}`;
@@ -128,7 +128,7 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
                         <td className="!bg-emerald-500 font-bold text-l text-white">Ukupno po barberu: </td>
                         {users.map(user => {
                             const totalUserPrice = appointments
-                                .filter(app => app.user_id === user.id)
+                                .filter(app => app?.user_id === user.id)
                                 .reduce((total, app) => total + app.price, 0);
 
                             totalPrice += totalUserPrice;
@@ -156,7 +156,8 @@ const AllUsersAppointmentsTable = ({ users, appointments, date, auth }) => {
                 start_date: selectedDate,
                 appointment: appointmentId
             }}
-            closeModal={closeModal}
+             closeModal={closeModal}
+            fetchData={fetchData}
            />
         </>
 
