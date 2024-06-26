@@ -85,6 +85,7 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date, upd
                             Atikal
                         </label>
                         <select {...register('cosmetics_id', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option key="" value="">Odaberi artikal</option>
                             {cosmetics.map(cosmetic => (
                                 <option key={cosmetic.id} value={cosmetic.id}>{cosmetic.name}</option>
                             ))}
