@@ -104,8 +104,7 @@ class BarberService
          // Step 3: Get the res  ults and map difference amount
         //FIXME : diff amount
          $results = $query->get()->map(function ($appointment) use ($barberDetails, $request) {
-
-            $differenceAmount = 0;
+             $differenceAmount = 0;
             $appointmentDate = $request->input('date');
             $startDate = $request->input('start_date');
                if (isset($barberDetails[$appointment->user_id])) {
@@ -136,6 +135,12 @@ class BarberService
         foreach ($allUserIds as $userId) {
             if (!in_array($userId, $userIdsWithBarberDetails)) {
                 $earningsMap[$userId] = 0;
+            }
+        }
+
+        foreach ($barberDetails as $userId => $details) {
+            if (!isset($earningsMap[$userId]) || $earningsMap[$userId] == 0) {
+                $earningsMap[$userId] = $details->difference_amount;
             }
         }
 
