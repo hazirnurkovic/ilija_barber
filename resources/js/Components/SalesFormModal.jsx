@@ -45,7 +45,11 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
             console.error('Neautorizovan pristup');
             return;
         }
-        data.date = date;
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        data.date = formattedDate;
         data.sell_price = Number(data.sell_price);
         data.quantity = Number(data.quantity);
         data.cosmetics_warehouse_id = Number(data.cosmetics_warehouse_id);

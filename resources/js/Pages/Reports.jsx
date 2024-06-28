@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../css/DatePickerStyles.css';
 import '../../css/Cosmetics.css';
-import CosmeticsFormModal from "@/Components/CosmeticsFormModal.jsx";
-import {data} from "autoprefixer";
 
-const ReportsPage = ({ users, auth }) => {
+const ReportsPage = ({ auth }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [reports, setReports] = useState([]);
@@ -22,8 +20,15 @@ const ReportsPage = ({ users, auth }) => {
 
     const fetchData = async (startDate, endDate) => {
         try {
-            const formattedStartDate = startDate.toISOString().slice(0, 10);
-            const formattedEndDate = endDate.toISOString().slice(0, 10);
+            const startYear = startDate.getFullYear();
+            const startMonth = (startDate.getMonth() + 1).toString().padStart(2, '0');
+            const startDay = startDate.getDate().toString().padStart(2, '0');
+            const formattedStartDate = `${startYear}-${startMonth}-${startDay}`;
+            
+            const endYear = endDate.getFullYear();
+            const endMonth = (endDate.getMonth() + 1).toString().padStart(2, '0');
+            const endDay = endDate.getDate().toString().padStart(2, '0');
+            const formattedEndDate = `${endYear}-${endMonth}-${endDay}`;
 
             const response = await fetch('/getReportsDataForRangeOfDates', {
                 method: 'POST',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -7,10 +7,9 @@ import '../../css/DatePickerStyles.css';
 import '../../css/Cosmetics.css';
 import { format } from 'date-fns';
 
-const CosmeticsPage = ({ users, auth }) => {
-    const isAdmin = auth.user.is_admin;
+const CosmeticsPage = ({ auth }) => {
+
     const [finances, setFinances] = useState([]);
-    const [amount, setAmount] = useState('');
     const [date, setDate] = useState(new Date());
     const [formData, setFormData] = useState({ amount: '' });
 
@@ -37,7 +36,11 @@ const CosmeticsPage = ({ users, auth }) => {
 
     const fetchData = async (date, page) => {
         try {
-            const formattedDate = date.toISOString().slice(0, 10);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+            
             const response = await fetch('/getFinancesReport', {
                 method: 'POST',
                 headers: {
@@ -71,7 +74,7 @@ const CosmeticsPage = ({ users, auth }) => {
                 </div>
             }
         >
-            <Head title="Kozmetika" />
+            <Head title="Finansije" />
             <div className="lg:w-1/2 lg:mx-auto m-3">
                 <DatePicker selected={date} onChange={handleChangeDate} />
             </div>

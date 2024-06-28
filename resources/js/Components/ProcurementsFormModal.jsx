@@ -22,7 +22,11 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date, upd
             console.error('Neautorizovan pristup');
             return;
         }
-        data.date = date;
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        data.date = formattedDate;
         data.purchase_price = Number(data.purchase_price);
         data.quantity = Number(data.quantity);
         data.cosmetics_id = Number(data.cosmetics_id);

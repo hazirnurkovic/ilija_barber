@@ -14,7 +14,11 @@ const ExpensesFormModal = ({ closeModal, auth }) => {
             return;
         }
         data.price = Number(data.price);
-        data.date = selectedDate;
+        const year = selectedDate.getFullYear();
+        const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = selectedDate.getDate().toString().padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        data.date = formattedDate;
         
         try {
             const response = await fetch('/expenses', {
