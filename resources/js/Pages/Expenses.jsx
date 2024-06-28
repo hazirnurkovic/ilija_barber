@@ -69,7 +69,7 @@ const Expenses = ({initialExpenses, auth}) => {
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const day = date.getDate().toString().padStart(2, '0');
             const formattedDate = `${year}-${month}-${day}`;
-            
+
             const response = await fetch('/getExpenses', {
                 method: 'POST',
                 headers: {

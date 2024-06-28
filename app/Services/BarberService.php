@@ -102,8 +102,8 @@ class BarberService
         });
 
          // Step 3: Get the res  ults and map difference amount
-        //FIXME : diff amount
-         $results = $query->get()->map(function ($appointment) use ($barberDetails, $request) {
+
+          $results = $query->get()->map(function ($appointment) use ($barberDetails, $request) {
              $differenceAmount = 0;
             $appointmentDate = $request->input('date');
             $startDate = $request->input('start_date');

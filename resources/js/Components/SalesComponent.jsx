@@ -35,7 +35,7 @@ const SalesComponent = ({auth}) => {
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const day = date.getDate().toString().padStart(2, '0');
             const formattedDate = `${year}-${month}-${day}`;
-            
+
             const response = await fetch('/getSalesData', {
                 method: 'POST',
                 headers: {
@@ -57,25 +57,39 @@ const SalesComponent = ({auth}) => {
 
     const deleteSale = async (saleId) => {
         try {
-            const response = await fetch(`/cosmetics_sales/${saleId}`, {
-                method: 'DELETE',
-            });
-            const responseData = await response.json(); 
 
-            if (!response.ok) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: `Greška: ${responseData.message}`,
-                });
-            } else {
-                Swal.fire({
-                    title: "Uspješno!",
-                    text: responseData.message,
-                    icon: "success"
-                });
+            const del = Swal.fire({
+                title: 'Da li ste sigurni?',
+                text: "Ova radnja se ne može poništiti!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Da, obriši!',
+                cancelButtonText: 'Otkaži'
+            })
 
-                setSales(prevSales => prevSales.filter(sale => sale.id !== saleId));
+            if((await del).isConfirmed) {
+                const response = await fetch(`/cosmetics_sales/${saleId}`, {
+                    method: 'DELETE',
+                });
+                const responseData = await response.json();
+
+                if (!response.ok) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: `Greška: ${responseData.message}`,
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Uspješno!",
+                        text: responseData.message,
+                        icon: "success"
+                    });
+
+                    setSales(prevSales => prevSales.filter(sale => sale.id !== saleId));
+                }
             }
         } catch (error) {
             console.error('Greška prilikom brisanja prodaje:', error);
@@ -86,7 +100,7 @@ const SalesComponent = ({auth}) => {
     return (
         <>
             <button onClick={()=>openModal(null)} className="bg-green-500 w-full hover:bg-green-700 text-white font-bold py-2 px-4 mb-3 rounded-10">Dodaj</button>
-            {isModalOpen && 
+            {isModalOpen &&
                 <SalesFormModal
                     auth={auth}
                     closeModal={closeModal}
@@ -117,7 +131,7 @@ const SalesComponent = ({auth}) => {
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Datum
                         </th>
                         <th scope="col"
-                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj/Obriši 
+                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj/Obriši
                         </th>
                     </tr>
                 </thead>
@@ -147,22 +161,18 @@ const SalesComponent = ({auth}) => {
                                         >
                                             Ažuriraj
                                         </button>
-                                        <button 
+                                        <button
                                             className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
-                                            onClick={() => {
-                                                if (window.confirm("Da li ste sigurni da želite da obrišete prodaju?")) {
-                                                    deleteSale(sale.id);
-                                                }
-                                            }}
+                                            onClick={() => deleteSale(sale.id)}
                                         >
                                             Obriši
                                         </button>
-                                        
+
                                     </td>
                                 </tr>
                             );
                         })
-                    ) : 
+                    ) :
                     (
                         <tr>
                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">

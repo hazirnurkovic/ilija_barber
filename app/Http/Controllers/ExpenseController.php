@@ -132,5 +132,13 @@ class ExpenseController extends Controller
         $expense = Expense::where('date', $date)->where('name', 'Nabavka kozmetike')->first();
         $expense->price = $procurements_sum;
         $expense->save();
+        return $expense;
+    }
+
+    public static function deleteIfPriceIsNull($expense) {
+
+        if($expense->price == 0) {
+            $expense->delete();
+        }
     }
 }

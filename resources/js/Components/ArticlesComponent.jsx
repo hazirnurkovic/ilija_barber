@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CosmeticsFormModal from "./CosmeticsFormModal";
-import { Link, usePage } from "@inertiajs/react";
+import {  Link, usePage, useForm } from "@inertiajs/react";
 import Swal from "sweetalert2";
 
 
@@ -9,6 +9,8 @@ const ArticlesComponent = ({cosmetics, auth}) => {
     const [rowData, setRowData] = useState(null);
 
     const { success, error } = usePage().props;
+
+    const { delete: destroy } = useForm();
 
     useEffect(() => {
         // Display success message if it exists
@@ -30,11 +32,29 @@ const ArticlesComponent = ({cosmetics, auth}) => {
         }
     }, [success, error]);
 
+    const handleDelete = (e, item) => {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Da li ste sigurni?',
+            text: "Ova radnja se ne može poništiti!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Da, obriši!',
+            cancelButtonText: 'Otkaži'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                destroy(route('cosmetics.destroy', { cosmetic: item.id }));
+            }
+        });
+    }
     const openModal = (data) => {
         console.log(data);
         setRowData(data);
         setIsModalOpen(true);
     }
+
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -43,7 +63,7 @@ const ArticlesComponent = ({cosmetics, auth}) => {
     return (
         <>
             <button onClick={() => openModal(null)} className="bg-green-500 w-full hover:bg-green-700 text-white font-bold py-2 px-4 mb-3 rounded-10">Dodaj</button>
-            {isModalOpen && 
+            {isModalOpen &&
                 <CosmeticsFormModal
                     auth={auth}
                     closeModal={closeModal}
@@ -85,16 +105,12 @@ const ArticlesComponent = ({cosmetics, auth}) => {
                                         >
                                             Ažuriraj
                                         </button>
-                                        
+
                                         <Link className="bg-red-500 mb-2 w-24 hover:bg-red-300 text-white font-bold py-1 px-2 rounded"
                                             as='button'
                                             method='delete'
                                             href={route('cosmetics.destroy', {cosmetic: item.id})}
-                                            onClick={(e) => {
-                                                if (!window.confirm("Da li ste sigurni da zelite da obrišete artikal?")) {
-                                                    e.preventDefault();
-                                                }
-                                            }}
+                                            onClick={(e) => handleDelete(e, item)}
                                         >
                                             Obriši
                                         </Link>
@@ -102,7 +118,7 @@ const ArticlesComponent = ({cosmetics, auth}) => {
                                 </tr>
                             );
                         })
-                    ) : 
+                    ) :
                     (
                         <tr>
                             <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">

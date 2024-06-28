@@ -60,7 +60,8 @@ class CosmeticsProcurementObserver
             'date_expense' => $cosmeticsProcurement->date
         ]);
         CosmeticsWarehouse::where('cosmetics_procurements_id', $cosmeticsProcurement->id)->delete();
-        ExpenseController::updateFromObserver($request);
+        $expense = ExpenseController::updateFromObserver($request);
+        ExpenseController::deleteIfPriceIsNull($expense);
     }
 
     /**
