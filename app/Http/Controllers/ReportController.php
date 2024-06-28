@@ -41,7 +41,7 @@ class ReportController extends Controller
 
     }
 
-    public static function sendDailyReportEmail(Request $request)
+    public function sendDailyReportEmail(Request $request)
     {
         try {
             $data = self::getDailyReportData($request);
@@ -56,7 +56,11 @@ class ReportController extends Controller
 
     public function getDailyReportData(Request $request)
     {
-        $data = $this->reportService->getDailyReportData($request);
+        //$data = $this->reportService->getDailyReportData($request);
+
+        $data = $this->getReportsDataForRangeOfDates($request);
+
+        dd($data);
 
         $pdf = Pdf::loadView('reports.daily_report_pdf', [
             'data' => $data
