@@ -78,6 +78,6 @@ class ReportController extends Controller
         $pdf = PDF::loadView('reports.daily_report_pdf', [
             'data' => $data
         ]);
-        return $pdf->download();
+        return $pdf->output();
     }
 }
