@@ -72,7 +72,7 @@ class BarberService
 
     public function calculateBarbersEarnings($request): array
     {
-
+        // Fetch Barber Details with the start_date
         $barberDetailsQuery = BarberDetails::whereNotNull('appointment_id')
             ->select(['user_id', 'start_date', 'difference_amount']);
 
@@ -83,7 +83,7 @@ class BarberService
                 ->whereDate('start_date', '<=', $request->end_date);
         }
 
-        $barberDetails = $barberDetailsQuery->get()->keyBy('user_id');
+        $barberDetails = $barberDetailsQuery->get()->groupBy('user_id');
 
         $query = Appointment::query()
             ->select('appointments.user_id', DB::raw('SUM(appointments.barber_total) as total_barber_earned'))
@@ -95,47 +95,58 @@ class BarberService
         } elseif ($request->has('start_date') && $request->has('end_date')) {
             $query->whereBetween('appointments.date', [$request->start_date, $request->end_date]);
         }
+
+        // Filter appointments based on start_date from BarberDetails
         $query->where(function ($query) use ($barberDetails) {
             foreach ($barberDetails as $userId => $details) {
-                $startDate = $details->start_date;
-                $query->orWhere(function ($q) use ($userId, $startDate) {
-                    $q->where('appointments.user_id', $userId)
-                        ->where('appointments.start_date', '>', $startDate);
+                $query->orWhere(function ($q) use ($userId, $details) {
+                    foreach ($details as $detail) {
+                        $start_date = Carbon::createFromFormat('Y-m-d H:i:s', $detail->start_date);
+                        $last_day = $start_date->endOfMonth()->format('Y-m-d');
+                        $q->orWhere(function ($q) use ($userId, $detail, $last_day) {
+                            $q->where('appointments.user_id', $userId)
+                                ->where('appointments.start_date', '>', $detail->start_date)
+                                ->whereDate('appointments.start_date','<=', $last_day);
+                            ;
+                        });
+                    }
                 });
             }
         });
 
-        // Step 3: Get the res  ults and map difference amount
-
+        // Step 3: Get the results and map difference amount
         $results = $query->get()->map(function ($appointment) use ($barberDetails, $request) {
             $differenceAmount = 0;
             $appointmentDate = $request->input('date');
             $startDate = $request->input('start_date');
             $endDate = $request->input('end_date');
+
             if (isset($barberDetails[$appointment->user_id])) {
-                $barberDetail = $barberDetails[$appointment->user_id];
-                if (($appointmentDate && $barberDetail->start_date->toDateString() === $appointmentDate) ||
-                    (($startDate && $barberDetail->start_date->toDateString() >= $startDate) && ($endDate && $barberDetail->start_date->toDateString() <= $endDate))
-                ) {
-                    $differenceAmount = $barberDetail->difference_amount;
+                foreach ($barberDetails[$appointment->user_id] as $barberDetail) {
+                    if (($appointmentDate && $barberDetail->start_date->toDateString() === $appointmentDate) ||
+                        (($startDate && $barberDetail->start_date->toDateString() >= $startDate) && ($endDate && $barberDetail->start_date->toDateString() <= $endDate))
+                    ) {
+                        $differenceAmount += $barberDetail->difference_amount;
+                    }
                 }
             }
 
             $appointment->total_barber_earned += $differenceAmount;
             return $appointment;
         });
+
         $resultsArray = $results->toArray();
 
         $allUserIds = array_unique(array_column($resultsArray, 'user_id'));
 
         // Get user IDs with barber details
-        $userIdsWithBarberDetails = $barberDetails->keys()->toArray();
+        $userIdsWithBarberDetails = array_keys($barberDetails->toArray());
+
         // Create a map of user IDs to their earnings
         $earningsMap = [];
         foreach ($resultsArray as $result) {
             $earningsMap[$result['user_id']] = $result['total_barber_earned'];
         }
-
 
         // Add users with 0 total_barber_earned where they don't have barber details
         foreach ($allUserIds as $userId) {
@@ -144,9 +155,11 @@ class BarberService
             }
         }
 
+        // Include barbers with a difference amount but no appointments after their target appointment
         foreach ($barberDetails as $userId => $details) {
+            $totalDifferenceAmount = $details->sum('difference_amount');
             if (!isset($earningsMap[$userId]) || $earningsMap[$userId] == 0) {
-                $earningsMap[$userId] = $details->difference_amount;
+                $earningsMap[$userId] = $totalDifferenceAmount;
             }
         }
 
