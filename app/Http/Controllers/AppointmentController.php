@@ -104,7 +104,11 @@ class AppointmentController extends Controller
     public function getAllAppointmentsForSpecificDate(Request $request)
     {
         $date = $request->date;
-        $users = User::with('barberDetails')->get();
+        $month = Carbon::parse($date)->format('n');
+        $users = User::with(['barberDetails' => function($query) use ($month) {
+            $query->where('month', $month);
+        }])->get();
+
         $appointments = Appointment::where('date', $date)->get();
 
         return response()->json(['users' => $users, 'appointments' => $appointments], 200);
