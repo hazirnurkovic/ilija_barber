@@ -20,7 +20,8 @@ class ReportController extends Controller
         private BarberService $barberService,
         private ExpenseService $expenseService,
         private FinanceService $financeService
-    ) {}
+    ) {
+    }
 
     public function index()
     {
@@ -49,14 +50,13 @@ class ReportController extends Controller
             'earnings' => $barberShopFinances,
             'finances' => $finances
         ];
-
     }
 
     public function sendDailyReportEmail(Request $request)
     {
         try {
             $data =  self::getDailyReportData($request);
-            $date = Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y');            
+            $date = Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y');
             Mail::to('hazir.nurkovic@gmail.com')->send(new DailyReportMail($data, $date));
 
             return redirect()->route('dashboard')->with('success', 'Uspješno poslat izvještaj!');
@@ -78,6 +78,6 @@ class ReportController extends Controller
         $pdf = PDF::loadView('reports.daily_report_pdf', [
             'data' => $data
         ]);
-        return $pdf->output();
+        return $pdf->download();
     }
 }

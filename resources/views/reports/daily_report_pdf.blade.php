@@ -34,6 +34,17 @@
     </style>
 </head>
 <body>
+    <?php 
+        $total_expenses = 0;
+        $total_earnings = 0;
+        $total_barber = 0;
+        $total_shop = 0;
+        $quantity = 0;
+        $purchase_price = 0;
+        $sell_price = 0;
+        $total_sell_price = 0;
+        $total_earning_per_unit = 0;
+    ?>
     <div class="container">
         @if(isset($data['date']))
             <h1>IZVJEŠTAJ ZA {{$data['date']}}</h1>
@@ -49,6 +60,11 @@
                 <th>Zarada za salon</th>
             </tr>
             @foreach ($data['earnings']['barber_shop_earnings'] as $item)
+                <?php 
+                    $total_earnings += $item['total'];
+                    $total_barber += $item['barber_total'];
+                    $total_shop += $item['barber_shop_earning'];
+                ?>
                 <tr>
                     <td>{{ $item['user']['first_name']}} {{ $item['user']['last_name'] }}</td>
                     <td>{{ $item['total' ]}}</td>
@@ -56,6 +72,12 @@
                     <td>{{ $item['barber_shop_earning'] }}</td>
                 </tr>
             @endforeach
+            <tr>
+                <td>UKUPNO:</td>
+                <td>{{$total_earnings}}</td>
+                <td>{{$total_barber}}</td>
+                <td>{{$total_shop}}</td>
+            </tr>
         </table>
 
         <h2>Prodata kozmetika</h2>
@@ -70,6 +92,13 @@
                 <th>Zarada po komadu</th>
             </tr>
             @foreach ($data['cosmetics_sales'] as $sale)
+                <?php 
+                    $quantity += $sale['quantity'];
+                    $purchase_price += $sale['cosmetics_warehouse']['purchase_price'];
+                    $sell_price += $sale['sell_price'];
+                    $total_sell_price += $sale['total'];
+                    $total_earning_per_unit += ($sale['sell_price'] - $sale['cosmetics_warehouse']['purchase_price']);
+                ?>
                 <tr>
                     <td>{{$sale['cosmetics']['name']}}</td>
                     <td>{{$sale['quantity']}}</td>
@@ -79,6 +108,14 @@
                     <td>{{$sale['sell_price'] - $sale['cosmetics_warehouse']['purchase_price']}}</td>
                 </tr>
             @endforeach
+            <tr>
+                <td>UKUPNO:</td>
+                <td>{{$quantity}}</td>
+                <td>{{$purchase_price}}</td>
+                <td>{{$sell_price}}</td>
+                <td>{{$total_sell_price}}</td>
+                <td>{{$total_earning_per_unit}}</td>
+            </tr>
         </table>
 
         <h2>Troškovi</h2>
@@ -88,6 +125,9 @@
                 <th>Cijena</th>
             </tr>
             @foreach ($data['expenses'] as $expense)
+            <?php
+                $total_expenses += $expense['price'];
+            ?>
                 <tr>
                     <td>{{$expense['name']}}</td>
                     <td>{{$expense['price']}}</td>
@@ -95,7 +135,7 @@
             @endforeach
             <tr>
                 <td>Ukupno:</td>
-                <td>{{$data['finances'][0]['expense_amount']}}</td>
+                <td>{{$total_expenses}}</td>
             </tr>
         </table>
 
