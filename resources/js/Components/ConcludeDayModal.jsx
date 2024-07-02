@@ -70,8 +70,17 @@ const ConcludeDayModal = ({ closeModal, auth, date }) => {
                         <label className="block text-gray-700 text-sm font-bold mb-2">
                             Kucano:
                         </label>
-                        <input {...register('amount', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-                        {errors.amount && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
+                        <input {
+                            ...register('amount', { required: "Ovo polje je obavezno",
+                                pattern: {
+                                    value: /^[0-9]*$/,
+                                    message: "Molimo unesite numeričku vrijednost"
+                                }
+                            })
+                        } 
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                         />
+                        {errors.amount && (<p className="text-red-500 text-xs italic">{errors.amount.message}</p>)}
                     </div>
                     <div className="flex items-center justify-between">
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">

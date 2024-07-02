@@ -133,16 +133,34 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
                         <label className="block text-gray-700 text-sm font-bold mb-2">
                             Prodajna cijena
                         </label>
-                        <input {...register('sell_price', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-                        {errors.sell_price && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
+                        <input {
+                            ...register('sell_price', { required: "Ovo polje je obavezno",
+                                pattern: {
+                                    value: /^[0-9]*$/,
+                                    message: "Molimo unesite numeričku vrijednost"
+                                }
+                            })
+                        } 
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                         />
+                        {errors.sell_price && (<p className="text-red-500 text-xs italic">{errors.sell_price.message}</p>)}
                     </div>
 
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
                             Količina
                         </label>
-                        <input {...register('quantity', { required: true })} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
-                        {errors.quantity && <p className="text-red-500 text-xs italic">Ovo polje je obavezno</p>}
+                        <input {
+                            ...register('quantity', { required: "Ovo polje je obavezno",
+                                pattern: {
+                                    value: /^[0-9]*$/,
+                                    message: "Molimo unesite numeričku vrijednost"
+                                }
+                            })
+                        } 
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                         />
+                        {errors.quantity && (<p className="text-red-500 text-xs italic">{errors.quantity.message}</p>)}
                     </div>
 
                     

@@ -134,12 +134,12 @@ class AppointmentController extends Controller
         }
 
         if (empty($request->price)) {
-            return response()->json(['message'=> 'Cijena mora biti unijeta'],404);
+            return response()->json(['message' => 'Cijena mora biti unijeta'], 404);
         }
 
 
         if (empty($request->customer_name)) {
-            return response()->json(['message'=> 'Ime klijenta mora biti popunjeno'],404);
+            return response()->json(['message' => 'Ime klijenta mora biti popunjeno'], 404);
         }
 
         try {
@@ -150,7 +150,7 @@ class AppointmentController extends Controller
                 return response()->json(['message' => "Termin ne postoji!"], 404);
             }
 
-            if($appointment->status === 3) {
+            if ($appointment->status === 3) {
                 return response()->json(['message' => 'Termin je već zaključen'], 500);
             }
 

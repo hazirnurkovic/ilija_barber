@@ -37,6 +37,15 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                 });
                 return;
             }
+            
+            if (formData.price && isNaN(Number(formData.price))) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Molimo unesite validnu cijenu!",
+                });
+                return;
+            }
 
             const response = isEdit
                 ? await fetch(`appointments/${formData.appointment}`, {
@@ -89,6 +98,15 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                 icon: "error",
                 title: "Oops...",
                 text: "Molimo popunite sva polja!",
+            });
+            return;
+        }
+
+        if (formData.price && isNaN(Number(formData.price))) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Molimo unesite validnu cijenu!",
             });
             return;
         }
