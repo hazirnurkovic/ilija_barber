@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Filters\CosmeticFilter;
-use App\Models\Cosmetic;
+use App\Filters\CosmeticsSaleFilter;
 use App\Models\CosmeticsSale;
 use Illuminate\Http\Request;
 
@@ -12,12 +11,16 @@ use Illuminate\Http\Request;
  */
 class CosmeticService
 {
-    public function __construct(private CosmeticsSale $cosmetic, private CosmeticFilter $cosmeticFilter)
+    public function __construct(private CosmeticsSale $cosmetic, private CosmeticsSaleFilter $cosmeticFilter)
     {
     }
 
-    public function getCosmeticsData(Request $request)
+    public function getCosmeticsSaleData(Request $request)
     {
-        return $this->cosmetic::query()->filter($this->cosmeticFilter)->sum('total');
+        return $this->cosmetic::query()
+            ->with(['cosmetics', 'cosmetics_warehouse'])
+            ->filter($this->cosmeticFilter)
+            ->get()
+            ->toArray();
     }
 }

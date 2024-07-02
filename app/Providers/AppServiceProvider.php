@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\CosmeticsProcurement;
 use App\Models\CosmeticsSale;
+use App\Models\Finance;
 use App\Observers\CosmeticsProcurementObserver;
 use App\Observers\CosmeticsSalesObserver;
+use App\Observers\FinanceObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     {
         CosmeticsProcurement::observe(CosmeticsProcurementObserver::class);
         CosmeticsSale::observe(CosmeticsSalesObserver::class);
+        Finance::observe(FinanceObserver::class);
     }
 }

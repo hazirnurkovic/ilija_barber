@@ -29,7 +29,7 @@ const ConcludeDayModal = ({ closeModal, auth, date }) => {
                 body: JSON.stringify(dataToSubmit),
             });
             const result = await response.json();
-            console.log(result)
+
             if (!response.ok) {
                 {
                     Swal.fire({

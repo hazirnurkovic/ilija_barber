@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BarberDetails;
 use App\Models\Expense;
 use App\Models\Finance;
 use App\Services\BarberService;
@@ -10,28 +9,19 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Services\ReportService;
 
 class FinanceController extends Controller
 {
+
+    public function __construct(private BarberService $barberService)
+    {}
+
     /**
      * Display a listing of the resource.
      */
-
-    public function __construct(private BarberService $barberService)
-    {
-    }
     public function index()
     {
         return Inertia::render('Finances');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -49,8 +39,8 @@ class FinanceController extends Controller
 
         $expense_amount = Expense::where('date', $request->date)->sum('price');
 
-        $cash = $barberShopFinances['total_earnings_for_barber_shop'] - $data['amount'] + $cosmetics_total;
         $total = $barberShopFinances['total_earnings_for_barber_shop'] + $cosmetics_total;
+        $cash = $total - $data['amount'];
         $envelope = $cash - $expense_amount;
 
         try {
@@ -93,37 +83,5 @@ class FinanceController extends Controller
             'currentPage' => $page,
             'totalPages' => ceil($totalRecords / $limit),
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

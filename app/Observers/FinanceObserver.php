@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Http\Controllers\ReportController;
-use App\Models\Appointment;
 use App\Models\Finance;
 use Illuminate\Http\Request;
 
@@ -12,19 +11,16 @@ class FinanceObserver
     /**
      * Handle the Finance "created" event.
      */
+    public function __construct(
+        private ReportController $reportController
+    ) {}
+
     public function created(Finance $finance): void
     {
         $date = $finance->date;
-
-        Appointment::where('date', $date)
-            ->where('status', '!=', 3)
-            ->update([
-                'status' => 3
-            ]);
-
         $request = new Request();
-        $request->merge(['date', $date]);
-        ReportController::sendDailyReportEmail($request);
+        $request->merge(['date' => $date]);
+        $this->reportController->sendDailyReportEmail($request);
     }
 
     /**
@@ -35,7 +31,7 @@ class FinanceObserver
         $date = $finance->date;
         $request = new Request();
         $request->merge(['date', $date]);
-        ReportController::sendDailyReportEmail($request);
+        $this->reportController->sendDailyReportEmail($request);
     }
 
     /**

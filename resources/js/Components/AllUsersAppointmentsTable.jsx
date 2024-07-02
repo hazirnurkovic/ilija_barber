@@ -95,7 +95,7 @@ const AllUsersAppointmentsTable = ({ users, appointments= [], date, auth, fetchD
                                     const price = appointment ? appointment.price : '';
                                     const appointment_id = appointment ? appointment.id : '';
                                     const barberDetailsAppointmentId = user.barber_details ? user.barber_details.appointment_id : null;
-                                    const isHighlighted = barberDetailsAppointmentId === appointment_id;
+                                    const isHighlighted = user.is_admin === 1 ? false : (barberDetailsAppointmentId === appointment_id);
 
                                     return (
                                         <td

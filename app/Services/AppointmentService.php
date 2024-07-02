@@ -14,8 +14,7 @@ class AppointmentService
     public function __construct(
         private Appointment $appointment,
         private AppointmentFilter $appointmentFilter
-    ) {
-    }
+    ) {}
 
     public function getAppointments(Request $request)
     {

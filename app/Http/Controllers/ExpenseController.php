@@ -135,8 +135,8 @@ class ExpenseController extends Controller
         return $expense;
     }
 
-    public static function deleteIfPriceIsNull($expense) {
-
+    public static function deleteIfPriceIsNull($expense)
+    {
         if($expense->price == 0) {
             $expense->delete();
         }
