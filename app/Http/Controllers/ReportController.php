@@ -10,6 +10,7 @@ use App\Services\FinanceService;
 use Barryvdh\DomPDF\Facade\PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
@@ -57,10 +58,12 @@ class ReportController extends Controller
         try {
             $data =  self::getDailyReportData($request);
             $date = Carbon::createFromFormat('Y-m-d', $request->date)->format('d.m.Y');
+
             Mail::to('hazir.nurkovic@gmail.com')->send(new DailyReportMail($data, $date));
 
             return redirect()->route('dashboard')->with('success', 'Uspješno poslat izvještaj!');
         } catch (\Exception $e) {
+            Log::error('Failed to send daily report email: ' . $e->getMessage());
             return redirect()->route('dashboard')->with('error', $e->getMessage());
         }
     }
@@ -74,7 +77,6 @@ class ReportController extends Controller
         } else {
             $data['date'] = Carbon::parse($request->date)->format('d.m.Y');
         }
-
         $pdf = PDF::loadView('reports.daily_report_pdf', [
             'data' => $data
         ]);

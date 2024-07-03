@@ -55,7 +55,7 @@ class DailyReportMail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromData(fn () => $this->data, "Dnevni_izvjestaj_$this->date.pdf")
+            Attachment::fromData(fn () => $this->data, 'Report.pdf')
                 ->withMime('application/pdf'),
         ];
     }

@@ -34,6 +34,11 @@ return [
     */
 
     'mailers' => [
+
+        'mailtrap' => [
+            'transport' => 'mailtrap'
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
@@ -44,6 +49,8 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'auth_mode'  => null,
+            'verify_peer'       => false,
         ],
 
         'ses' => [
