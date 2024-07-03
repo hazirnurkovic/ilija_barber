@@ -7,7 +7,7 @@ use App\Services\BarberService;
 use App\Services\CosmeticService;
 use App\Services\ExpenseService;
 use App\Services\FinanceService;
-use Barryvdh\DomPDF\Facade\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -77,7 +77,7 @@ class ReportController extends Controller
         } else {
             $data['date'] = Carbon::parse($request->date)->format('d.m.Y');
         }
-        $pdf = PDF::loadView('reports.daily_report_pdf', [
+        $pdf = Pdf::loadView('reports.daily_report_pdf', [
             'data' => $data
         ]);
         return $pdf->output();

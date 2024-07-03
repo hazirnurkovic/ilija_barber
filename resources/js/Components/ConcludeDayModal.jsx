@@ -48,9 +48,7 @@ const ConcludeDayModal = ({ closeModal, auth, date }) => {
                 });
                 closeModal();
             }
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
+
 
         } catch (error) {
             console.error(error);
@@ -85,7 +83,7 @@ const ConcludeDayModal = ({ closeModal, auth, date }) => {
                                     message: "Molimo unesite numeričku vrijednost"
                                 }
                             })
-                        } 
+                        }
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                          />
                         {errors.amount && (<p className="text-red-500 text-xs italic">{errors.amount.message}</p>)}

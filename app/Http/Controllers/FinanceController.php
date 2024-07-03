@@ -31,6 +31,13 @@ class FinanceController extends Controller
     {
 
         $data = $request->all();
+
+        $finance = Finance::where('date', $data['date'])->first();
+
+        if($finance) {
+            return response()->json(['message' => 'Finansijski obračun je već odrađen !'], 500);
+        }
+
         $appointments_total = $this->barberService->calculateAppointmentsTotal($request);
         $cosmetics_total = $this->barberService->calculateCosmeticsTotal($request);
 
