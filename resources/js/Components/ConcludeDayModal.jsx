@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import DatePicker from 'react-datepicker';
-import axios from 'axios';
 import '../../css/CosmeticsFormModal.css';
 import Swal from "sweetalert2";
+import { PacmanLoader } from 'react-spinners';
 
 const ConcludeDayModal = ({ closeModal, auth, date }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [loading, setLoading] = useState(false);
 
     const onSubmit = async(data) => {
         data.amount = Number(data.amount);
+        setLoading(true);
         try {
             const year = date.getFullYear();
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -58,6 +59,8 @@ const ConcludeDayModal = ({ closeModal, auth, date }) => {
                 title: 'Oops...',
                 text: `Error: ${error}`,
             });
+        } finally {
+            setLoading(false)
         }
 
     };
@@ -65,6 +68,11 @@ const ConcludeDayModal = ({ closeModal, auth, date }) => {
     return (
         <div className="modal-container">
             <div className="modal-content">
+                {loading && (
+                    <div className="spinner-overlay">
+                        <PacmanLoader size={70} color="#2be625"/>
+                    </div>
+                )}
                 <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded px-8 pt-6 pb-8 mb-4">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
