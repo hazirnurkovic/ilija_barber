@@ -34,7 +34,7 @@ export default function Dashboard({ auth }) {
         if (success) {
             Swal.fire({
                 icon: 'success',
-                title: 'Success!',
+                title: 'Uspješno!',
                 text: success,
             });
         }

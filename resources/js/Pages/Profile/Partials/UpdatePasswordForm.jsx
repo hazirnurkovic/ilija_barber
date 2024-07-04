@@ -39,16 +39,16 @@ export default function UpdatePasswordForm({ className = '' }) {
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Azuriraj sifru</h2>
+                <h2 className="text-lg font-medium text-gray-900">Ažuriraj lozinku</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                   Azurirajte Vasu sifru. Vodite racuna da sifra bude sto bolje zasticena.
+                   Ažurirajte Vašu lozinku. Vodite racuna da lozinka bude što bolje zaštićena.
                 </p>
             </header>
 
             <form onSubmit={updatePassword} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="current_password" value="Trenutna sifra" />
+                    <InputLabel htmlFor="current_password" value="Trenutna lozinka" />
 
                     <TextInput
                         id="current_password"
@@ -64,7 +64,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password" value="Nova sifra" />
+                    <InputLabel htmlFor="password" value="Nova lozinka" />
 
                     <TextInput
                         id="password"
@@ -80,7 +80,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password_confirmation" value="Potvrdi sifru" />
+                    <InputLabel htmlFor="password_confirmation" value="Potvrdi lozinku" />
 
                     <TextInput
                         id="password_confirmation"
@@ -104,7 +104,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">Sacuvano.</p>
+                        <p className="text-sm text-gray-600">Sačuvano.</p>
                     </Transition>
                 </div>
             </form>
