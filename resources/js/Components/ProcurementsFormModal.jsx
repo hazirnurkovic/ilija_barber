@@ -104,7 +104,7 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date, upd
                         <input {
                             ...register('purchase_price', { required: "Ovo polje je obavezno",
                                 pattern: {
-                                    value: /^[0-9]*$/,
+                                    value: /^[0-9]+([.,][0-9]+)?$/,
                                     message: "Molimo unesite numeričku vrijednost"
                                 }
                             })

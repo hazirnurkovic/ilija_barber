@@ -136,7 +136,7 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
                         <input {
                             ...register('sell_price', { required: "Ovo polje je obavezno",
                                 pattern: {
-                                    value: /^[0-9]*$/,
+                                    value: /^[0-9]+([.,][0-9]+)?$/,
                                     message: "Molimo unesite numeričku vrijednost"
                                 }
                             })
