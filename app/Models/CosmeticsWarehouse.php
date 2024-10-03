@@ -16,7 +16,8 @@ class CosmeticsWarehouse extends Model
         'purchase_price',
         'cosmetics_id',
         'cosmetics_procurements_id',
-        'date'
+        'date',
+        'name',
     ];
 
     protected function getDateAttribute($value)

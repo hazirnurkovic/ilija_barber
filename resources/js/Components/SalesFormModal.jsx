@@ -42,7 +42,11 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
 
     const onSubmit = async(data) => {
         if (!(auth.user && auth.user.is_admin)) {
-            console.error('Neautorizovan pristup');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Nemate pravo pristupa!',
+            });
             return;
         }
         const year = date.getFullYear();
@@ -53,6 +57,17 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
         data.sell_price = Number(data.sell_price);
         data.quantity = Number(data.quantity);
         data.cosmetics_warehouse_id = Number(data.cosmetics_warehouse_id);
+        const selectedWarehouse = warehouses.find(warehouse => warehouse.id === data.cosmetics_warehouse_id);
+        if (!selectedWarehouse) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Nepostojeći atikal!',
+            });
+            return;
+        }
+
+        data.name = selectedWarehouse.name;
         try {
             let url = '/cosmetics_sales';
             if (method === 'PUT') {
@@ -122,7 +137,7 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
                                     value={warehouse.id}
                                     selected={warehouse.id === rowData?.cosmetics_warehouse_id ? true : false}
                                 >
-                                    {warehouse.cosmetics.name + " - " + warehouse.date + ' - ' + warehouse.quantity}
+                                    {warehouse.name + " - " + warehouse.date + ' - ' + warehouse.quantity}
                                 </option>
                             ))}
                         </select>

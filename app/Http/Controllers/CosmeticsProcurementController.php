@@ -34,7 +34,6 @@ class CosmeticsProcurementController extends Controller
         $validated_request = $request->validated();
         $validated_request['date'] = Carbon::parse($validated_request['date'])->format('Y-m-d');
         $validated_request['total'] = $validated_request['purchase_price'] * $validated_request['quantity'];
-
         $procurement = CosmeticsProcurement::create($validated_request);
         if (!$procurement) {
             return response()->json(['message' => 'Desila se greška! Molimo Vas pokušajte ponovo!'], 400);

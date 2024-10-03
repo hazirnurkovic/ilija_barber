@@ -50,22 +50,22 @@ const WarehouseComponent = () => {
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-white divide-y divide-gray-200">
                     {warehouses && warehouses.length > 0 ? (
                         warehouses.map(warehouse => {
                             return (
-                                <tr key={warehouse.id}>
+                                <tr key={warehouse?.id}>
                                     <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
-                                        {warehouse.cosmetics.name}
+                                        {warehouse.name ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {warehouse.quantity}
+                                        {warehouse?.quantity ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {warehouse.purchase_price}
+                                        {warehouse?.purchase_price ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {warehouse.date}
+                                        {warehouse?.date ?? 'N/A'}
                                     </td>
                                 </tr>
                             );
@@ -73,7 +73,7 @@ const WarehouseComponent = () => {
                     ) : 
                     (
                         <tr>
-                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                            <td colSpan={4} className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                 Nema artikala u magazinu
                             </td>
                         </tr>

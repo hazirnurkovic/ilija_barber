@@ -97,7 +97,7 @@ const Expenses = ({initialExpenses, auth}) => {
                 <div className="container">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Troškovi</h2>
                     {isAdmin && (
-                    <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                    <button onClick={openModal} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                         Unesi trošak
                     </button>
                     )}

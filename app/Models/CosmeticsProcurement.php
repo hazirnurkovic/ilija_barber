@@ -15,7 +15,8 @@ class CosmeticsProcurement extends Model
         'quantity',
         'purchase_price',
         'total',
-        'date'
+        'date',
+        'name',
     ];
 
     protected function getDateAttribute($value)

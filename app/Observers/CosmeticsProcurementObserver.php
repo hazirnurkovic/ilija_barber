@@ -25,6 +25,7 @@ class CosmeticsProcurementObserver
             'purchase_price'            => $cosmeticsProcurement->purchase_price,
             'total'                     => $cosmeticsProcurement->total,
             'date'                      => $cosmeticsProcurement->date,
+            'name'                      => $cosmeticsProcurement->name
         ]);
 
         CosmeticsWarehouseService::createFromProcurementObserver($request);
@@ -43,7 +44,8 @@ class CosmeticsProcurementObserver
             'quantity'                  => $cosmeticsProcurement->quantity,
             'purchase_price'            => $cosmeticsProcurement->purchase_price,
             'total'                     => $cosmeticsProcurement->total,
-            'date_expense'              => $cosmeticsProcurement->date
+            'date_expense'              => $cosmeticsProcurement->date,
+            'name'                      => $cosmeticsProcurement->name
         ]);
 
         CosmeticsWarehouseService::updateFromProcurementObserver($request);

@@ -141,19 +141,19 @@ const SalesComponent = ({auth}) => {
                             return (
                                 <tr key={sale.id}>
                                     <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
-                                        {sale.cosmetics.name}
+                                        {sale.name ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sale.quantity}
+                                        {sale.quantity ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sale.sell_price}
+                                        {sale.sell_price ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sale.total}
+                                        {sale.total ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {sale.date}
+                                        {sale.date ?? 'N/A'}
                                     </td>
                                     <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
                                         <button className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"

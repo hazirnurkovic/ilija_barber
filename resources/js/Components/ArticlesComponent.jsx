@@ -70,7 +70,7 @@ const ArticlesComponent = ({cosmetics, auth}) => {
                     rowData={rowData}
                 />
             }
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-blue-500 text-white">
                     <tr>
                         <th scope="col"
@@ -84,7 +84,7 @@ const ArticlesComponent = ({cosmetics, auth}) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-white divide-y divide-gray-200">
                     {cosmetics && cosmetics.length > 0 ? (
                         cosmetics.map(item => {
                             // Determine label and color based on item.status
@@ -121,7 +121,7 @@ const ArticlesComponent = ({cosmetics, auth}) => {
                     ) :
                     (
                         <tr>
-                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                            <td colSpan={3} className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                 Nema unijetih artikala
                             </td>
                         </tr>

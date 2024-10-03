@@ -18,7 +18,8 @@ class StoreCosmeticsProcurementRequest extends FormRequest
             'cosmetics_id'      => 'required|integer',
             'quantity'          => 'required|integer',
             'purchase_price'    => 'required|numeric',
-            'date'              => 'required|date'
+            'date'              => 'required|date',
+            'name'              => 'required|string',
         ];
     }
 }

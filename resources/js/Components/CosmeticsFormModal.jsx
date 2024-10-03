@@ -17,7 +17,11 @@ const CosmeticsFormModal = ({ closeModal, auth, rowData }) => {
 
     const onSubmit = async(data) => {
         if (!(auth.user && auth.user.is_admin)) {
-            console.error('Neautorizovan pristup');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Nemate pravo pristupa!',
+            });
             return;
         }
         data.status = Number(data.status);

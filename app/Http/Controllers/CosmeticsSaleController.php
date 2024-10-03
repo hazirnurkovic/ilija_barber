@@ -52,7 +52,8 @@ class CosmeticsSaleController extends Controller
                 'sell_price' => $request->sell_price,
                 'date' => $request->date,
                 'cosmetics_id' => $request->cosmetics_id,
-                'total' => $total
+                'total' => $total,
+                'name' => $request->name ?? $warehouse->name
             ]);
 
             if (!$sale) {
@@ -84,7 +85,8 @@ class CosmeticsSaleController extends Controller
                 'cosmetics_warehouse_id' => 'required|integer',
                 'quantity' => 'required|numeric',
                 'sell_price' => 'required|numeric',
-                'date' => 'required'
+                'date' => 'required',
+                'name' => 'string'
             ]);
 
             $validate_request['date'] = Carbon::parse($request->date)->format('Y-m-d');

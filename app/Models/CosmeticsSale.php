@@ -18,7 +18,8 @@ class CosmeticsSale extends Model
         'sell_price',
         'date',
         'cosmetics_id',
-        'total'
+        'total',
+        'name'
     ];
 
     protected function getDateAttribute($value)

@@ -19,7 +19,11 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date, upd
 
     const onSubmit = async(data) => {
         if (!(auth.user && auth.user.is_admin)) {
-            console.error('Neautorizovan pristup');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Nemate pravo pristupa!',
+            });
             return;
         }
         const year = date.getFullYear();
@@ -30,6 +34,12 @@ const ProcurementsFormModal = ({ closeModal, auth, rowData, cosmetics, date, upd
         data.purchase_price = Number(data.purchase_price);
         data.quantity = Number(data.quantity);
         data.cosmetics_id = Number(data.cosmetics_id);
+        const selectedCosmetic = cosmetics.find(cosmetic => cosmetic.id === data.cosmetics_id);
+        if (!selectedCosmetic) {
+            console.error('Greška: Artikal nije pronađen');
+            return;
+        }
+        data.name = selectedCosmetic.name;
         try {
             let url = '/cosmetics_procurements';
             if (method === 'PUT') {

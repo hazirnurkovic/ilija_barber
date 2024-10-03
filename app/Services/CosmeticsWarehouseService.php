@@ -19,7 +19,8 @@ class CosmeticsWarehouseService
             'cosmetics_id'              => $request->cosmetics_id,
             'quantity'                  => $request->quantity,
             'purchase_price'            => $request->purchase_price,
-            'date'                      => $date
+            'date'                      => $date,
+            'name'                      => $request->name
         ]);
         $warehouse->save();
     }
@@ -31,7 +32,8 @@ class CosmeticsWarehouseService
         $warehouse->update([
             'cosmetics_id'      => $request->cosmetics_id,
             'quantity'          => $request->quantity,
-            'purchase_price'    => $request->purchase_price
+            'purchase_price'    => $request->purchase_price,
+            'name'              => $request->name
         ]);
     }
 

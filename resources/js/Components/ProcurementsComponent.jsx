@@ -115,7 +115,7 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
             <div className="lg:w-1/2 mb-2">
                 <DatePicker selected={date} onChange={handleChangeDate} />
             </div>
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-blue-500 text-white">
                     <tr>
                         <th scope="col"
@@ -138,25 +138,25 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody className="bg-white divide-y divide-gray-200">
                     {procurements && procurements.length > 0 ? (
                         procurements.map(procurement => {
                             return (
                                 <tr key={procurement.id}>
                                     <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
-                                        {procurement.cosmetics.name}
+                                        {procurement.name ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {procurement.quantity}
+                                        {procurement.quantity ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {procurement.purchase_price}
+                                        {procurement.purchase_price ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {procurement.total}
+                                        {procurement.total ?? 'N/A'}
                                     </td>
                                     <td className={`md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium border-r`}>
-                                        {procurement.date}
+                                        {procurement.date ?? 'N/A'}
                                     </td>
                                     <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
                                         <button className="bg-blue-500 mb-2 w-24 hover:bg-blue-300 text-white font-bold py-1 px-2 rounded"
@@ -179,7 +179,7 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                     ) :
                     (
                         <tr>
-                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                            <td colSpan="6" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                 Nema unijetih nabavki
                             </td>
                         </tr>
