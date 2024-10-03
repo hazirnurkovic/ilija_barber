@@ -233,16 +233,16 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                 </label>
                 <div className="flex flex-col items-center sm:flex-row sm:justify-between">
                     {isConcluded ? null : (
-                        <button onClick={handleSave} className="mb-2 sm:mb-0 appointments_button">
+                        <button onClick={handleSave} className="mb-2 md:mr-5 sm:mb-0 appointments_button">
                             {isEdit ? "Ažuriraj" : "Kreiraj"}
                         </button>
                     )}
-                    <div className="sm:mb-0">
+                    <div >
                         {auth.user?.is_admin && isEdit && !isConcluded ? (
-                            <button onClick={handleConcludeAppointment} className="appointments_button !bg-green-500">Zaključi</button>
+                            <button onClick={handleConcludeAppointment} className="mr-5 appointments_button !bg-green-500">Zaključi</button>
                         ) : null}
                         {!isEdit || (isConcluded && !auth.user?.is_admin) ? null : (
-                            <button onClick={handleDeleteAppointment} className="appointments_button sm:ml-8 !bg-red-700">Obriši</button>
+                            <button onClick={handleDeleteAppointment} className="md:mr-5 appointments_button sm:ml-8 !bg-red-700">Obriši</button>
                         )}
                     </div>
                     <button className="cancel_button bg-red-500 xs:mt-2 sm:mt-2 lg:mt-0 xl:mt-0 md:mt-0" onClick={closeModal}>Poništi</button>
