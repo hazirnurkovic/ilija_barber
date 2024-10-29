@@ -134,7 +134,7 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
                             className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Datum
                         </th>
                         <th scope="col"
-                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj / Obriši
+                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Ažuriraj / Obriši
                         </th>
                     </tr>
                 </thead>

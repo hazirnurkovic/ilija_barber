@@ -55,7 +55,7 @@ const CosmeticsPage = ({ auth }) => {
 
             const data = await response.json();
             setFinances(data.finances);
-            setTotalPages(data.totalPages);
+            setTotalPages(data.totalPages === 0 ? 1 : data.totalPages);
         } catch (error) {
             console.log(error);
         }
@@ -85,12 +85,12 @@ const CosmeticsPage = ({ auth }) => {
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-blue-500 text-white">
                                 <tr>
-                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 text-center py-3 text-xs font-bold uppercase">Datum</th>
-                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Ukupan iznos pazara sa kozmetikom</th>
-                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Kucano</th>
-                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Keš</th>
-                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Rashodi</th>
-                                    <th scope="col" className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase">Koverta</th>
+                                    <th scope="col" className="md:px-6 py-3 text-center text-xs font-bold uppercase border-r">Datum</th>
+                                    <th scope="col" className="md:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ukupan iznos pazara sa kozmetikom</th>
+                                    <th scope="col" className="md:px-6 py-3 text-center text-xs font-bold uppercase border-r">Kucano</th>
+                                    <th scope="col" className="md:px-6 py-3 text-center text-xs font-bold uppercase border-r">Keš</th>
+                                    <th scope="col" className="md:px-6 py-3 text-center text-xs font-bold uppercase border-r">Rashodi</th>
+                                    <th scope="col" className="md:px-6 py-3 text-center text-xs font-bold uppercase">Koverta</th>
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -144,7 +144,7 @@ const CosmeticsPage = ({ auth }) => {
                         disabled={currentPage === totalPages}
                         onClick={() => handlePageChange(currentPage + 1)}
                     >
-                        Sledeća
+                        Sljedeća
                     </button>
                 </div>
             </div>

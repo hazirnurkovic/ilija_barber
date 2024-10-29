@@ -97,7 +97,7 @@ const Expenses = ({initialExpenses, auth}) => {
                 <div className="container">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Troškovi</h2>
                     {isAdmin && (
-                    <button onClick={openModal} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                    <button onClick={openModal} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
                         Unesi trošak
                     </button>
                     )}
@@ -123,13 +123,13 @@ const Expenses = ({initialExpenses, auth}) => {
                                 <thead className="bg-blue-500 text-white">
                                     <tr>
                                         <th scope="col"
-                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Naziv Troška
+                                            className=" md:px-6 py-3 text-center text-xs font-bold uppercase border-r">Naziv Troška
                                         </th>
                                         <th scope="col"
-                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Cijena Troška
+                                            className=" md:px-6 py-3 text-center text-xs font-bold uppercase border-r">Cijena Troška
                                         </th>
                                         <th scope="col"
-                                            className=" md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 text-center text-xs font-bold uppercase border-r">Ažuriraj / Obriši podatke
+                                            className=" md:px-6 py-3 text-center text-xs font-bold uppercase">Ažuriraj / Obriši podatke
                                         </th>
                                     </tr>
                                 </thead>
@@ -137,10 +137,10 @@ const Expenses = ({initialExpenses, auth}) => {
                                 {expenses && expenses.length > 0 ? (
                                     expenses.map(item => (
                                         <tr key={item.id}>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                                            <td className="md:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.name}
                                             </td>
-                                            <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                                            <td className="md:px-6 py-3 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                                 {item.price}
                                             </td>
                                             <td className="lg:px-6 py-3 whitespace-nowrap text-center text-sm font-medium  flex flex-col items-center">
@@ -169,7 +169,7 @@ const Expenses = ({initialExpenses, auth}) => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td className="md:px-6 lg:px-6 xl:px-6 2xl:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
+                                        <td className="md:px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-gray-800 border-r">
                                             Nema podataka za ovaj datum.
                                         </td>
                                     </tr>
