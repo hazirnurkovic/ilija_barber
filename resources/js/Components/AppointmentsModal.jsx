@@ -52,6 +52,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                     },
                     body: JSON.stringify(formData),
                 })
@@ -59,6 +60,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                     },
                     body: JSON.stringify({ ...formData, status: 2 }),
                 });
@@ -116,6 +118,7 @@ const AppointmentsModal = ({ isOpen, isEdit, isConcluded, initialFormData, close
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify({
                     appointment_id: formData.appointment,

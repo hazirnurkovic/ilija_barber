@@ -15,7 +15,8 @@ const WarehouseComponent = () => {
             const response = await fetch('/warehouse', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
             });
             if (!response.ok) {

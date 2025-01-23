@@ -2,39 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AppointmentStatusEnum;
 use App\Http\Requests\AppointmentRequest;
+use App\Http\Requests\ConcludeAppointmentRequest;
 use App\Models\Appointment;
 use App\Models\BarberDetails;
 use App\Models\User;
 use App\Services\BarberService;
 use Carbon\Carbon;
 use Exception;
-use http\Env\Response;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    private $barberService;
-    public function __construct(BarberService $barberService)
-    {
-        $this->barberService = $barberService;
-    }
+    public function __construct(private BarberService $barberService)
+    {}
 
     public function index()
     {
         return Appointment::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -52,22 +38,6 @@ class AppointmentController extends Controller
             return response()->json(['message' => 'Desila se greška! Molimo Vas pokušajte ponovo!'], 400);
         }
         return response()->json(['message' => 'Uspješno ste kreirali termin!'], 200);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Appointment $appointment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Appointment $appointment)
-    {
-        //
     }
 
     /**
@@ -104,6 +74,10 @@ class AppointmentController extends Controller
     public function getAllAppointmentsForSpecificDate(Request $request)
     {
         $date = $request->date;
+        if (empty($date)) {
+            return response()->json(['message' => 'Datum mora biti unijet!'], 404);
+        }
+        
         $month = Carbon::parse($date)->format('n');
         $users = User::with(['barberDetails' => function($query) use ($month) {
             $query->where('month', $month);
@@ -131,21 +105,9 @@ class AppointmentController extends Controller
         return response()->json(['users' => $user, 'appointments' => $appointments, 'target' => $barber_target], 200);
     }
 
-    public function concludeAppointment(Request $request)
+    public function concludeAppointment(ConcludeAppointmentRequest $request)
     {
-        if (empty($request->appointment_id)) {
-            return response()->json(['message' => 'Pogrešan termin!'], 404);
-        }
-
-        if (empty($request->price)) {
-            return response()->json(['message' => 'Cijena mora biti unijeta'], 404);
-        }
-
-
-        if (empty($request->customer_name)) {
-            return response()->json(['message' => 'Ime klijenta mora biti popunjeno'], 404);
-        }
-
+        $request->validated();
         try {
 
             $appointment = Appointment::find($request->appointment_id);
@@ -154,13 +116,13 @@ class AppointmentController extends Controller
                 return response()->json(['message' => "Termin ne postoji!"], 404);
             }
 
-            if ($appointment->status === 3) {
+            if ($appointment->status === AppointmentStatusEnum::CONCLUDED) {
                 return response()->json(['message' => 'Termin je već zaključen'], 500);
             }
 
             $user = User::find($appointment->user_id);
             $appointment->update([
-                'status' => 3,
+                'status' => AppointmentStatusEnum::CONCLUDED,
                 'customer_name' => $request->customer_name,
                 'price' => $request->price,
                 'barber_total' => $request->price * $user->percentage

@@ -26,7 +26,8 @@ const SalesFormModal = ({ closeModal, auth, rowData, date, updateSales}) => {
             const response = await fetch('/getWarehouseDataForSales', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
             });
             if (!response.ok) {

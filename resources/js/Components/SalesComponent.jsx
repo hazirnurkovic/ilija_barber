@@ -39,7 +39,8 @@ const SalesComponent = ({auth}) => {
             const response = await fetch('/getSalesData', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify({ date: formattedDate }),
             });

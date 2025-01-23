@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AppointmentRequest extends FormRequest
@@ -30,6 +29,18 @@ class AppointmentRequest extends FormRequest
             'customer_name' => 'required|string',
             'price'         => 'nullable|numeric',
             'status'        => 'required|integer'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'start_date.required'    => 'Početni datum je obavezan',
+            'end_date.required'      => 'Završni datum je obavezan',
+            'user_id.required'       => 'Korisnik je obavezan',
+            'customer_name.required' => 'Ime klijenta je obavezno',
+            'price.numeric'          => 'Cijena mora imati brojnu vrijednost',
+            'status.required'        => 'Status je obavezan',
         ];
     }
 }

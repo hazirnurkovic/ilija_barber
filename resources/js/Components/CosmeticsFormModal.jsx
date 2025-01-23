@@ -36,6 +36,7 @@ const CosmeticsFormModal = ({ closeModal, auth, rowData }) => {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify(data),
             });

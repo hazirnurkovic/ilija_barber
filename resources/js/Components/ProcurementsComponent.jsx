@@ -38,7 +38,8 @@ const ProcurementsComponent = ({auth, cosmetics}) => {
             const response = await fetch('/getProcurements', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify({ date: formattedDate }),
             });

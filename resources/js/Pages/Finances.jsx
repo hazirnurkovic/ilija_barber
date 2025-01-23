@@ -44,7 +44,8 @@ const CosmeticsPage = ({ auth }) => {
             const response = await fetch('/getFinancesReport', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
                 body: JSON.stringify({ date: formattedDate, page, limit: 10 }),
             });
