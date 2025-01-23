@@ -34,6 +34,7 @@ class ConcludeAppointmentRequest extends FormRequest
             'appointment_id.required' => 'Pogrešan termin!',
             'price.required' => 'Cijena mora biti unijeta',
             'customer_name.required' => 'Ime klijenta mora biti popunjeno',
+            'price.numeric' => 'Cijena mora biti broj',
         ];    
     }
 }

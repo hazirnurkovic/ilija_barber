@@ -43,22 +43,6 @@ class CosmeticsProcurementController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(CosmeticsProcurement $cosmeticsProcurement)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CosmeticsProcurement $cosmeticsProcurement)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateCosmeticsProcurementRequest $request, $id)
@@ -71,7 +55,10 @@ class CosmeticsProcurementController extends Controller
                 unset($validated_request['date']);
             }
 
-            $cosmeticsProcurement = CosmeticsProcurement::findOrFail($id);
+            $cosmeticsProcurement = CosmeticsProcurement::find($id);
+            if (!$cosmeticsProcurement) {
+                return response()->json(['message' => 'Nabavka nije pronađena!'], 404);
+            }
             $cosmeticsProcurement->update($validated_request);
             $cosmeticsProcurement->load('cosmetics');
 
@@ -87,7 +74,10 @@ class CosmeticsProcurementController extends Controller
     public function destroy($procurement_id)
     {
         try {
-            $cosmetics_procurement = CosmeticsProcurement::findOrFail($procurement_id);
+            $cosmetics_procurement = CosmeticsProcurement::find($procurement_id);
+            if (!$cosmetics_procurement) {
+                return response()->json(['message' => 'Nabavka nije pronađena!'], 404);
+            }
             $cosmetics_procurement->delete();
             return response()->json(['message' => 'Uspješno ste obrisali nabavku'], 200);
         } catch (\Exception $e) {
@@ -97,6 +87,7 @@ class CosmeticsProcurementController extends Controller
 
     public function getProcurements(Request $request)
     {
+        $request->validate(['date' => 'required|date'], ['date.required' => 'Datum je obavezan',]);
         $month = Carbon::parse($request->date)->month;
         $procurements = CosmeticsProcurement::with('cosmetics')->whereMonth('date', $month)->get();
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCosmeticsProcurementRequest extends FormRequest
+class CreateCosmeticsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,18 +22,18 @@ class UpdateCosmeticsProcurementRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cosmetics_id'      => 'required|integer',
-            'quantity'          => 'required|integer',
-            'purchase_price'    => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'status' => 'required|integer'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'cosmetics_id.required'     => 'Artikal je obavezan',
-            'quantity.required'         => 'Količina je obavezna',
-            'purchase_price.required'   => 'Cijena je obavezna',
+            'name.required' => 'Polje naziv je obavezno',
+            'name.max' => 'Polje naziv ne smije biti veće od 255 karaktera',
+            'status.required' => 'Polje status je obavezno',
+            'status.integer' => 'Nepravilan format za polje status'
         ];
     }
 }

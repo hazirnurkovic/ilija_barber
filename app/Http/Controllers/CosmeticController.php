@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateCosmeticsRequest;
+use App\Http\Requests\UpdateCosmeticsRequest;
 use App\Models\Cosmetic;
 use Exception;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CosmeticController extends Controller
@@ -21,19 +22,11 @@ class CosmeticController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateCosmeticsRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
         try {
             Cosmetic::create([
                 'name' => $data['name'],
@@ -41,43 +34,26 @@ class CosmeticController extends Controller
             ]);
             return response()->json(['message' => 'Uspješno kreirano'], 200);
         } catch (Exception $e) {
-
             return response()->json(['message' => 'Desila se greška ' . $e->getMessage() . ' Pokusajte ponovo'], 400);
         }
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCosmeticsRequest $request, $id)
     {
         try {
-            $validate_data = $request->validate([
-                'name' => 'required|string',
-                'status' => 'required|integer'
-            ]);
+            $data = $request->validated();
 
-            $cosmetic = Cosmetic::findOrFail($id);
-            $cosmetic->update($validate_data);
+            $cosmetic = Cosmetic::find($id);
+            if (!$cosmetic) {
+                return response()->json(['message' => 'Podaci nisu pronađeni!'], 404);
+            }
+            $cosmetic->update($data);
 
             return response()->json(['message' => 'Uspješno ažurirani podaci!'], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Return an error response if something goes wrong
             return response()->json(['message' => 'Desila se greška! Pokušajte ponovo.', 'error' => $e->getMessage()], 500);
         }

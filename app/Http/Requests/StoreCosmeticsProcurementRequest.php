@@ -22,4 +22,15 @@ class StoreCosmeticsProcurementRequest extends FormRequest
             'name'              => 'required|string',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'cosmetics_id.required'     => 'Artikal je obavezan',
+            'quantity.required'         => 'Količina je obavezna',
+            'purchase_price.required'   => 'Cijena je obavezna',
+            'date.required'             => 'Datum je obavezan',
+            'name.required'             => 'Naziv je obavezno',
+        ];
+    }
 }
