@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExpenseStoreRequest;
 use App\Models\CosmeticsProcurement;
 use App\Models\Expense;
 use Carbon\Carbon;
@@ -29,56 +30,25 @@ class ExpenseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ExpenseStoreRequest $request)
     {
-        $request['date'] = Carbon::parse($request['date'])->format('Y-m-d');
+        $data = $request->validated();
+
+        $data['date'] = Carbon::parse($data['date'])->format('Y-m-d');
 
         try {
             Expense::create([
-                'name' => $request['name'],
-                'price' => $request['price'],
-                'date' => $request['date']
+                'name' => $data['name'],
+                'price' => $data['price'],
+                'date' => $data['date']
             ]);
 
             return response()->json(['message' => 'Uspješno unijet trošak'], 200);
         } catch (Exception $e) {
-
             return response()->json(['message' => 'Desila se greška ' . $e->getMessage() . ' Pokušajte ponovo'], 400);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Expense $expense)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Expense $expense)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Expense $expense)
-    {
-        //
     }
 
     /**
