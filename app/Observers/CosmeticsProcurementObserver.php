@@ -65,20 +65,4 @@ class CosmeticsProcurementObserver
         $expense = ExpenseController::updateFromObserver($request);
         ExpenseController::deleteIfPriceIsNull($expense);
     }
-
-    /**
-     * Handle the CosmeticsProcurement "restored" event.
-     */
-    public function restored(CosmeticsProcurement $cosmeticsProcurement): void
-    {
-        //
-    }
-
-    /**
-     * Handle the CosmeticsProcurement "force deleted" event.
-     */
-    public function forceDeleted(CosmeticsProcurement $cosmeticsProcurement): void
-    {
-        //
-    }
 }

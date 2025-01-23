@@ -10,21 +10,6 @@ use Illuminate\Http\Request;
 
 class CosmeticsProcurementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -51,7 +36,7 @@ class CosmeticsProcurementController extends Controller
             $validated_request = $request->validated();
             $validated_request['total'] = $validated_request['purchase_price'] * $validated_request['quantity'];
 
-            if ($validated_request['date']) {
+            if (isset($validated_request['date'])) {
                 unset($validated_request['date']);
             }
 

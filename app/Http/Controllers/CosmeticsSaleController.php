@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CosmeticsSaleStoreRequest;
+use App\Http\Requests\CosmeticsSaleUpdateRequest;
 use App\Models\CosmeticsSale;
 use App\Models\CosmeticsWarehouse;
 use Carbon\Carbon;
@@ -12,48 +14,32 @@ use Illuminate\Support\Facades\DB;
 class CosmeticsSaleController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CosmeticsSaleStoreRequest $request)
     {
+        $data = $request->validated();
         try {
-            $request['date'] = Carbon::parse($request->date)->format('Y-m-d');
-            $warehouse = CosmeticsWarehouse::where('id', $request->cosmetics_warehouse_id)->first();
+            $data['date'] = Carbon::parse($data['date'])->format('Y-m-d');
+            $warehouse = CosmeticsWarehouse::where('id', $data['cosmetics_warehouse_id'])->first();
             if (!$warehouse) {
                 return response()->json(['message' => 'Nema podataka u magacinu!'], 400);
             }
 
-            if ($warehouse->quantity < $request->quantity) {
+            if ($warehouse->quantity < $data['quantity']) {
                 return response()->json(['message' => 'Nema dovoljno na stanju. Na raspolaganju imate ' . $warehouse->quantity], 400);
             }
 
-            $request['cosmetics_id'] = $warehouse->cosmetics_id;
-            $total = $request->sell_price * $request->quantity;
+            $total = $data['sell_price'] * $data['quantity'];
 
             $sale = CosmeticsSale::create([
-                'cosmetics_warehouse_id' => $request->cosmetics_warehouse_id,
-                'quantity' => $request->quantity,
-                'sell_price' => $request->sell_price,
-                'date' => $request->date,
-                'cosmetics_id' => $request->cosmetics_id,
+                'cosmetics_warehouse_id' => $data['cosmetics_warehouse_id'],
+                'quantity' => $data['quantity'],
+                'sell_price' => $data['sell_price'],
+                'date' => $data['date'],
+                'cosmetics_id' => $warehouse->cosmetics_id,
                 'total' => $total,
-                'name' => $request->name ?? $warehouse->name
+                'name' => $data['name'] ?? $warehouse->name
             ]);
 
             if (!$sale) {
@@ -69,7 +55,7 @@ class CosmeticsSaleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(CosmeticsSaleUpdateRequest $request, $id)
     {
         try {
 
@@ -78,21 +64,17 @@ class CosmeticsSaleController extends Controller
 
             $cosmetic_sale = CosmeticsSale::find($id);
             if (!$cosmetic_sale) {
+                DB::rollBack();
                 return response()->json(['message' => 'Nema podataka za ovu prodaju!'], 400);
             }
 
-            $validate_request = $request->validate([
-                'cosmetics_warehouse_id' => 'required|integer',
-                'quantity' => 'required|numeric',
-                'sell_price' => 'required|numeric',
-                'date' => 'required',
-                'name' => 'string'
-            ]);
+            $validate_request = $request->validated();
 
-            $validate_request['date'] = Carbon::parse($request->date)->format('Y-m-d');
+            $validate_request['date'] = Carbon::parse($validate_request['date'])->format('Y-m-d');
             $warehouse = CosmeticsWarehouse::where('id', $validate_request['cosmetics_warehouse_id'])->first();
 
             if (!$warehouse) {
+                DB::rollBack();
                 return response()->json(['message' => 'Nema podataka u magacinu!'], 400);
             }
 
@@ -100,6 +82,7 @@ class CosmeticsSaleController extends Controller
             $validate_request['total'] = $validate_request['quantity'] * $validate_request['sell_price'];
 
             if ($validate_request['quantity'] > $warehouse->quantity + $cosmetic_sale->quantity) {
+                DB::rollBack();
                 return response()->json(['message' => 'Nema dovoljno na stanju.'], 400);
             }
 
