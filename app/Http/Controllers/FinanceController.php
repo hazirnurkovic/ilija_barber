@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FinanceStoreRequest;
 use App\Models\Expense;
 use App\Models\Finance;
 use App\Services\BarberService;
@@ -27,13 +28,11 @@ class FinanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FinanceStoreRequest $request)
     {
-
-        $data = $request->all();
+        $data = $request->validated();
 
         $finance = Finance::where('date', $data['date'])->first();
-
         if($finance) {
             return response()->json(['message' => 'Finansijski obračun je već odrađen !'], 500);
         }
@@ -44,7 +43,7 @@ class FinanceController extends Controller
         $barberEarnings = $this->barberService->calculateBarbersEarnings($request);
         $barberShopFinances = $this->barberService->calculateBarberShopEarnings($appointments_total, $barberEarnings);
 
-        $expense_amount = Expense::where('date', $request->date)->sum('price');
+        $expense_amount = Expense::where('date', $data['date'])->sum('price');
 
         $total = $barberShopFinances['total_earnings_for_barber_shop'] + $cosmetics_total;
         $cash = $total - $data['amount'];
@@ -70,6 +69,7 @@ class FinanceController extends Controller
 
     public function getFinancesReport(Request $request)
     {
+        $request->validate(['date' => 'required|date'], ['date.required' => 'Molimo unesite datum']);
         $page = $request->input('page', 1);
         $limit = $request->input('limit', 10);
         $date = Carbon::createFromFormat('Y-m-d', $request->date);
